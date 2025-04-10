@@ -10,7 +10,7 @@ public class Constant {
     private static final String passwordChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*";
     private static final int passwordLength = 10;
 
-
+private int aaaa ;
     public static String generateRandomPassword() {
         Random rand = new Random();
         StringBuilder password = new StringBuilder(passwordLength);

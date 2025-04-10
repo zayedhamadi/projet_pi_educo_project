@@ -1,4 +1,4 @@
-package pi_project.Entity;
+package pi_project.Zayed.Entity;
 
 
 import lombok.*;

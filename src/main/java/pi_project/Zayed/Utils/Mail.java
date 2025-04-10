@@ -22,11 +22,11 @@ public class Mail {
     private static final String IMAGE_PATH = "C:\\Users\\21690\\Desktop\\projettt_pi\\pi_javafxmllll\\src\\main\\resources\\Zayed\\images\\educo.jpg";
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://www.educo.com/login";
+    private String aaa;
 
     public void sendAddUserMail(String toEmail, String userPassword) throws MessagingException {
         sendEmail(toEmail, buildHtmlContent(toEmail, userPassword));
     }
-
 
 
     private void sendEmail(String toEmail, String content) throws MessagingException {
