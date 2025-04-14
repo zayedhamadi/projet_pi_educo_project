@@ -1,6 +1,5 @@
 package pi_project.Zayed.Utils;
 
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -19,15 +18,23 @@ public class Mail {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
     private static final String SUBJECT = "Votre Inscription - EDUCO";
-    private static final String IMAGE_PATH = "C:\\Users\\21690\\Desktop\\projettt_pi\\pi_javafxmllll\\src\\main\\resources\\Zayed\\images\\educo.jpg";
+    private static final String IMAGE_PATH = "C:\\Users\\21690\\Desktop\\pi___\\pi\\src\\main\\resources\\Zayed\\images\\educo.jpg";
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://www.educo.com/login";
-    private String aaa;
 
     public void sendAddUserMail(String toEmail, String userPassword) throws MessagingException {
         sendEmail(toEmail, buildHtmlContent(toEmail, userPassword));
     }
 
+    public void sendForgetPasswordMail(String toEmail, String newPassword) throws MessagingException {
+        String content = "<h3>Réinitialisation de votre mot de passe</h3>" +
+                "<p>Bonjour,</p>" +
+                "<p>Votre mot de passe a été réinitialisé. Voici votre nouveau mot de passe :</p>" +
+                "<p><b>" + newPassword + "</b></p>" +
+                "<p>Nous vous recommandons de le changer dès votre prochaine connexion.</p>" +
+                "<p><a href='" + LOGIN_URL + "'>Connectez-vous ici</a></p>";
+        sendEmail(toEmail, content);
+    }
 
     private void sendEmail(String toEmail, String content) throws MessagingException {
         Session session = createSession();

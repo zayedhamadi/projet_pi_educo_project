@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.StackPane?>
+<BorderPane prefHeight="500.0" prefWidth="700.0" styleClass="border-pane" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Zayed.Controller.LoginController">
+    <right>
+        <AnchorPane prefHeight="496.0" prefWidth="378.0" styleClass="right-pane">
+            <Separator layoutX="-5.0" layoutY="69.0" prefHeight="398.0" prefWidth="10.0" styleClass="separator" />
+
+            <Text layoutX="125.0" layoutY="80.0" styleClass="title-text" text="Se connecter" />
+            <Text layoutX="69.0" layoutY="119.0" styleClass="subtitle-text" text="Entrez vos informations pour vous connecter" />
+
+            <Label layoutX="65" layoutY="160" styleClass="input-label" text="Email" />
+            <TextField fx:id="email" layoutX="65" layoutY="180" prefHeight="35.0" prefWidth="250.0" promptText="Saisissez votre email" styleClass="input-field" />
+
+            <Label layoutX="65" layoutY="230" styleClass="input-label" text="Mot de passe" />
+            <PasswordField fx:id="password" layoutX="65.0" layoutY="250.0" prefHeight="35.0" prefWidth="250.0" promptText="Saisissez votre mot de passe" styleClass="input-field" />
+
+            <ImageView fx:id="eyeImage" fitHeight="22" fitWidth="22" layoutX="320.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/eye.jpg" />
+            </ImageView>
+
+            <Hyperlink layoutX="207.0" layoutY="298.0" styleClass="forgot-password"  onAction="#goingToForgetPwPage"  fx:id="goingToForgetPwPage" text="Mot de passe oublié ?" />
+
+            <Button fx:id="loginButton" layoutX="65.0" layoutY="340.0" onAction="#login" prefWidth="250.0" styleClass="action-button" text="Se connecter" />
+        </AnchorPane>
+    </right>
+
+    <left>
+        <AnchorPane prefHeight="500.0" prefWidth="350.0" styleClass="left-pane">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="75.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@images/educo.jpg" />
+            </ImageView>
+            <Text layoutX="56.0" layoutY="346.0" styleClass="motto-text" text="Former les esprits, bâtir l'avenir">
+                <font>
+                    <Font size="11.0" />
+                </font></Text>
+
+            <StackPane fx:id="s" layoutX="67.0" layoutY="160.0" prefHeight="150.0" prefWidth="200.0" />
+
+        </AnchorPane>
+    </left>
+</BorderPane>
