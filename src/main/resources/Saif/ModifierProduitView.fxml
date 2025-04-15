@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.ModifierProduitView"
+            prefHeight="500.0" prefWidth="600.0">
+
+    <Text layoutX="40.0" layoutY="30.0" text="Modifier un produit" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="tfNom" layoutX="40.0" layoutY="60.0" promptText="Nom"/>
+    <TextArea fx:id="tfDescription" layoutX="40.0" layoutY="100.0" promptText="Description" prefHeight="60"/>
+    <TextField fx:id="tfPrix" layoutX="40.0" layoutY="170.0" promptText="Prix"/>
+    <TextField fx:id="tfStock" layoutX="40.0" layoutY="210.0" promptText="Stock"/>
+    <ComboBox fx:id="categorieComboBox" layoutX="40.0" layoutY="250.0" promptText="Catégorie"/>
+
+    <Button layoutX="40.0" layoutY="290.0" text="Choisir une image" onAction="#choisirImage"/>
+    <ImageView fx:id="imageView" layoutX="180.0" layoutY="290.0" fitHeight="100" fitWidth="100"/>
+
+    <Button layoutX="40.0" layoutY="410.0" onAction="#modifierProduit" text="Modifier"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+
+</AnchorPane>

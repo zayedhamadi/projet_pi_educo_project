@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.ModifierQuizController"
+      spacing="15"
+      alignment="CENTER_LEFT"
+      styleClass="modify-form"
+      stylesheets="@stylequiz.css"
+      prefWidth="400"
+      prefHeight="500">
+
+    <Label text="Modifier Quiz" styleClass="form-title"/>
+
+    <GridPane hgap="10" vgap="15">
+        <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextArea fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                  wrapText="true" prefRowCount="3"/>
+
+        <Label text="Classe:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <ComboBox fx:id="classeCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Matière:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="matiereCombo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Cours:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="coursCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" styleClass="cancel-button" onAction="#handleCancel"/>
+        <Button text="Enregistrer" styleClass="save-button" onAction="#handleSave"/>
+    </HBox>
+</VBox>

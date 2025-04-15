@@ -2,6 +2,8 @@ package pi_project.Zayed.Service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.mindrot.jbcrypt.BCrypt;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
@@ -19,7 +21,7 @@ import java.util.Set;
 
 public class UserImpl implements UserService<User> {
     protected final String addUserrr = "INSERT INTO user (nom, prenom, adresse, description, num_tel, date_naissance, email, image, password, roles, etat_compte, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    protected final String updateUserrr = "UPDATE user SET nom=?, prenom=?, adresse=?, description=?, num_tel=?, date_naissance=?, email=?, image=?, roles=?, etat_compte=?, genre=? WHERE id=?";
+    protected final String updateUserrr = "UPDATE user SET nom=?, prenom=?, adresse=?, description=?, num_tel=?, date_naissance=?, email=?, image=?, password=?, roles=?, etat_compte=?, genre=? WHERE id=?";
     protected final String cesserUserrr = "UPDATE user SET etat_compte = ? WHERE id = ?";
     protected final String getSpeceficUserrr = "SELECT * FROM user WHERE id = ?";
     private final Connection cnx;
@@ -28,6 +30,14 @@ public class UserImpl implements UserService<User> {
 
     public UserImpl() {
         cnx = DataSource.getInstance().getConn();
+    }
+
+
+    public static void showAlert(Alert.AlertType alertType, String message, String headerText, String title) {
+        Alert alert = new Alert(alertType, message, ButtonType.OK);
+        alert.setHeaderText(headerText);
+        alert.setTitle(title);
+        alert.show();
     }
 
     @Override
@@ -73,8 +83,13 @@ public class UserImpl implements UserService<User> {
     }
 
     @Override
-    public void updateUser(User user) {
+    public User  updateUser(User user) {
         try (PreparedStatement pst = cnx.prepareStatement(this.updateUserrr)) {
+            // Ne pas re-hasher le mot de passe s'il est déjà hashé
+            String hashedPwd = user.getPassword().startsWith("$2a$")
+                    ? user.getPassword()
+                    : BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+
             pst.setString(1, user.getNom());
             pst.setString(2, user.getPrenom());
             pst.setString(3, user.getAdresse());
@@ -83,15 +98,23 @@ public class UserImpl implements UserService<User> {
             pst.setDate(6, java.sql.Date.valueOf(user.getDate_naissance()));
             pst.setString(7, user.getEmail());
             pst.setString(8, user.getImage());
-            pst.setString(9, gson.toJson(user.getRoles()));
-            pst.setString(10, user.getEtat_compte().name());
-            pst.setString(11, user.getGenre().name());
-            pst.setInt(12, user.getId());
-            pst.executeUpdate();
+            pst.setString(9, hashedPwd);
+            pst.setString(10, gson.toJson(user.getRoles()));
+            pst.setString(11, user.getEtat_compte().name());
+            pst.setString(12, user.getGenre().name());
+            pst.setInt(13, user.getId()); // Maintenant c'est correct car il y a 13 paramètres dans la requête
+
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("La mise à jour a échoué, aucune ligne affectée");
+            }
+
             System.out.println("Utilisateur " + user.getId() + " mis à jour.");
+            return getSpeceficUser(user.getId());
         } catch (SQLException e) {
-            System.out.println("Erreur update : " + e.getMessage());
+            System.err.println("Erreur lors de la mise à jour de l'utilisateur: " + e.getMessage());
         }
+        return null;
     }
 
     @Override

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.DetailsQuestionController"
+      styleClass="details-container"
+      stylesheets="@styledetail.css"
+      spacing="20"
+      alignment="CENTER_LEFT"
+      prefWidth="400">
+
+    <Label text="Détails de la Question" styleClass="details-title" />
+
+    <GridPane styleClass="details-grid" hgap="10" vgap="15">
+        <Label text="Question:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="questionLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="0" wrapText="true"/>
+
+        <Label text="Options:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <VBox fx:id="optionsContainer" styleClass="options-container" GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="5"/>
+
+        <Label text="Réponse Correcte:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="reponseLabel" styleClass="detail-value correct-answer" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Quiz Associé:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="quizLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </GridPane>
+
+    <Button text="Retour" styleClass="back-button" onAction="#handleRetour"/>
+</VBox>

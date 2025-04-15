@@ -13,7 +13,7 @@ public class DataSource {
     private Connection conn;
 
 
-    private DataSource() {
+    public DataSource() {
 
         try {
             final String url = "jdbc:mysql://localhost:3306/projet_pidev";

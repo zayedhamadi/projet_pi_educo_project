@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="pi_project.Saif.Controller.PaiementStripeController">
+    <VBox alignment="CENTER" spacing="15" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label text="Paiement par Carte (Stripe)" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <Label fx:id="totalLabel" text="Total: 0.00 DT" style="-fx-font-size: 16px;" />
+
+        <TextField fx:id="cardNumberField" promptText="Numéro de carte (ex: 4242 4242 4242 4242)" />
+        <TextField fx:id="expiryField" promptText="MM/AA" />
+        <TextField fx:id="cvcField" promptText="CVC" />
+
+        <Button text="Payer" fx:id="payButton" onAction="#handlePaiement" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 8;" />
+
+        <Label fx:id="statusLabel" text="" style="-fx-text-fill: red;" />
+    </VBox>
+</AnchorPane>

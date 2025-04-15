@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Aziz.Controller.AfficherQuestionController"
+            stylesheets="@style.css">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <!-- Titre de la page + bouton -->
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="title-bar">
+            <Label text="Liste des Questions" styleClass="page-title"/>
+            <Button fx:id="addButton" text="Ajouter Question" styleClass="add-button"/>
+        </HBox>
+
+        <!-- En-tête -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="header-row">
+            <Label text="TEXTE" styleClass="header-label" style="-fx-min-width: 250;"/>
+            <Label text="RÉPONSE" styleClass="header-label" style="-fx-min-width: 100;"/>
+            <Label text="QUIZ" styleClass="header-label" style="-fx-min-width: 150;"/>
+            <Label text="ACTIONS" styleClass="header-label" style="-fx-min-width: 120;"/>
+        </HBox>
+
+        <!-- Contenu dynamique -->
+        <VBox fx:id="questionContainer" spacing="8"/>
+    </VBox>
+</AnchorPane>
