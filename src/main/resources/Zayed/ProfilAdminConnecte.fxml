@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.ProfilAdminConnecteController"
+            stylesheets="@css/profilUserConnecte.css">
+
+    <left>
+        <VBox spacing="20" alignment="TOP_CENTER" styleClass="sidebar">
+            <Button text="Dashboard" fx:id="dashboardButton" styleClass="menu-button"/>
+            <Button text="Utilisateurs" fx:id="usersButton" styleClass="menu-button"/>
+            <Button text="Déconnexion" fx:id="logoutButton" styleClass="logout-button"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar">
+            <Label text="Profil Utilisateur" styleClass="header-title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="30" alignment="CENTER" styleClass="content-container">
+            <StackPane>
+                <ImageView fx:id="profileImage" fitWidth="150" fitHeight="150">
+                    <clip>
+                        <Circle centerX="75" centerY="75" radius="75"/>
+                    </clip>
+                </ImageView>
+                <Button fx:id="changeImageButton" text="Changer" styleClass="image-button" visible="false"/>
+            </StackPane>
+            <GridPane hgap="15" vgap="5">
+                <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nom" editable="false" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Prénom :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="prenom" editable="false" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Email :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="email" editable="false" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Téléphone :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="numTel" editable="false" prefWidth="250" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Adresse :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="adresse" editable="false" prefWidth="250" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Date de naissance :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateNaissance" editable="false" prefWidth="250" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Label text="Genre :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <TextField fx:id="genre" editable="false" prefWidth="250" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <Label text="Rôle :" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="roles" editable="false" prefWidth="250" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                <Label text="État du compte :" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <TextField fx:id="etatCompte" editable="false" prefWidth="250" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                <Label text="Description :" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                <TextField fx:id="description" editable="false" prefWidth="250" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+                <Label text="Mot de passe :" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                <PasswordField fx:id="password" editable="false" prefWidth="250" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <!-- Boutons actions -->
+            <HBox spacing="15">
+                <Button text="Modifier le Profil" fx:id="editProfileButton" styleClass="edit-button"/>
+                <Button text="Enregistrer" fx:id="saveProfileButton" disable="true" styleClass="save-button"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -11,7 +11,7 @@ public interface UserService<T> {
 
     void cesserUser(int id);
 
-    void updateUser(User user);
+    User  updateUser(User user);
 
     User getSpeceficUser(int id) throws SQLException;;
 

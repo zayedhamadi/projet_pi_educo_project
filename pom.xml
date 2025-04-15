@@ -30,7 +30,12 @@
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
         </dependency>
-
+        <!-- les dependences de  classe & eleve  -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.0.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -73,6 +78,12 @@
             <artifactId>bootstrapfx-core</artifactId>
             <version>0.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>24.6.0</version>
+        </dependency>
+
     </dependencies>
 
 

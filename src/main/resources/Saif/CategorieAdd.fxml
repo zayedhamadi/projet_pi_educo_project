@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Saif.Controller.CategorieAdd" style="-fx-background-color: #ffffff; -fx-padding: 20px;">
+
+    <!-- Titre -->
+    <Text text="Ajouter une Catégorie" layoutX="200" layoutY="40" style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+
+    <!-- Champ Nom de la catégorie -->
+    <TextField fx:id="tfNom" layoutX="40.0" layoutY="94.0" promptText="Nom de la catégorie" prefWidth="520"
+               style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+
+    <!-- Champ Description de la catégorie -->
+    <TextField fx:id="tfDescription" layoutX="40.0" layoutY="137.0" promptText="Description de la catégorie" prefWidth="520"
+               style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+
+    <!-- Bouton Ajouter Catégorie -->
+    <Button layoutX="250.0" layoutY="188.0" onAction="#ajouterCategorie" text="Ajouter"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+
+</AnchorPane>

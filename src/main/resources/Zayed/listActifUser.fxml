@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.listActifUserController">
+
+    <left>
+        <VBox style="-fx-background-color: #2e3b4e; -fx-pref-width: 250px; -fx-padding: 10;">
+            <ImageView fx:id="userImage" fitWidth="100" fitHeight="100" preserveRatio="true"/>
+            <Button text="Tableau des Utilisateurs" fx:id="dashboardButton"
+                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
+            <Button text="Autre Option" fx:id="otherOptionButton"
+                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox spacing="10" alignment="CENTER" style="-fx-background-color: #2e3b4e; -fx-padding: 10px;">
+            <Label text="Utilisateur Connecté" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="15" style="-fx-padding: 20;">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ImageView fx:id="userProfileImage" fitWidth="50" fitHeight="50" preserveRatio="true"/>
+                <Label text="Liste des Utilisateurs" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="search" promptText="Rechercher un utilisateur" prefWidth="250"/>
+                <Button text="Ajouter un utilisateur" fx:id="addUser" prefWidth="180"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#goingToAddUser"/>
+            </HBox>
+
+            <TableView fx:id="listUser" prefHeight="400">
+                <columns>
+                    <TableColumn fx:id="image" text="Image" prefWidth="100"/>
+                    <TableColumn fx:id="nom" text="Nom" prefWidth="150"/>
+                    <TableColumn fx:id="prenom" text="Prénom" prefWidth="150"/>
+                    <TableColumn fx:id="email" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="role" text="Rôle" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <Pagination fx:id="pagination" style="-fx-alignment: center;" />
+        </VBox>
+    </center>
+</BorderPane>
