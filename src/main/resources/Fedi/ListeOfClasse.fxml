@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.ListeOfClasse"
+            stylesheets="@css/style-listofclasse.css">
+
+    <top>
+        <VBox styleClass="header-box" spacing="10">
+            <Label text="Gestion des Classes" styleClass="title-label"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" styleClass="search-field"/>
+                <Button text="Rechercher" styleClass="action-button" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <GridPane fx:id="gridPane" hgap="10" vgap="10" styleClass="card-grid">
+                <!-- Les cartes seront ajoutées dynamiquement ici -->
+            </GridPane>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox styleClass="button-box" spacing="20" alignment="CENTER">
+            <Button text="Ajouter une classe" onAction="#handleAjouterClasse" styleClass="action-button"/>
+            <Button text="Créer un élève" onAction="#handleAjouterEleve" styleClass="action-button"/>
+            <Button text="Exporter PDF" styleClass="export-button"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

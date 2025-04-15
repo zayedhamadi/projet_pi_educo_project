@@ -1,0 +1,135 @@
+/* Variables globales */
+.root {
+    -fx-primary: #6c5ce7;         /* Violet moderne */
+    -fx-primary-dark: #5649c0;
+    -fx-secondary: #00cec9;       /* Turquoise */
+    -fx-accent: #fd79a8;          /* Rose pastel */
+    -fx-light: #f8f9fa;           /* Fond clair */
+    -fx-dark: #2d3436;            /* Texte foncé */
+    -fx-border: #dfe6e9;          /* Bordures */
+    -fx-card-bg: #ffffff;         /* Fond des cartes */
+    -fx-error: #ff7675;           /* Couleur d'erreur */
+}
+
+/* Effets communs */
+.shadow {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 12, 0, 0, 4);
+}
+
+.soft-shadow {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 2);
+}
+
+/* Style de la carte (AjouterClasse) */
+.card {
+    -fx-background-color: -fx-card-bg;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(99, 110, 114, 0.2), 15, 0, 0, 5);
+}
+
+.title {
+    -fx-text-fill: -fx-dark;
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-font-family: 'Roboto', 'Segoe UI', sans-serif;
+    -fx-padding: 0 0 20 0;
+}
+
+/* Champs de formulaire */
+.label {
+    -fx-text-fill: -fx-dark;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+.text-field {
+    -fx-background-color: -fx-light;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 1;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-border-color: -fx-primary;
+    -fx-effect: dropshadow(gaussian, rgba(108, 92, 231, 0.1), 5, 0, 0, 0);
+}
+
+/* Bouton SplitMenu */
+.split-menu-button {
+    -fx-background-color: -fx-light;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 1;
+    -fx-padding: 10 15;
+}
+
+.split-menu-button .label {
+    -fx-text-fill: -fx-dark;
+    -fx-font-size: 14px;
+}
+
+/* Boutons d'action */
+.button {
+    -fx-background-radius: 8;
+    -fx-padding: 12 25;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-font-family: 'Roboto', sans-serif;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+    -fx-transition: all 0.3s ease;
+}
+
+.button:hover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.button:default {
+    -fx-background-color: linear-gradient(to right, -fx-primary, -fx-secondary);
+    -fx-text-fill: white;
+}
+
+.button:default:hover {
+    -fx-background-color: linear-gradient(to right, -fx-primary-dark, #00b4b4);
+}
+
+.button:cancel {
+    -fx-background-color: -fx-card-bg;
+    -fx-text-fill: -fx-dark;
+    -fx-border-color: -fx-border;
+    -fx-border-width: 1;
+}
+
+.button:cancel:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+/* HBox pour les boutons */
+.hbox {
+    -fx-padding: 20 0 0 0;
+    -fx-alignment: center-right;
+}
+
+/* Messages d'erreur */
+.error {
+    -fx-text-fill: -fx-error;
+    -fx-font-size: 12px;
+    -fx-padding: 5 0 0 0;
+}
+
+/* Style cohérent avec ListeOfClasse */
+.split-menu-button .arrow-button {
+    -fx-background-color: -fx-primary;
+    -fx-background-radius: 0 8 8 0;
+}
+
+.split-menu-button .arrow {
+    -fx-background-color: white;
+}
