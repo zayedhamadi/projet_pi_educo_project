@@ -48,9 +48,9 @@
 }
 
 /* Alternate row coloring */
-.quiz-card:nth-child(odd) {
-    -fx-background-color: #f8f9fa;
-}
+/*.quiz-card:nth-child(odd) {
+     -fx-background-color: #f8f9fa;
+ }*/
 /* Page title styling */
 .title-bar {
     -fx-padding: 0 0 15 0;
