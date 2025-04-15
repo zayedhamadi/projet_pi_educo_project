@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.DetailsQuizController"
+      styleClass="details-container"
+      stylesheets="@styledetail.css"
+      spacing="20"
+      alignment="CENTER_LEFT"
+      prefWidth="400">
+
+    <Label text="Détails du Quiz" styleClass="details-title" />
+
+    <GridPane styleClass="details-grid" hgap="10" vgap="15">
+        <Label text="Nom:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="nomLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Description:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label fx:id="descriptionLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="1" wrapText="true"/>
+
+        <Label text="Date:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label fx:id="dateAjoutLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Classe:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="classeLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Matière:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <Label fx:id="matiereLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Cours:" styleClass="detail-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <Label fx:id="coursLabel" styleClass="detail-value" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Ajouter Question" styleClass="add-button" onAction="#handleAjouterQuestion"/>
+        <Button text="Retour" styleClass="back-button" onAction="#handleRetour"/>
+    </HBox>
+</VBox>

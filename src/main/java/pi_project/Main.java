@@ -17,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Saif/addProduct.fxml"));
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Saif/addProduct.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Aziz/afficherquiz.fxml")));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("------------Gestion des clients------------");
