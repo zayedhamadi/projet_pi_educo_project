@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.ProduitView"
+            prefHeight="500.0" prefWidth="800.0"
+            style="-fx-background-color: #ffffff; -fx-padding: 20px;">
+
+    <!-- Titre -->
+    <Text text="Gestion des Produits" layoutX="270" layoutY="20"
+          style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+
+    <!-- Bouton Ajouter Produit -->
+    <Button layoutX="20.0" layoutY="60.0" onAction="#ajouterProduit" text="Ajouter un produit"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+
+    <!-- Tableau des produits -->
+    <TableView fx:id="tableView" layoutX="20.0" layoutY="120.0" prefHeight="350.0" prefWidth="760.0"
+               style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
+            <TableColumn fx:id="colDescription" text="Description" prefWidth="180"/>
+            <TableColumn fx:id="colPrix" text="Prix" prefWidth="80"/>
+            <TableColumn fx:id="colStock" text="Stock" prefWidth="80"/>
+            <!-- Agrandir la colonne Image -->
+            <TableColumn fx:id="colImage" text="Image" prefWidth="150" />  <!-- Agrandir cette colonne -->
+            <TableColumn fx:id="colActions" text="Actions" prefWidth="130"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

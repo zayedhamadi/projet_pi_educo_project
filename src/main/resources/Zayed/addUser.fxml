@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane fx:id="mainForm" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.addUserController">
+
+    <left>
+        <VBox style="-fx-background-color: #2e3b4e; -fx-pref-width: 250px; -fx-padding: 10;">
+            <ImageView fx:id="userImage" fitWidth="100" fitHeight="100" preserveRatio="true"/>
+            <Button text="Tableau des Utilisateurs"
+                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
+            <Button text="Autre Option"
+                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20" style="-fx-padding: 20;" alignment="TOP_CENTER">
+                <HBox spacing="10" alignment="CENTER">
+                    <Label text="Ajouter un Utilisateur" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <GridPane hgap="10" vgap="10" alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" minWidth="150"/>
+                        <ColumnConstraints minWidth="250"/>
+                    </columnConstraints>
+
+                    <!-- Nom -->
+                    <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="nom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <!-- Prénom -->
+                    <Label text="Prénom:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="prenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <!-- Adresse -->
+                    <Label text="Adresse:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="adresse" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <!-- Description -->
+                    <Label text="Description:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="description" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <!-- Numéro de téléphone -->
+                    <Label text="Numéro de téléphone:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="numTel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <!-- Date de naissance -->
+                    <Label text="Date de naissance:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="dateNaissance" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <!-- Email -->
+                    <Label text="Email:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                    <TextField fx:id="email" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <!-- Mot de passe -->
+                    <Label text="Mot de passe:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                    <PasswordField fx:id="password" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                    <!-- Rôle -->
+                    <Label text="Rôle:" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="role" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                    <!-- Genre -->
+                    <Label text="Genre:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="genre" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+                    <!-- Image -->
+                    <Label text="Image:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                    <Button fx:id="AjouterImage" text="Choisir une image" onAction="#ajouterUneImage"
+                            style="-fx-background-color: #2196F3; -fx-text-fill: white;"
+                            GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+                    <!-- Aperçu image -->
+                    <Label text="Aperçu de l'image:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                    <ImageView fx:id="imageP" fitHeight="150" fitWidth="150" preserveRatio="true"
+                               GridPane.rowIndex="11" GridPane.columnIndex="1" GridPane.halignment="LEFT"/>
+                </GridPane>
+
+                <Label fx:id="all" textFill="red" style="-fx-padding: 10px;"/>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Ajouter" onAction="#AjouterUser"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-pref-width: 150px;"/>
+                    <Button text="Annuler" onAction="#AnnulerAjout" fx:id="AnnulerAjout"
+                            style="-fx-background-color: #FF5733; -fx-text-fill: white; -fx-pref-width: 150px;"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+    <top>
+        <HBox style="-fx-background-color: #2e3b4e; -fx-padding: 10px;" alignment="CENTER">
+            <Label text="Utilisateur Connecté" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+        </HBox>
+    </top>
+</BorderPane>
