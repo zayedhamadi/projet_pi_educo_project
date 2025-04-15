@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.Role;
+import pi_project.Zayed.Service.AuthenticationImpl;
 import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
 import pi_project.Zayed.Utils.session;
@@ -19,10 +20,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public class ProfilUserConnecteController {
+public class ProfilAdminConnecteController {
 
     private final UserImpl userService = new UserImpl();
-
+    AuthenticationImpl authentication = new AuthenticationImpl();
     @FXML
     private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte, description;
     @FXML
@@ -330,7 +331,7 @@ public class ProfilUserConnecteController {
     }
 
     private void logout() {
-        session.clearSession();
+        authentication.logout();
         redirectToLogin();
     }
 }

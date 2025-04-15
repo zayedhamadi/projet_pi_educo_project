@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1"
+<BorderPane fx:id="rootPane"   prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.UpdateClasse"
             stylesheets="@css/style-listofclasse.css">
 
@@ -62,7 +62,7 @@
     <bottom>
         <HBox styleClass="button-box" spacing="15" alignment="CENTER">
             <Button fx:id="btnEnregistrer" text="Enregistrer" onAction="#handleUpdate" styleClass="action-button"/>
-            <Button text="Retour" onAction="#handleRetour" styleClass="export-button"/>
+            <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
         </HBox>
     </bottom>
 

@@ -3,8 +3,11 @@ package pi_project;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class Main extends Application {
     public static void main(String[] args) {
@@ -13,9 +16,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/BoutiqueView.fxml"));
-        Scene scene = new Scene(loader.load());
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Fedi/AjouterClasse.fxml")));
+        Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("------------Educo project------------");
         stage.show();
     }
 }

@@ -1,15 +1,20 @@
 package pi_project.Fedi.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
 import pi_project.Main;
 
 public class UpdateClasse {
-
+    @FXML
+    private BorderPane rootPane;
     @FXML
     private TextField nomClasseField;
 
@@ -29,10 +34,15 @@ public class UpdateClasse {
         capaciteField.setText(String.valueOf(c.getCapacite()));
     }
     @FXML
-    private void handleRetour() {
+    private void handleBack() {
         try {
-            Main.setRoot("ListeOfClasse.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
+            Parent listeView = loader.load();
+
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
         } catch (Exception e) {
+            System.out.println(("Erreur lors du retour à la liste"));
             e.printStackTrace();
         }
     }
@@ -55,8 +65,7 @@ public class UpdateClasse {
             alert.setContentText("Classe mise à jour !");
             alert.showAndWait();
 
-            // Rediriger vers la liste des classes
-            Main.setRoot("ListeOfClasse.fxml");
+         this.handleBack();
 
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

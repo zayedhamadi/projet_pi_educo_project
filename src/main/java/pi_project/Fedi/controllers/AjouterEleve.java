@@ -1,9 +1,13 @@
 package pi_project.Fedi.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.entites.eleve;
 import pi_project.Fedi.services.classeservice;
@@ -51,7 +55,8 @@ public class AjouterEleve implements Initializable {
     private Label classeErreur;
     @FXML
     private Label parentErreur;
-
+    @FXML
+    private BorderPane rootPane;
     private final eleveservice service = new eleveservice();
     private final classeservice classeService = new classeservice();
 
@@ -162,9 +167,14 @@ public class AjouterEleve implements Initializable {
     @FXML
     private void handleBack() {
         try {
-            Main.setRoot("ListeOfClasse.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
+            Parent listeView = loader.load();
+
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
         } catch (Exception e) {
             showError("Erreur lors du retour à la liste");
+            e.printStackTrace();
         }
     }
 

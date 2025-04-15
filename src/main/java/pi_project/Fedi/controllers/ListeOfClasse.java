@@ -5,12 +5,18 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
 import pi_project.Main;
@@ -21,14 +27,15 @@ import java.util.ResourceBundle;
 
 public class ListeOfClasse implements Initializable {
 
-    @FXML
-    private GridPane gridPane;
-
-    @FXML
-    private TextField searchField;
 
     private final classeservice service = new classeservice();
     private final ObservableList<classe> data = FXCollections.observableArrayList();
+    @FXML
+    private BorderPane rootPane;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private TextField searchField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -46,7 +53,7 @@ public class ListeOfClasse implements Initializable {
         for (classe c : data) {
             VBox card = createClassCard(c);
             gridPane.add(card, column, row);
-            
+
             column++;
             if (column >= maxColumns) {
                 column = 0;
@@ -80,7 +87,8 @@ public class ListeOfClasse implements Initializable {
 
         btnUpdate.setOnAction(event -> {
             try {
-                ouvrirSceneUpdate(c);
+                Stage currentStage = (Stage) btnUpdate.getScene().getWindow();
+                ouvrirSceneUpdate(c,currentStage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -111,38 +119,41 @@ public class ListeOfClasse implements Initializable {
     private void handleAjouterClasse() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/AjouterClasse.fxml"));
-            Scene scene = new Scene(loader.load());
-            Main.setRoot("AjouterClasse.fxml");
+            Parent listeView = loader.load();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            showErreur("Erreur lors du chargement de la scène AjouterClasse.");
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(("Erreur lors du retour à la liste"));
+            e.printStackTrace();
         }
     }
 
     @FXML
     private void handleAjouterEleve() {
         try {
-            Main.setRoot("AjouterEleve.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/AjouterEleve.fxml"));
+            Parent listeView = loader.load();
+
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
         } catch (Exception e) {
-            showErreur("Erreur lors du chargement de la scène AjouterEleve.");
+            System.out.println(("Erreur lors du retour à la liste"));
+            e.printStackTrace();
         }
     }
 
-    private void ouvrirSceneUpdate(classe selected) throws Exception {
+    private void ouvrirSceneUpdate(classe selected, Stage stage) throws Exception {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/UpdateClasse.fxml"));
-            javafx.scene.Parent root = loader.load();
+            Parent root = loader.load();
 
             UpdateClasse controller = loader.getController();
             controller.setClasse(selected);
 
             Scene scene = new Scene(root);
-            Main.getPrimaryStage().setScene(scene);
-            Main.getPrimaryStage().show();
-
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showErreur("Erreur lors du chargement de la scène UpdateClasse.");

@@ -2,9 +2,13 @@ package pi_project.Fedi.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
 import pi_project.Main;
@@ -13,6 +17,8 @@ import java.io.IOException;
 
 public class AjouterClasse {
 
+    @FXML
+    private BorderPane rootPane;
     @FXML
     private TextField capacite;
 
@@ -37,13 +43,19 @@ public class AjouterClasse {
     private final classeservice ps = new classeservice();
 
     @FXML
-    void back(ActionEvent event) throws Exception {
+    private void handleBack() {
         try {
-            Main.setRoot("ListeOfClasse.fxml"); // Retour à la liste
-        } catch (IOException e) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
+            Parent listeView = loader.load();
+
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
+        } catch (Exception e) {
+            System.out.println(("Erreur lors du retour à la liste"));
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void save(ActionEvent event) {
@@ -104,7 +116,11 @@ public class AjouterClasse {
 
             // Retour automatique à la liste (optionnel)
             try {
-                Main.setRoot("ListeOfClasse.fxml");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/isteOfClasse.fxml"));
+                Parent listeView = loader.load();
+
+                Scene currentScene = rootPane.getScene();
+                currentScene.setRoot(listeView);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {

@@ -149,7 +149,7 @@ public class LoginController {
 
     public void goingtoProfilUSerConnected() {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Zayed/ProfilUserConnecte.fxml")));;
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Zayed/ProfilAdminConnecte.fxml")));;
             Stage stage = (Stage) s.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("ProfilUserConnecte");

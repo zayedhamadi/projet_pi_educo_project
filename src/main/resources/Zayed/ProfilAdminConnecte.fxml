@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.Circle?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pi_project.Zayed.Controller.ProfilUserConnecteController"
+            fx:controller="pi_project.Zayed.Controller.ProfilAdminConnecteController"
             stylesheets="@css/profilUserConnecte.css">
 
     <left>
@@ -25,7 +25,6 @@
 
     <center>
         <VBox spacing="30" alignment="CENTER" styleClass="content-container">
-            <!-- Photo de profil -->
             <StackPane>
                 <ImageView fx:id="profileImage" fitWidth="150" fitHeight="150">
                     <clip>
@@ -34,7 +33,6 @@
                 </ImageView>
                 <Button fx:id="changeImageButton" text="Changer" styleClass="image-button" visible="false"/>
             </StackPane>
-            <!-- Informations utilisateur -->
             <GridPane hgap="15" vgap="5">
                 <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                 <TextField fx:id="nom" editable="false" prefWidth="250" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
