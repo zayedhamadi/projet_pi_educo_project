@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EvenementController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.louay.Controller.EvenementController">
     <VBox layoutX="10.0" prefHeight="474.0" prefWidth="480.0" spacing="10" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
         <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Créer un événement" />
 
@@ -29,8 +29,8 @@
         <ComboBox fx:id="typeComboBox" promptText="Type d'événement" />
 
         <HBox alignment="CENTER_RIGHT" spacing="15">
-            <Button fx:id="retourButton" onAction="#handleRetour" text="Retour" />
-            <Button fx:id="ajouterButton" onAction="#handleAjouterEvenement" text="Créer" />
+            <Button fx:id="retourButton"  text="Retour" />
+            <Button fx:id="ajouterButton"  text="Créer" />
         </HBox>
     </VBox>
 </AnchorPane>
