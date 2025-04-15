@@ -35,7 +35,7 @@ public class PaiementStripeController {
 
     @FXML
     private void payerAvecStripe() {
-        Stripe.apiKey = "sk_test_51QsjAZQwwmpQjSTvBd6Nfapz29yRFhFzLEVG4P2tufQoUX8Y91ejBjGIWPLWHLTyhH7CiCiHUulOSHBcJG3TgoMK00KHndaNIG"; // ta vraie clé ici
+        Stripe.apiKey = ""; // ta vraie clé ici
 
         try {
             Map<String, Object> params = new HashMap<>();
