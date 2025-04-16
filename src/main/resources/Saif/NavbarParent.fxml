@@ -13,10 +13,13 @@
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT" styleClass="navbar">
 
-            <Region HBox.hgrow="ALWAYS"/>
+
             <Button text="🏠 Boutique" fx:id="btnBoutique" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+            <Button text="🏠 Boutique" fx:id="btnBoutiquee" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+            <Button text="🏠 Boutique" fx:id="btnBoutiqure" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
 
 
+            <Region HBox.hgrow="ALWAYS"/>
 
             <!-- Tu peux ajouter d'autres boutons ici -->
         </HBox>
