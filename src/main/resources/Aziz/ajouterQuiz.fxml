@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.geometry.Insets?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.GridPane?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.AjouterQuizController"
+      styleClass="form-container"
+      stylesheets="@stylequiz.css"
+      spacing="15"
+      prefWidth="400"
+      prefHeight="450"
+      >
+
+    <Label text="Add New Quiz" styleClass="form-title"/>
+
+    <GridPane styleClass="form-grid" hgap="10" vgap="15">
+        <Label text="Quiz Name:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="nomTextField" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Description:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="descriptionTextField" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Date:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <DatePicker fx:id="dateAjoutDatePicker" styleClass="form-field" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Class:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <ComboBox fx:id="classeComboBox" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Subject:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="matiereComboBox" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Course:" styleClass="form-label" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <ComboBox fx:id="coursComboBox" styleClass="form-combo" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    </GridPane>
+
+    <HBox styleClass="button-container" alignment="CENTER_RIGHT">
+        <Button text="Add Quiz" styleClass="save-button" onAction="#onAjouterQuizButtonClick"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane fx:id="rootPane"   prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.UpdateClasse"
+            stylesheets="@css/style-listofclasse.css">
+
+    <top>
+        <VBox styleClass="header-box" spacing="5">
+            <Label text="Modifier Classe" styleClass="title-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox styleClass="form-container" spacing="10" alignment="CENTER">
+            <!-- Image -->
+            <ImageView fitWidth="150" fitHeight="150" preserveRatio="true">
+                <image>
+                    <Image url="@image/update.png"/>
+                </image>
+            </ImageView>
+            <GridPane hgap="15" vgap="10" alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="120" prefWidth="120"/>
+                    <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200"/>
+                </columnConstraints>
+
+                <!-- Nom de classe -->
+                <Label text="Nom de la classe :" styleClass="form-label"/>
+                <TextField fx:id="nomClasseField" promptText="Nom classe" styleClass="form-field"
+                          GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label fx:id="nomErreur" styleClass="error-label" 
+                       GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <!-- Numéro de salle -->
+                <Label text="Numéro de salle :" styleClass="form-label"
+                       GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="numSalleField" promptText="Numéro salle" styleClass="form-field"
+                          GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label fx:id="salleErreur" styleClass="error-label"
+                       GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <!-- Capacité -->
+                <Label text="Capacité :" styleClass="form-label"
+                       GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="capaciteField" promptText="Capacité" styleClass="form-field"
+                          GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                <Label fx:id="capaciteErreur" styleClass="error-label"
+                       GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            </GridPane>
+
+
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="button-box" spacing="15" alignment="CENTER">
+            <Button fx:id="btnEnregistrer" text="Enregistrer" onAction="#handleUpdate" styleClass="action-button"/>
+            <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

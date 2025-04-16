@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Aziz.Controller.AfficherQuizController"
+            stylesheets="@style.css">
+
+    <VBox spacing="20" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <!-- Page Title and Add Button Row -->
+        <HBox alignment="CENTER_LEFT" spacing="20" styleClass="title-bar">
+            <Label text="Liste des Quiz" styleClass="page-title"/>
+            <Button fx:id="addButton" text="Ajouter Quiz" styleClass="add-button"/>
+        </HBox>
+
+        <!-- Table Header -->
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="header-row">
+            <Label text="TITRE" styleClass="header-label" style="-fx-min-width: 200;"/>
+            <Label text="CLASSE" styleClass="header-label" style="-fx-min-width: 80;"/>
+            <Label text="MATIÈRE" styleClass="header-label" style="-fx-min-width: 150;"/>
+            <Label text="COURS" styleClass="header-label" style="-fx-min-width: 150;"/>
+            <Label text="DATE D'AJOUT" styleClass="header-label" style="-fx-min-width: 120;"/>
+            <Label text="ACTIONS" styleClass="header-label" style="-fx-min-width: 100;"/>
+        </HBox>
+
+        <!-- Quiz Items Container -->
+        <VBox fx:id="quizContainer" spacing="8"/>
+    </VBox>
+</AnchorPane>
