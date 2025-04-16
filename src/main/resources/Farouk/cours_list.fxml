@@ -16,6 +16,10 @@
     <top>
         <VBox alignment="CENTER" spacing="10">
             <Label text="📘 Course Catalog" styleClass="header-label"/>
+            <Button text="Add Course" fx:id="addCourseButton"
+                    styleClass="add-button"
+                    onAction="#goToAddCours"/>
+
             <Separator style="-fx-padding: 0 40 0 40;"/>
         </VBox>
     </top>

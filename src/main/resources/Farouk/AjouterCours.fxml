@@ -1,67 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pi_project.Farouk.Controller.CoursController"
-            prefHeight="500.0" prefWidth="600.0"
-            style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #ffffff, #e0e0e0);">
+            prefHeight="550.0" prefWidth="650.0"
+            style="-fx-background-color: #f8f9fa;">
 
-    <!-- Header -->
-    <Label layoutX="20" layoutY="20"
+    <!-- Header with shadow effect -->
+    <Label layoutX="30" layoutY="20"
            text="📘 Add New Course"
-           style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+           styleClass="header-label">
+        <font>
+            <Font name="System Bold" size="28.0"/>
+        </font>
+        <effect>
+            <DropShadow color="#2c3e5055" radius="3" offsetX="2" offsetY="2"/>
+        </effect>
+    </Label>
 
-    <!-- Form Container -->
-    <VBox layoutX="50" layoutY="70" spacing="15" prefWidth="500.0">
+    <!-- Form Container with card-like appearance -->
+    <VBox layoutX="30" layoutY="80" spacing="20" prefWidth="590.0"
+          style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);">
 
         <!-- Course Name -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Course Name:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
-            <TextField fx:id="nameField" prefWidth="350.0"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Course Name:" styleClass="form-label"/>
+            <TextField fx:id="nameField" styleClass="form-field" prefWidth="400.0"/>
         </HBox>
 
-        <!-- Matiere ID -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Matiere ID:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
-            <TextField fx:id="matiereIdField" prefWidth="350.0"/>
+        <!-- Matiere Selection -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Matiere:" styleClass="form-label"/>
+            <ComboBox fx:id="matiereComboBox" styleClass="form-combo" prefWidth="400.0"/>
         </HBox>
 
-        <!-- Classe ID -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Classe ID:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
-            <TextField fx:id="classIdField" prefWidth="350.0"/>
+        <!-- Class Selection -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Class:" styleClass="form-label"/>
+            <ComboBox fx:id="classComboBox" styleClass="form-combo" prefWidth="400.0"/>
         </HBox>
 
         <!-- Chapter Number -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Chapter Number:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
-            <TextField fx:id="chapterNumberField" prefWidth="350.0"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Chapter Number:" styleClass="form-label"/>
+            <TextField fx:id="chapterNumberField" styleClass="form-field" prefWidth="400.0"/>
         </HBox>
 
         <!-- PDF Upload -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="Upload PDF:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
-            <Button text="Choose File"
-                    style="-fx-background-color: #3498db; -fx-text-fill: white;"
-                    onAction="#handleChooseFile"/>
-            <Label fx:id="statusLabel" style="-fx-text-fill: #2c3e50;"/>
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Upload PDF:" styleClass="form-label"/>
+            <Button text="Choose File" styleClass="file-upload-button" onAction="#handleChooseFile"/>
+            <Label fx:id="statusLabel" styleClass="status-label"/>
         </HBox>
 
         <!-- Buttons -->
-        <HBox spacing="20" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
-            <Button text="Cancel"
-                    style="-fx-background-color: #e74c3c; -fx-text-fill: white;"
-                    onAction="#handleCancel"/>
-            <Button text="Save"
-                    style="-fx-background-color: #2ecc71; -fx-text-fill: white;"
-                    onAction="#handleSave"/>
+        <HBox spacing="25" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+            <Button text="Cancel" styleClass="cancel-button" onAction="#handleCancel"/>
+            <Button text="Save" styleClass="save-button" onAction="#handleSave"/>
         </HBox>
     </VBox>
 
+    <!-- CSS Styling -->
+    <stylesheets>
+        <URL value="@Css/cours-style.css"/>
+    </stylesheets>
 </AnchorPane>

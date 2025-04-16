@@ -77,7 +77,7 @@ public class CoursListController {
                         Button editButton = new Button("Edit");
                         editButton.getStyleClass().add("edit-button");
                         editButton.setOnAction(event -> {
-                            showEditDialog(cours);
+                            goToEditCours(cours);
                         });
 
                         HBox buttonContainer = new HBox(10);
@@ -93,6 +93,27 @@ public class CoursListController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void goToAddCours() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/AjouterCours.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) coursListView.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            showAlert("Error", "Could not load add course view");
+        }
+    }
+
+    // Helper method to show alerts (similar to what you likely have for Matiere)
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
     // Method to delete a course
     private void deleteCours(Cours cours) {
@@ -114,86 +135,25 @@ public class CoursListController {
         }
     }
 
-    private void showEditDialog(Cours cours) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Edit Course");
-        dialog.setHeaderText("Modify course details");
 
-        // Set up the fields with current data
-        TextField nameField = new TextField(cours.getName());
-        TextField matiereField = new TextField(String.valueOf(cours.getIdMatiere()));
-        TextField classeField = new TextField(String.valueOf(cours.getClasse()));
+    private void goToEditCours(Cours cours) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/EditCours.fxml"));
+            Parent root = loader.load();
 
-        Label pdfLabel = new Label(cours.getPdfFilename() != null ? cours.getPdfFilename() : "No file selected");
-        Button browseButton = new Button("Browse");
-        HBox pdfBox = new HBox(10, pdfLabel, browseButton);
-        // FileChooser to pick the PDF
-        final String[] selectedPdfPath = {cours.getPdfFilename()}; // store as array to allow modification in lambda
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select PDF file");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+            // Pass the cours to edit to the controller
+            EditCoursController controller = loader.getController();
+            controller.setCours(cours);
 
-        browseButton.setOnAction(e -> {
-            File file = fileChooser.showOpenDialog(dialog.getDialogPane().getScene().getWindow());
-            if (file != null) {
-                selectedPdfPath[0] = file.getAbsolutePath(); // Save selected path
-                pdfLabel.setText(file.getName()); // Show only filename
-            }
-        });
-
-        VBox content = new VBox(10,
-                new Label("Name:"), nameField,
-                new Label("Matière ID:"), matiereField,
-                new Label("Classe:"), classeField,
-                new Label("PDF File:"), pdfBox
-        );
-        dialog.getDialogPane().setContent(content);
-
-        // Add OK / Cancel buttons
-        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-
-        dialog.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    // Update the course object
-                    cours.setName(nameField.getText());
-                    cours.setIdMatiere(Integer.parseInt(matiereField.getText()));
-                    cours.setClasse(Integer.parseInt(classeField.getText()));
-                    cours.setPdfFilename(selectedPdfPath[0]);
-
-                    // Save changes to the database
-                    boolean updated = coursService.modifier(cours);
-                    if (updated) {
-                        // Force refresh
-                        coursListView.refresh();
-                    } else {
-                        System.out.println("Failed to update course.");
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+            // Get the current stage and replace the scene
+            Stage stage = (Stage) coursListView.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            showAlert("Error", "Could not load edit course view");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-//    private void showEditPage(Cours cours) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/EditCours.fxml"));
-//            Parent root = loader.load();
-//
-//            EditCoursController controller = loader.getController();
-//            controller.setCoursData(cours);
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("Edit Course");
-//            stage.setScene(new Scene(root));
-//            stage.showAndWait();
-//
-//            // Refresh list after editing
-//            refreshCourseList();
-//        } catch (IOException e) {
-//            showAlert("Error", "Could not load edit view", Alert.AlertType.ERROR);
-//        }
-//    }
+
 
 }

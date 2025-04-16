@@ -1,45 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pi_project.Farouk.Controller.EditCoursController"
-            prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@Css/cours-style.css"
-            spacing="20" style="-fx-padding: 30; -fx-background-color: #f8fafc;">
->
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Farouk.Controller.EditCoursController"
+      stylesheets="@Css/cours-style.css"
+      prefHeight="450.0" prefWidth="600.0"
+      style="-fx-padding: 30; -fx-background-color: #f8fafc;"
+      spacing="20">
 
-    <Label text="✏️ Edit Course" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+    <!-- Header -->
+    <Label text="✏️ Edit Course"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
 
-    <GridPane hgap="15" vgap="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10;">
-        <columnConstraints>
-            <ColumnConstraints percentWidth="30"/>
-            <ColumnConstraints percentWidth="70"/>
-        </columnConstraints>
+    <!-- Form Fields -->
+    <VBox spacing="15">
+        <Label text="Course Name:" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="nameField" styleClass="form-field"/>
 
-        <Label text="Course Name:" style="-fx-font-weight: bold;" GridPane.rowIndex="0"/>
-        <TextField fx:id="nameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <Label text="Matiere:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="matiereComboBox" styleClass="form-combo"/>
 
-        <Label text="Matière ID:" style="-fx-font-weight: bold;" GridPane.rowIndex="1"/>
-        <TextField fx:id="matiereIdField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label text="Class:" style="-fx-font-weight: bold;"/>
+        <ComboBox fx:id="classComboBox" styleClass="form-combo"/>
 
-        <Label text="Classe:" style="-fx-font-weight: bold;" GridPane.rowIndex="2"/>
-        <TextField fx:id="classeField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-        <Label text="PDF File:" style="-fx-font-weight: bold;" GridPane.rowIndex="3"/>
-        <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
-            <Label fx:id="pdfLabel" style="-fx-text-fill: #64748b;"/>
-            <Button text="Browse" onAction="#handleBrowse" style="-fx-background-color: #e2e8f0; -fx-text-fill: #1e293b;"/>
+        <Label text="PDF File:" style="-fx-font-weight: bold;"/>
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label fx:id="pdfLabel" text="No file selected" style="-fx-text-fill: #64748b;"/>
+            <Button text="Browse" onAction="#onBrowseClicked" styleClass="secondary-button"/>
         </HBox>
+    </VBox>
 
-        <HBox spacing="15" GridPane.rowIndex="4" GridPane.columnIndex="1" alignment="CENTER_RIGHT">
-            <Button text="Cancel" onAction="#handleCancel" style="-fx-background-color: #e2e8f0; -fx-text-fill: #1e293b;"/>
-            <Button text="Save Changes" onAction="#handleSave" style="-fx-background-color: #4f46e5; -fx-text-fill: white;"/>
-        </HBox>
-    </GridPane>
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+        <Button text="Cancel" onAction="#onCancel" styleClass="cancel-button"/>
+        <Button text="Save Changes" onAction="#onSave" styleClass="save-button"/>
+    </HBox>
 </VBox>

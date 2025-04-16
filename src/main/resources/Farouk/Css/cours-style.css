@@ -1,23 +1,116 @@
 /* Modern Cours ListView Styling with Enhanced Typography */
 .root {
-    -fx-font-family: "Segoe UI", "Open Sans", sans-serif;
-    -fx-background-color: #f8fafc;
+    /*-fx-font-family: "Segoe UI", "Open Sans", sans-serif;*/
+    /*-fx-background-color: #f8fafc;*/
+    -primary-color: #3498db;
+    -success-color: #2ecc71;
+    -danger-color: #e74c3c;
+    -text-color: #2c3e50;
+    -light-gray: #ecf0f1;
 }
 
 .header-label {
-    -fx-font-size: 32px;
-    -fx-font-weight: 800;
-    -fx-padding: 25 0 30 0;
-    -fx-text-fill: #1e293b;
-    -fx-alignment: center;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.05), 0, 2, 0, 1);
+    /*-fx-font-size: 32px;*/
+    /*-fx-font-weight: 800;*/
+    /*-fx-padding: 25 0 30 0;*/
+    /*-fx-text-fill: #1e293b;*/
+    /*-fx-alignment: center;*/
+    /*-fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.05), 0, 2, 0, 1);*/
+    -fx-text-fill: -text-color;
+    -fx-font-weight: bold;
 }
 
+/* Form elements styling */
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -text-color;
+    -fx-min-width: 140;
+}
+.form-field {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+.form-field:focused {
+    -fx-border-color: -primary-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(52,152,219,0.3), 5, 0, 0, 1);
+}
 .cours-list-view {
     -fx-background-color: transparent;
     -fx-padding: 0 25 25 25;
     -fx-spacing: 15px;
 }
+
+.form-combo {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1;
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+}
+
+.form-combo .list-cell {
+    -fx-padding: 8;
+}
+/* Button styling */
+.file-upload-button {
+    -fx-background-color: -primary-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.file-upload-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.save-button {
+    -fx-background-color: -success-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10 25;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.save-button:hover {
+    -fx-background-color: #27ae60;
+    -fx-effect: dropshadow(three-pass-box, rgba(46,204,113,0.4), 5, 0, 0, 1);
+}
+
+.cancel-button {
+    -fx-background-color: -danger-color;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10 25;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #c0392b;
+    -fx-effect: dropshadow(three-pass-box, rgba(231,76,60,0.4), 5, 0, 0, 1);
+}
+
+/* Status label */
+.status-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
+    -fx-padding: 0 10;
+}
+
+
+
+
+
 
 .list-cell {
     -fx-background-color: #ffffff;
@@ -120,3 +213,4 @@
 .edit-button:hover {
     -fx-background-color: #4338ca;
 }
+

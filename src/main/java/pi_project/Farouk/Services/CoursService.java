@@ -52,13 +52,15 @@ public class CoursService implements IService<Cours> {
 
     @Override
     public boolean modifier(Cours cours) throws SQLException {
-        String sql = "UPDATE cours SET name = ?, id_matiere = ?, classe = ?, pdf_filename = ? WHERE id = ?";
+        String sql = "UPDATE cours SET id_matiere_id = ?, classe_id = ?, name = ?, chapter_number = ?, pdf_filename = ? WHERE id = ?";
         PreparedStatement stmt = cnx.prepareStatement(sql);
-        stmt.setString(1, cours.getName());
-        stmt.setInt(2, cours.getIdMatiere());
-        stmt.setInt(3, cours.getClasse());
-        stmt.setString(4, cours.getPdfFilename());
-        stmt.setInt(5, cours.getId());
+
+        stmt.setInt(1, cours.getIdMatiere());
+        stmt.setInt(2, cours.getClasse());
+        stmt.setString(3, cours.getName());
+        stmt.setInt(4, cours.getChapterNumber());
+        stmt.setString(5, cours.getPdfFilename());
+        stmt.setInt(6, cours.getId());  // use id to locate the correct row
 
         return stmt.executeUpdate() > 0;
     }
