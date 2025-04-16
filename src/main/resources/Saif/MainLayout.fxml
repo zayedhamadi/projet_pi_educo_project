@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import java.net.URL?>
 <BorderPane fx:id="mainLayout" xmlns:fx="http://javafx.com/fxml"
             fx:controller="pi_project.Saif.Controller.MainLayoutController"
@@ -19,11 +18,12 @@
               spacing="20" alignment="TOP_CENTER" prefWidth="220">
 
             <!-- Title or logo section -->
-            <Label text="Menu" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 20 0 0 0;" />
+            <Label text="Menu"
+                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 20 0 0 0;"/>
 
             <!-- Sidebar buttons with modern style -->
-            <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button" />
-            <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button" />
+            <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button"/>
+            <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button"/>
             <!-- Add more buttons here -->
         </VBox>
     </left>
