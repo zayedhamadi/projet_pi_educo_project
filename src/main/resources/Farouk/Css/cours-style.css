@@ -1,0 +1,122 @@
+/* Modern Cours ListView Styling with Enhanced Typography */
+.root {
+    -fx-font-family: "Segoe UI", "Open Sans", sans-serif;
+    -fx-background-color: #f8fafc;
+}
+
+.header-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: 800;
+    -fx-padding: 25 0 30 0;
+    -fx-text-fill: #1e293b;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.05), 0, 2, 0, 1);
+}
+
+.cours-list-view {
+    -fx-background-color: transparent;
+    -fx-padding: 0 25 25 25;
+    -fx-spacing: 15px;
+}
+
+.list-cell {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-border-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 8, 0, 0, 2);
+    -fx-margin: 0 0 15 0;
+    -fx-border-width: 0;
+    -fx-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #f0f9ff;
+    -fx-effect: dropshadow(three-pass-box, rgba(30, 144, 255, 0.15), 10, 0, 0, 3);
+    -fx-cursor: hand;
+    -fx-scale-x: 1.005;
+    -fx-scale-y: 1.005;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #e0f2fe;
+    -fx-border-color: #0ea5e9;
+    -fx-border-width: 1.5;
+}
+
+.cours-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #0369a1;
+    -fx-padding: 0 0 5 0;
+    -fx-letter-spacing: 0.2px;
+}
+
+.cours-info {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+    -fx-padding: 3 0 0 0;
+    -fx-line-spacing: 5px;
+}
+
+.cours-info .label {
+    -fx-padding: 0 0 0 5px;
+}
+
+/* Custom cell layout with icon placeholder */
+.cours-cell-container {
+    -fx-spacing: 12px;
+    -fx-padding: 0 0 0 10px;
+}
+
+/* Status indicators */
+.cours-status {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 3 8 3 8;
+    -fx-background-radius: 10px;
+    -fx-background-color: #e2e8f0;
+    -fx-text-fill: #475569;
+}
+
+/* Scrollbar styling */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 0 2 0 0;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #cbd5e1;
+    -fx-background-radius: 6px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #94a3b8;
+}
+
+/* Style for the Delete button  and the Edit bitton*/
+.delete-button {
+    -fx-background-color: #ef4444; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 6 14;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 2, 0.0, 0, 1);
+}
+.delete-button:hover {
+    -fx-background-color: #dc2626;
+}
+
+.edit-button {
+    -fx-background-color: #4f46e5; /* Indigo */
+    -fx-text-fill: white;
+    -fx-padding: 6 14;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 2, 0.0, 0, 1);
+}
+.edit-button:hover {
+    -fx-background-color: #4338ca;
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Farouk.Controller.EditMatiereController"
+      stylesheets="@Css/Matiere-style.css"
+      spacing="25" style="-fx-padding: 30; -fx-background-color: #f5f5f5;">
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label text="Edit Matiere" styleClass="header"/>
+        <Button text="Back to List" onAction="#handleCancel" styleClass="secondary-button"/>
+    </HBox>
+
+    <GridPane styleClass="form-pane" hgap="15" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="70"/>
+        </columnConstraints>
+
+        <Label text="Teacher ID:" styleClass="form-label" GridPane.rowIndex="0"/>
+        <TextField fx:id="enseignantIdField" styleClass="text-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Name:" styleClass="form-label" GridPane.rowIndex="1"/>
+        <TextField fx:id="nomField" styleClass="text-field" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Coefficient:" styleClass="form-label" GridPane.rowIndex="2"/>
+        <TextField fx:id="coeffField" styleClass="text-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <HBox spacing="15" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <Button text="Update" onAction="#handleUpdate" styleClass="primary-button"/>
+            <Button text="Cancel" onAction="#handleCancel" styleClass="neutral-button"/>
+        </HBox>
+    </GridPane>
+</VBox>

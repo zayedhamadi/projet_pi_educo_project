@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.util.Callback?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Farouk.Controller.CoursListController"
+            stylesheets="@Css/cours-style.css"
+            prefHeight="850.0" prefWidth="500.0">
+
+    <top>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="📘 Course Catalog" styleClass="header-label"/>
+            <Separator style="-fx-padding: 0 40 0 40;"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ListView fx:id="coursListView" styleClass="cours-list-view"/>
+    </center>
+
+    <bottom>
+        <ToolBar style="-fx-background-color: #f1f5f9; -fx-padding: 15;">
+            <Label fx:id="courseCountLabel"
+                   style="-fx-text-fill: #475569; -fx-font-size: 14; -fx-font-weight: 600;"/>
+        </ToolBar>
+    </bottom>
+</BorderPane>

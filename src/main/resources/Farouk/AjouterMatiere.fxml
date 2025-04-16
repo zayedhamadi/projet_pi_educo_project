@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Farouk.Controller.MatiereController"
+      stylesheets="@Css/Matiere-style.css"
+      spacing="15" style="-fx-padding: 20;">
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Matiere Management" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    </HBox>
+
+    <GridPane hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="30"/>
+            <ColumnConstraints percentWidth="70"/>
+        </columnConstraints>
+
+        <Label text="Teacher ID:" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="enseignantIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Name:" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="nomField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="Coefficient:" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>
+        <TextField fx:id="coeffField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <Button text="Save" onAction="#handleSave"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white;"/>
+            <Button text="Clear" onAction="#handleClear"
+                    style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+            <Button text="Back to List" onAction="#goToListMatiere"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+        </HBox>
+    </GridPane>
+</VBox>

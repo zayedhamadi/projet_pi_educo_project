@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Farouk.Controller.CoursController"
+            prefHeight="500.0" prefWidth="600.0"
+            style="-fx-padding: 20; -fx-background-color: linear-gradient(to bottom, #ffffff, #e0e0e0);">
+
+    <!-- Header -->
+    <Label layoutX="20" layoutY="20"
+           text="📘 Add New Course"
+           style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <!-- Form Container -->
+    <VBox layoutX="50" layoutY="70" spacing="15" prefWidth="500.0">
+
+        <!-- Course Name -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Course Name:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
+            <TextField fx:id="nameField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Matiere ID -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Matiere ID:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
+            <TextField fx:id="matiereIdField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Classe ID -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Classe ID:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
+            <TextField fx:id="classIdField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- Chapter Number -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Chapter Number:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
+            <TextField fx:id="chapterNumberField" prefWidth="350.0"/>
+        </HBox>
+
+        <!-- PDF Upload -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Upload PDF:" style="-fx-font-weight: bold; -fx-min-width: 120;"/>
+            <Button text="Choose File"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white;"
+                    onAction="#handleChooseFile"/>
+            <Label fx:id="statusLabel" style="-fx-text-fill: #2c3e50;"/>
+        </HBox>
+
+        <!-- Buttons -->
+        <HBox spacing="20" alignment="CENTER_RIGHT" style="-fx-padding: 20 0 0 0;">
+            <Button text="Cancel"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white;"
+                    onAction="#handleCancel"/>
+            <Button text="Save"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white;"
+                    onAction="#handleSave"/>
+        </HBox>
+    </VBox>
+
+</AnchorPane>

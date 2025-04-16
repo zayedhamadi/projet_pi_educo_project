@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Farouk.Controller.ListMatiereController"
+      stylesheets="@Css/Matiere-style.css"
+      spacing="10" style="-fx-padding: 20;">
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="List of Matieres" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <Button text="Add New Matiere" onAction="#goToAddMatiere"
+                style="-fx-background-color: #2ecc71; -fx-text-fill: white;"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Search..." prefWidth="300"/>
+        <Button text="Search" onAction="#handleSearch"/>
+    </HBox>
+
+    <TableView fx:id="matiereTable" prefHeight="400">
+        <columns>
+            <TableColumn fx:id="enseignantIdCol" text="Teacher ID" prefWidth="100"/>
+            <TableColumn fx:id="nomCol" text="Name" prefWidth="300"/>
+            <TableColumn fx:id="coeffCol" text="Coefficient" prefWidth="100"/>
+            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120">
+                <cellValueFactory>
+                    <PropertyValueFactory property="dummy" /> <!-- Needed for the column to show -->
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+    </TableView>
+</VBox>
