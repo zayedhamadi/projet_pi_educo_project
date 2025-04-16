@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Aziz.Controller.AfficherQuizController"
+            prefHeight="500.0" prefWidth="800.0"
+            style="-fx-background-color: #ffffff; -fx-padding: 20px;">
+
+    <!-- Title -->
+    <Text text="Gestion des Quiz" layoutX="270" layoutY="20"
+          style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+
+    <!-- Add Quiz Button -->
+    <Button fx:id="addButton" layoutX="20.0" layoutY="60.0" text="Ajouter un Quiz"
+            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+
+    <!-- Quiz Table -->
+    <TableView fx:id="quizTable" layoutX="20.0" layoutY="120.0" prefHeight="350.0" prefWidth="900.0"
+               style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
+        <columns>
+            <TableColumn fx:id="titreColumn" text="TITRE" prefWidth="200"/>
+            <TableColumn fx:id="classeColumn" text="CLASSE" prefWidth="80"/>
+            <TableColumn fx:id="matiereColumn" text="MATIÈRE" prefWidth="150"/>
+            <TableColumn fx:id="coursColumn" text="COURS" prefWidth="150"/>
+            <TableColumn fx:id="dateColumn" text="DATE D'AJOUT" prefWidth="120"/>
+            <TableColumn fx:id="actionsColumn" text="ACTIONS" prefWidth="200"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

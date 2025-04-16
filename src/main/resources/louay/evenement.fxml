@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="pi_project.louay.Controller.EvenementController">
+    <children>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 20;">
+            <!-- Titre -->
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Liste des événements" />
+
+            <!-- Tableau des événements -->
+            <TableView fx:id="eventTable" editable="false" prefHeight="398.0" prefWidth="699.0">
+                <columns>
+                    <TableColumn fx:id="titreColumn" text="Titre" />
+                    <TableColumn fx:id="descriptionColumn" text="Description" />
+                    <TableColumn fx:id="dateDebutColumn" text="Date Début" />
+                    <TableColumn fx:id="dateFinColumn" text="Date Fin" />
+                    <TableColumn fx:id="lieuColumn" text="Lieu" />
+                    <TableColumn fx:id="inscriptionColumn" text="Inscription Requise" />
+                    <TableColumn fx:id="nombrePlacesColumn" text="Nombre de Places" />
+                    <TableColumn fx:id="typeColumn" text="Type d'événement" />
+                    <TableColumn fx:id="actionsColumn" text="Actions" />
+                </columns>
+            </TableView>
+         <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="722.0">
+            <children>
+      
+                  <!-- Bouton pour créer un événement -->
+                  <Button  text="Créer un événement" />
+            </children>
+         </HBox>
+        </VBox>
+    </children>
+</AnchorPane>

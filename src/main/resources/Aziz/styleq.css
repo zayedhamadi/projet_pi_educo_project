@@ -1,0 +1,57 @@
+/* Form Styles */
+.form-container {
+    -fx-padding: 25;
+    -fx-background-color: #f8f9fa;
+}
+
+.form-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 15 0;
+}
+
+.form-grid {
+    -fx-padding: 10;
+}
+
+.form-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+.form-field, .form-textarea, .form-combo {
+    -fx-min-width: 300px;
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+}
+
+.form-textarea {
+    -fx-pref-height: 80px;
+}
+
+/* Button Styles */
+.button-container {
+    -fx-padding: 15 0 0 0;
+}
+
+.add-button {
+    -fx-background-color: #17a2b8;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.save-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+}
+
+.cancel-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+}

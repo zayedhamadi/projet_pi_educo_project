@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.ModifierQuestionController"
+      spacing="15"
+      alignment="CENTER_LEFT"
+      styleClass="modify-form"
+      stylesheets="@stylemodif.css"
+      prefWidth="450"
+      prefHeight="500">
+
+    <Label text="Modifier Question" styleClass="form-title"/>
+
+    <GridPane hgap="10" vgap="15">
+        <Label text="Texte de la Question:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextArea fx:id="contenuField"
+                  GridPane.columnIndex="1"
+                  GridPane.rowIndex="0"
+                  wrapText="true"
+                  prefRowCount="3"/>
+
+        <Label text="Options:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <VBox fx:id="optionsContainer" GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="5"/>
+
+        <Button text="Ajouter Option" onAction="#addOptionField"
+                GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="add-button"/>
+
+        <Label text="Réponse Correcte:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="reponseField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Quiz associé:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ComboBox fx:id="quizCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" styleClass="cancel-button" onAction="#handleCancel"/>
+        <Button text="Enregistrer" styleClass="save-button" onAction="#handleSave"/>
+    </HBox>
+</VBox>

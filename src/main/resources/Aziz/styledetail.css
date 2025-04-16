@@ -1,0 +1,64 @@
+/* Details Container */
+.details-container {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 25;
+    -fx-spacing: 20;
+}
+
+/* Title */
+.details-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Details Grid Layout */
+.details-grid {
+    -fx-padding: 10;
+    -fx-hgap: 15;
+    -fx-vgap: 10;
+}
+
+/* Detail Labels */
+.detail-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+    -fx-font-size: 14px;
+}
+
+/* Detail Values */
+.detail-value {
+    -fx-text-fill: #212529;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+    -fx-max-width: 250px;
+}
+
+/* Back Button */
+.back-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-border-radius: 4px;
+}
+
+.back-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+.back-button:pressed {
+    -fx-background-color: #545b62;
+}
+/* Add this to your existing CSS */
+.add-button {
+    -fx-background-color: #28a745; /* Green color */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+}
+
+.add-button:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}

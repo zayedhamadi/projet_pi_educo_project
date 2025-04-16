@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Aziz.Controller.AjouterQuestionController"
+      spacing="15"
+      alignment="TOP_CENTER"
+      styleClass="form-container"
+      stylesheets="@styleq.css"
+      prefWidth="500"
+      prefHeight="600">
+
+    <Label text="Ajouter une Nouvelle Question" styleClass="form-title"/>
+
+    <GridPane hgap="15" vgap="15" styleClass="form-grid">
+        <Label text="Question:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label"/>
+        <TextArea fx:id="questionText" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                  styleClass="form-textarea" wrapText="true" prefRowCount="3"/>
+
+        <Label text="Options:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label"/>
+        <VBox fx:id="optionsContainer" GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="5">
+            <!-- Options will be added dynamically -->
+        </VBox>
+
+        <Button text="Ajouter Option" onAction="#addOptionField"
+                GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="add-button"/>
+
+        <Label text="Réponse Correcte:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label"/>
+        <TextField fx:id="correctAnswerField" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                   styleClass="form-field"/>
+
+        <Label text="Quiz:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label"/>
+        <ComboBox fx:id="quizCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                  styleClass="form-combo"/>
+    </GridPane>
+
+    <HBox spacing="20" alignment="CENTER_RIGHT" styleClass="button-container">
+        <Button text="Annuler" styleClass="cancel-button" onAction="#handleCancel"/>
+        <Button text="Enregistrer" styleClass="save-button" onAction="#handleSave"/>
+    </HBox>
+</VBox>

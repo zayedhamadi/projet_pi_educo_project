@@ -26,6 +26,9 @@ public class ModifierProduitView {
     private TextField tfNom;
 
     @FXML
+    private TextField tfid;
+
+    @FXML
     private TextArea tfDescription;
 
     @FXML
@@ -48,6 +51,7 @@ public class ModifierProduitView {
 
     public void setProduit(Produit p) {
         this.produit = p;
+        tfid.setText(String.valueOf(p.getId()));
         tfNom.setText(p.getNom());
         tfDescription.setText(p.getDescription());
         tfPrix.setText(String.valueOf(p.getPrix()));
@@ -85,6 +89,7 @@ public class ModifierProduitView {
     private void modifierProduit() {
         try {
             String nom = tfNom.getText();
+            int id=Integer.parseInt(tfid.getText());
             String description = tfDescription.getText();
             double prix = Double.parseDouble(tfPrix.getText());
             int stock = Integer.parseInt(tfStock.getText());
@@ -120,8 +125,8 @@ public class ModifierProduitView {
             alert.showAndWait();
 
             Stage stage = (Stage) tfNom.getScene().getWindow();
-            stage.close();
-
+//            stage.close();
+            retourListe();
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Veuillez entrer des valeurs valides pour le prix et le stock.");
         } catch (Exception e) {
@@ -154,4 +159,59 @@ public class ModifierProduitView {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    @FXML
+    private void annuler() {
+        // Réinitialiser les champs avec les valeurs initiales
+        tfNom.setText(produit.getNom());
+        tfDescription.setText(produit.getDescription());
+        tfPrix.setText(String.valueOf(produit.getPrix()));
+        tfStock.setText(String.valueOf(produit.getStock()));
+
+        // Réinitialiser le ComboBox des catégories
+        categorieComboBox.getItems().clear();  // Vider les éléments du ComboBox
+        List<Categorie> categories = categorieService.getAll();
+        for (Categorie c : categories) {
+            categorieComboBox.getItems().add(c.getNom());
+        }
+
+        // Sélectionner la catégorie de produit actuelle dans le ComboBox
+        categorieComboBox.setValue(categorieService.getNomCategorieParId(produit.getCategorieId()));
+
+        // Réinitialiser l'image
+        if (produit.getImage() != null && !produit.getImage().isEmpty()) {
+            imageView.setImage(new Image(produit.getImage()));
+        } else {
+            imageView.setImage(null);  // Si aucune image n'est définie
+        }
+
+        // Réinitialiser le chemin de l'image sélectionnée
+        selectedImage = new File(produit.getImage() != null ? produit.getImage() : "");
+    }
+
+//    @FXML
+//    private void annuler() {
+//        // Vider les champs de texte
+//        tfNom.clear();
+//        tfDescription.clear();
+//        tfPrix.clear();
+//        tfStock.clear();
+//        categorieComboBox.getSelectionModel().clearSelection();
+//        imageView.setImage(null);
+//        selectedImage = null;
+//    }
+
+    @FXML
+    private void retourListe() {
+        try {
+            // Charger la vue de la liste des produits
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) tfNom.getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des produits.");
+        }
+    }
+
 }
