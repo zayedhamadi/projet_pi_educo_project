@@ -21,11 +21,13 @@
               spacing="15" alignment="TOP_CENTER" prefWidth="200">
 
             <!-- Logo/Titre -->
-            <Label text="Enseignant Dahboard" style="-fx-text-fill: white; -fx-font-size: 10px;
+            <Label text="Enseignant Dahboard" style="-fx-text-fill: white; -fx-font-size: 18px;
                   -fx-font-weight: bold; -fx-padding: 30 0 20 0;" />
 
             <!-- Boutons sidebar -->
             <Button text="Quiz" onAction="#showquiz" styleClass="modern-sidebar-btn" />
+            <Button text="Question" onAction="#showquestion" styleClass="modern-sidebar-btn" />
+
         </VBox>
     </left>
 

@@ -14,22 +14,20 @@ public class EnseignantlyoutController {
     private StackPane contentPane;
 
     // Méthode pour afficher ProduitView dans le center
-    @FXML
-    public void showProduitView() {
-        loadView("/Saif/ProduitView.fxml");
-    }
 
-    @FXML
-    public void showCategorieView() {
-        loadView("/Saif/CategorieView.fxml");
-    }
+
+
+
+
     @FXML
 
     public void showquiz() {
         loadView("/Aziz/afficherquiz.fxml");
     }
-    public void initialize() {
-        showCategorieView(); // charge la vue par défaut
+    public void showquestion() {
+        loadView("/Aziz/afficherquestion.fxml");
+    }
+    public void initialize() {showquiz();
     }
     private void loadView(String fxmlPath) {
         try {
@@ -39,6 +37,7 @@ public class EnseignantlyoutController {
             e.printStackTrace();
         }
     }
+
 
 
 }

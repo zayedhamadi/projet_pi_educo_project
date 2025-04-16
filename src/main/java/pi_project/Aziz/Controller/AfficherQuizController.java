@@ -69,8 +69,14 @@ public class AfficherQuizController {
 
             {
                 editBtn.getStyleClass().add("action-button");
+                editBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
                 deleteBtn.getStyleClass().add("action-button");
+                deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
                 detailsBtn.getStyleClass().add("action-button");
+                detailsBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
 
                 editBtn.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
@@ -174,24 +180,17 @@ public class AfficherQuizController {
 
     private void navigateToAddQuiz() {
         try {
-            // Load the FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/ajouterQuiz.fxml"));
-            Parent view = loader.load();
-
-            // Get the content pane from the main layout
-            StackPane contentPane = (StackPane) quizTable.getScene().lookup("#contentPane");
-
-            // Replace the center content
-            contentPane.getChildren().setAll(view);
-
-
-
+            Parent root = FXMLLoader.load(getClass().getResource("/Aziz/ajouterQuiz.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setOnHidden(e -> loadQuizzes()); // Refresh when window closes
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger le formulaire d'ajout.");
         }
     }
-
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
