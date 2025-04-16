@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.ConsulterUserProfileController"
+            stylesheets="@css/profilUser.css"
+            prefWidth="800" prefHeight="1800">
+
+    <!-- En-tête -->
+    <top>
+        <HBox alignment="CENTER" styleClass="header-bar">
+            <Label text="Consulter Profil Enseignant" styleClass="header-title"/>
+        </HBox>
+    </top>
+
+    <!-- Contenu principal - maintenant dans un ScrollPane pour gérer le contenu long -->
+    <center>
+        <ScrollPane fitToWidth="true">
+            <VBox spacing="20" alignment="TOP_CENTER" styleClass="content-container"
+                  prefWidth="780" prefHeight="550">
+                <!-- Photo de profil -->
+                <StackPane>
+                    <ImageView fx:id="profileImage" fitWidth="150" fitHeight="150" styleClass="profile-image">
+                        <clip>
+                            <Circle centerX="75" centerY="75" radius="75"/>
+                        </clip>
+                    </ImageView>
+                </StackPane>
+
+                <!-- Informations personnelles -->
+                <VBox spacing="10" styleClass="info-section" prefWidth="750">
+                    <Label text="Informations Personnelles" styleClass="section-title"/>
+
+                    <GridPane hgap="20" vgap="10" styleClass="info-grid" prefWidth="700">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" prefWidth="200"/>
+                            <ColumnConstraints halignment="LEFT" prefWidth="500"/>
+                        </columnConstraints>
+
+                        <Label text="Nom :" styleClass="info-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="nom" editable="false" styleClass="info-field" GridPane.rowIndex="0"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Prénom :" styleClass="info-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="prenom" editable="false" styleClass="info-field" GridPane.rowIndex="1"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Email :" styleClass="info-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="email" editable="false" styleClass="info-field" GridPane.rowIndex="2"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Téléphone :" styleClass="info-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="numTel" editable="false" styleClass="info-field" GridPane.rowIndex="3"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Adresse :" styleClass="info-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextField fx:id="adresse" editable="false" styleClass="info-field" GridPane.rowIndex="4"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Date de naissance :" styleClass="info-label" GridPane.rowIndex="5"
+                               GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="dateNaissance" editable="false" styleClass="info-field" GridPane.rowIndex="5"
+                                    GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Genre :" styleClass="info-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                        <TextField fx:id="genre" editable="false" styleClass="info-field" GridPane.rowIndex="6"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- Informations professionnelles -->
+                <VBox spacing="10" styleClass="info-section" prefWidth="750">
+                    <Label text="Informations Professionnelles" styleClass="section-title"/>
+
+                    <GridPane hgap="20" vgap="10" styleClass="info-grid" prefWidth="700">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" prefWidth="200"/>
+                            <ColumnConstraints halignment="LEFT" prefWidth="500"/>
+                        </columnConstraints>
+
+                        <Label text="Rôle :" styleClass="info-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="roles" editable="false" styleClass="info-field" GridPane.rowIndex="0"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="État du compte :" styleClass="info-label" GridPane.rowIndex="1"
+                               GridPane.columnIndex="0"/>
+                        <TextField fx:id="etatCompte" editable="false" styleClass="info-field" GridPane.rowIndex="1"
+                                   GridPane.columnIndex="1" prefWidth="450"/>
+
+                        <Label text="Description :" styleClass="info-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="description" editable="false" styleClass="info-textarea"
+                                  GridPane.rowIndex="2" GridPane.columnIndex="1"
+                                  prefWidth="450" prefHeight="100" wrapText="true"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="15" alignment="CENTER" styleClass="button-bar">
+                    <Button text="Cesser cet utilisateur" fx:id="CesserProfileButton"
+                            styleClass="action-button" prefWidth="200" onAction="#handleCesserUser"/>
+                    <Button text="Retour à la liste" fx:id="retourButton"
+                            styleClass="action-button" prefWidth="200" onAction="#handleRetour"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

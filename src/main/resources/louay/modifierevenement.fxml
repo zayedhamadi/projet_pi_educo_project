@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="pi_project.louay.Controller.EvenementController">
+    <VBox layoutX="10.0" prefHeight="474.0" prefWidth="480.0" spacing="10" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+        <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Créer un événement" />
+
+        <TextField fx:id="titreField" promptText="Titre de l'événement" />
+        <TextArea fx:id="descriptionField" promptText="Description de l'événement" />
+        <DatePicker fx:id="dateDebutPicker" promptText="Date de début" />
+        <DatePicker fx:id="dateFinPicker" promptText="Date de fin" />
+        <TextField fx:id="lieuField" promptText="Lieu de l'événement" />
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <CheckBox fx:id="inscriptionRequiseCheckBox" text="Inscription requise" />
+            <TextField fx:id="nombrePlacesField" promptText="Nombre de places disponibles" />
+        </HBox>
+
+        <ComboBox fx:id="typeComboBox" promptText="Type d'événement" />
+
+        <HBox spacing="15">
+            <Button fx:id="retourButton"  text="Retour" />
+            <Button fx:id="modifierButton"  text="Mettre à jour" />
+        </HBox>
+    </VBox>
+</AnchorPane>

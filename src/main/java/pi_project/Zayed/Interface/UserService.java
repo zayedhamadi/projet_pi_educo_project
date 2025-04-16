@@ -9,7 +9,6 @@ public interface UserService<T> {
 
     void addUser(T user);
 
-    void cesserUser(int id);
 
     User  updateUser(User user);
 
