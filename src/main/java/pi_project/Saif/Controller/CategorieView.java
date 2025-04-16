@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -42,6 +43,8 @@ public class CategorieView {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 
         // Créer une cellule personnalisée pour la colonne Actions
         colActions.setCellFactory(new Callback<TableColumn<Categorie, String>, TableCell<Categorie, String>>() {
@@ -54,9 +57,14 @@ public class CategorieView {
                         if (empty) {
                             setGraphic(null);
                         } else {
+
                             // Créer les boutons de modification et suppression
                             Button editButton = new Button("Modifier");
+                            editButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
                             Button deleteButton = new Button("Supprimer");
+                            deleteButton.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
 
                             // Ajout de l'action de modification
                             editButton.setOnAction(event -> {
@@ -94,27 +102,46 @@ public class CategorieView {
     }
 
     // Méthode pour modifier une catégorie
+//    private void modifierCategorie(Categorie categorie) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierCategorieView.fxml"));
+//            Stage stage = new Stage();
+//            stage.setTitle("Modifier une catégorie");
+//            stage.setScene(new Scene(loader.load()));
+//
+//            // Passer l'objet catégorie à la fenêtre de modification
+//            ModifierCategorieView controller = loader.getController();  // Récupérer le contrôleur
+//            controller.setCategorie(categorie);// Passer la catégorie au contrôleur
+//            controller.setCategorieView(this);
+//
+////            loadCategories();//Lyouminchallah
+//            stage.show();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de modification");
+//        }
+//    }
+
     private void modifierCategorie(Categorie categorie) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierCategorieView.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Modifier une catégorie");
-            stage.setScene(new Scene(loader.load()));
+            Parent root = loader.load();
 
-            // Passer l'objet catégorie à la fenêtre de modification
-            ModifierCategorieView controller = loader.getController();  // Récupérer le contrôleur
-            controller.setCategorie(categorie);// Passer la catégorie au contrôleur
+            ModifierCategorieView controller = loader.getController();
+            controller.setCategorie(categorie);
             controller.setCategorieView(this);
 
-//            loadCategories();//Lyouminchallah
-            stage.show();
+            // Remplacer le contenu de la scène actuelle
+            Stage currentStage = (Stage) tableView.getScene().getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.setTitle("Modifier une catégorie");
 
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre de modification");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page de modification");
         }
     }
-
 
     // Méthode pour supprimer une catégorie
     private void supprimerCategorie(Categorie categorie) {
@@ -129,21 +156,40 @@ public class CategorieView {
     }
 
     // Méthode pour ajouter une catégorie
+//    @FXML
+//    private void ajouterCategorie() {
+//        try {
+//            // Charger la fenêtre de l'ajout de catégorie
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
+//            Stage stage = new Stage();
+//            stage.setTitle("Ajouter une catégorie");
+//            stage.setScene(new Scene(loader.load()));
+//            // 👇 Passer le contrôleur principal à la vue ajout
+//            CategorieAdd controller = loader.getController();
+//            controller.setCategorieView(this);
+//            stage.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre d'ajout");
+//        }
+//    }
     @FXML
     private void ajouterCategorie() {
         try {
-            // Charger la fenêtre de l'ajout de catégorie
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Ajouter une catégorie");
-            stage.setScene(new Scene(loader.load()));
-            // 👇 Passer le contrôleur principal à la vue ajout
+            Parent root = loader.load();
+
             CategorieAdd controller = loader.getController();
             controller.setCategorieView(this);
-            stage.show();
+
+            // Remplacer le contenu de la scène actuelle
+            Stage currentStage = (Stage) tableView.getScene().getWindow();
+            currentStage.setScene(new Scene(root));
+            currentStage.setTitle("Ajouter une catégorie");
+
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre d'ajout");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
         }
     }
 

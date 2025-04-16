@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="sidebar" spacing="10" id="sidebar"
+      prefWidth="200"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Saif.Controller.SidebarController">
+
+    <Label text="🏫 SchoolApp"
+           style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 20 0 20 10;"/>
+
+    <Button text="🏠 Accueil" onAction="#handleAccueil" styleClass="sidebar-btn"/>
+    <Button text="🛒 Gestion Produit" onAction="#handleProduit" styleClass="sidebar-btn"/>
+    <Button text="📦 Gestion Catégorie" onAction="#handleCategorie" styleClass="sidebar-btn"/>
+<!--    <Button text="⚙️ Paramètres" onAction="#handleSettings" styleClass="sidebar-btn"/>-->
+
+</VBox>

@@ -1,7 +1,7 @@
 package pi_project.louay.Service;
 
 import pi_project.louay.Entity.evenement;
-import pi_project.louay.Interface.Ieventservice;
+import pi_project.louay.Interface.Ievenementservice;
 import pi_project.db.DataSource;
 
 import java.sql.*;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class evenementImp implements Ieventservice<evenement> {
+public class evenementImp implements Ievenementservice<evenement> {
 
     private final Connection cnx;
 
@@ -28,7 +28,12 @@ public class evenementImp implements Ieventservice<evenement> {
             pst.setTimestamp(4, Timestamp.valueOf(e.getDateFin().atStartOfDay()));
             pst.setString(5, e.getLieu());
             pst.setBoolean(6, e.isInscriptionRequise());
-            pst.setInt(7, e.getNombrePlaces());
+            if (e.getNombrePlaces() != null) {
+                pst.setInt(7, e.getNombrePlaces());
+            } else {
+                pst.setNull(7, Types.INTEGER);
+            }
+
             pst.setString(8, e.getType().name());
 
             pst.executeUpdate();
@@ -49,7 +54,12 @@ public class evenementImp implements Ieventservice<evenement> {
             pst.setTimestamp(4, Timestamp.valueOf(e.getDateFin().atStartOfDay()));
             pst.setString(5, e.getLieu());
             pst.setBoolean(6, e.isInscriptionRequise());
-            pst.setInt(7, e.getNombrePlaces());
+            if (e.getNombrePlaces() != null) {
+                pst.setInt(7, e.getNombrePlaces());
+            } else {
+                pst.setNull(7, Types.INTEGER);
+            }
+
             pst.setString(8, e.getType().name());
             pst.setInt(9, e.getId());
 
@@ -62,15 +72,27 @@ public class evenementImp implements Ieventservice<evenement> {
 
     @Override
     public void supprimer(evenement e) {
-        String sql = "DELETE FROM evenement WHERE id=?";
-        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, e.getId());
-            pst.executeUpdate();
-            System.out.println("Événement supprimé !");
+        try {
+            // Supprimer les inscriptions liées à cet événement
+            String deleteInscriptions = "DELETE FROM inscription_evenement WHERE evenement_id = ?";
+            try (PreparedStatement pst = cnx.prepareStatement(deleteInscriptions)) {
+                pst.setInt(1, e.getId());
+                pst.executeUpdate();
+            }
+
+            // Puis supprimer l'événement
+            String deleteEvent = "DELETE FROM evenement WHERE id = ?";
+            try (PreparedStatement pst = cnx.prepareStatement(deleteEvent)) {
+                pst.setInt(1, e.getId());
+                pst.executeUpdate();
+                System.out.println("Événement et inscriptions supprimés !");
+            }
+
         } catch (SQLException ex) {
             System.out.println("Erreur suppression événement : " + ex.getMessage());
         }
     }
+
 
     @Override
     public List<evenement> getAll() {

@@ -15,5 +15,8 @@ public interface Ieventservice<T> {
 
     List<T> getAll();
 
+    List<T> getReservationsForParent(int id);
+
+    boolean estDejaInscrit(int enfantId, int evenementId);
 
 }

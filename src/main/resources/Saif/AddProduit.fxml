@@ -1,37 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.stage.FileChooser?>
+<?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="pi_project.Saif.Controller.AddProduit" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #ffffff; -fx-padding: 20px;">
+<BorderPane prefHeight="500.0" prefWidth="700.0" stylesheets="@styles.css"
+            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="pi_project.Saif.Controller.AddProduit">
 
-    <!-- Titre -->
-    <Label text="Ajouter un Nouveau Produit" layoutX="200" layoutY="20" style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 30px; -fx-background-color: #f4f7fb;">
+            <!-- Titre -->
+            <Label text="Ajouter un Nouveau Produit"
+                   style="-fx-font-size: 22px; -fx-font-weight: 600; -fx-text-fill: #2c3e50; -fx-font-family: 'Segoe UI', sans-serif;"/>
 
-    <!-- Champ Nom du produit -->
-    <TextField fx:id="nomField" promptText="Nom du produit" layoutX="100" layoutY="70" prefWidth="400" style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+            <!-- Formulaire -->
+            <GridPane hgap="15" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="65"/>
+                </columnConstraints>
+                <padding>
+                    <Insets top="5" right="5" bottom="5" left="5"/>
+                </padding>
 
-    <!-- Champ Description du produit -->
-    <TextArea fx:id="descriptionField" promptText="Description du produit" wrapText="true" layoutX="100" layoutY="130" prefWidth="400" prefHeight="80" style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+                <!-- Nom -->
+                <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <TextField fx:id="nomField" promptText="Nom du produit" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="input"/>
 
-    <!-- Champ Prix -->
-    <TextField fx:id="prixField" promptText="Prix" layoutX="100" layoutY="230" prefWidth="400" style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+                <!-- Description -->
+                <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <TextArea fx:id="descriptionField" promptText="Description du produit" GridPane.rowIndex="1" GridPane.columnIndex="1" prefRowCount="2" styleClass="input" wrapText="true"/>
 
-    <!-- Champ Stock -->
-    <TextField fx:id="stockField" promptText="Stock" layoutX="100" layoutY="290" prefWidth="400" style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+                <!-- Prix -->
+                <Label text="Prix:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <TextField fx:id="prixField" promptText="Prix" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="input"/>
 
-    <!-- Sélection de l'image -->
-    <Label text="Choisir une image" layoutX="100" layoutY="350" style="-fx-font-size: 14px; -fx-text-fill: #333;"/>
-    <Button text="Choisir Image" layoutX="100" layoutY="380" onAction="#choisirImage" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 8px 16px;"/>
-    <ImageView fx:id="imageView" layoutX="250" layoutY="380" fitHeight="100" fitWidth="100" style="-fx-border-radius: 5px; -fx-border-color: #ddd; -fx-border-width: 1px;"/>
+                <!-- Stock -->
+                <Label text="Stock:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <TextField fx:id="stockField" promptText="Stock" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="input"/>
 
-    <!-- Sélection de la catégorie -->
-    <ComboBox fx:id="categorieComboBox" layoutX="100" layoutY="450" prefWidth="400" style="-fx-border-radius: 8px; -fx-border-color: #ccc; -fx-background-color: #f9f9f9; -fx-font-size: 14px; -fx-padding: 10px;"/>
+                <!-- Catégorie -->
+                <Label text="Catégorie:" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <ComboBox fx:id="categorieComboBox" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="input"/>
 
-    <!-- Bouton Ajouter Produit -->
-    <Button text="Ajouter Produit" layoutX="250" layoutY="510" onAction="#ajouterProduit" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+                <!-- Image -->
+                <Label text="Image:" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-font-size: 13px; -fx-font-weight: 500;"/>
+                <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                    <Button fx:id="btnChoisirImage" onAction="#choisirImage" text="Choisir Image"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-font-size: 13px; -fx-padding: 6px 12px;"/>
+                    <ImageView fx:id="imageView" fitHeight="80" fitWidth="80"
+                               style="-fx-border-radius: 5px; -fx-border-color: #ddd; -fx-border-width: 1px;"/>
+                </HBox>
+            </GridPane>
 
-</AnchorPane>
+            <!-- Bouton Ajouter -->
+            <!-- Boutons de bas de formulaire organisés -->
+            <HBox spacing="20" alignment="CENTER" prefWidth="600">
+                <!-- Bouton gauche -->
+                <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                    <Hyperlink text="⟵ Retour à la liste" onAction="#retourListeProduits"
+                               style="-fx-text-fill: #3498db; -fx-font-size: 18px; -fx-cursor: hand;"/>
+                </HBox>
+
+
+                <!-- Boutons droite -->
+                <HBox spacing="10" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                    <Button text="Annuler" onAction="#annulerFormulaire"
+                            style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 8px 16px; -fx-font-size: 13px;"/>
+                    <Button text="Ajouter Produit" onAction="#ajouterProduit"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </HBox>
+            </HBox>
+
+        </VBox>
+    </center>
+</BorderPane>

@@ -14,47 +14,49 @@ import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.AuthenticationImpl;
 import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
+import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.Zayed.Utils.session;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
-public class ProfilAdminConnecteController {
-
+public class ProfilParentController {
     private final UserImpl userService = new UserImpl();
     AuthenticationImpl authentication = new AuthenticationImpl();
+    FileChooser fileChooser = new FileChooser();
+    private User user;
+    private boolean editMode = false;
+    private String newImagePath;
     @FXML
-    private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte, description;
+    private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte;
+    @FXML
+    private TextArea description;
     @FXML
     private PasswordField password;
     @FXML
-    private Button editProfileButton, saveProfileButton, dashboardButton, usersButton, logoutButton, changeImageButton;
+    private Button editProfileButton, saveProfileButton, logoutButton, changeImageButton;
     @FXML
     private DatePicker dateNaissance;
-    private User user;
-    private boolean editMode = false;
+
     @FXML
     private ImageView profileImage;
-    private String newImagePath;
 
     @FXML
     public void initialize() {
-
         loadUserData();
         setupButtonActions();
     }
 
     private void loadUserData() {
-        // Get the logged-in user's ID from session
-        Integer userId = session.getUserSession();
+        Integer userId;
+        userId = session.getUserSession();
 
         if (userId != null) {
-            // Fetch user data from database
             user = userService.getSpeceficUser(userId);
 
             if (user != null) {
-                // Display user data in the form
                 displayUserData();
             } else {
                 Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les données utilisateur", "");
@@ -66,14 +68,12 @@ public class ProfilAdminConnecteController {
     }
 
     private void displayUserData() {
-        // Basic information
         nom.setText(user.getNom());
         prenom.setText(user.getPrenom());
         email.setText(user.getEmail());
         numTel.setText(String.valueOf(user.getNum_tel()));
         adresse.setText(user.getAdresse());
 
-        // Date formatting
         if (user.getDate_naissance() != null) {
             dateNaissance.setValue(user.getDate_naissance());
         }
@@ -91,24 +91,16 @@ public class ProfilAdminConnecteController {
 
         password.setText("********");
 
-        // Gestion de l'image - Utilisation de la même méthode que dans listActifUserController
-        Constant constant = new Constant();
         Image image = this.loadImageFromPath(user.getImage());
-        if (image != null) {
-            profileImage.setImage(image);
-        } else {
-            // Image par défaut si aucune image n'est trouvée
-            profileImage.setImage(new Image(getClass().getResourceAsStream("/images/default-profile.png")));
-        }
+        profileImage.setImage(Objects.requireNonNullElseGet(image, () -> new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")))));
     }
 
     public Image loadImageFromPath(String path) {
         if (path == null || path.isEmpty()) {
-            return new Image(getClass().getResourceAsStream("/images/default-profile.png"));
+            return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
         }
 
         try {
-            // Extraire seulement le nom du fichier si le chemin contient "uploads/"
             String imageName = path.startsWith("uploads/")
                     ? path.substring("uploads/".length())
                     : path;
@@ -122,27 +114,14 @@ public class ProfilAdminConnecteController {
         } catch (Exception e) {
             System.out.println("Erreur de chargement de l'image: " + e.getMessage());
         }
-        return new Image(getClass().getResourceAsStream("/images/default-profile.png"));
+        return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
     }
 
 
     private void setupButtonActions() {
-        // Edit Profile Button
         editProfileButton.setOnAction(event -> toggleEditMode());
-
-        // Save Profile Button
         saveProfileButton.setOnAction(event -> saveProfileChanges());
-
-        // Change Image Button
         changeImageButton.setOnAction(event -> changeProfileImage());
-
-        // Dashboard Button
-        dashboardButton.setOnAction(event -> redirectToDashboard());
-
-        // Users Button
-        usersButton.setOnAction(event -> redirectToUsers());
-
-        // Logout Button
         logoutButton.setOnAction(event -> logout());
     }
 
@@ -150,7 +129,6 @@ public class ProfilAdminConnecteController {
         editMode = !editMode;
 
         if (editMode) {
-            // Enable editing
             nom.setEditable(true);
             prenom.setEditable(true);
             numTel.setEditable(true);
@@ -158,14 +136,12 @@ public class ProfilAdminConnecteController {
             dateNaissance.setEditable(true);
             description.setEditable(true);
             changeImageButton.setVisible(true);
-
-            // Show save button
+            password.setEditable(true);
+            password.setText("");
             saveProfileButton.setDisable(false);
 
-            // Change edit button text
             editProfileButton.setText("Annuler");
         } else {
-            // Disable editing
             nom.setEditable(false);
             prenom.setEditable(false);
             numTel.setEditable(false);
@@ -173,21 +149,16 @@ public class ProfilAdminConnecteController {
             dateNaissance.setEditable(false);
             description.setEditable(false);
             changeImageButton.setVisible(false);
+            password.setEditable(false);
+            password.setText("********");
             newImagePath = null;
-
-            // Hide save button
             saveProfileButton.setDisable(true);
-
-            // Reset edit button text
             editProfileButton.setText("Modifier le Profil");
-
-            // Reload original data
             displayUserData();
         }
     }
 
     private void changeProfileImage() {
-        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image de profil");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
@@ -205,7 +176,6 @@ public class ProfilAdminConnecteController {
                 String originalFileName = selectedFile.getName();
                 String destPath = destDir + originalFileName;
 
-                // Gestion des doublons
                 File destinationFile = new File(destPath);
                 int counter = 1;
                 while (destinationFile.exists()) {
@@ -223,7 +193,6 @@ public class ProfilAdminConnecteController {
 
                 profileImage.setImage(new Image(destinationFile.toURI().toString()));
 
-                // Stocker uniquement le nom du fichier (sans "uploads/")
                 newImagePath = originalFileName;
 
             } catch (Exception e) {
@@ -234,13 +203,14 @@ public class ProfilAdminConnecteController {
 
     private void saveProfileChanges() {
         try {
-            // Validation des champs
             if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()) {
                 Constant.showAlert(Alert.AlertType.WARNING, "Champs obligatoires", "Veuillez remplir tous les champs obligatoires", "");
                 return;
             }
-
-            // Mettre à jour l'objet user
+            if (!password.getText().isEmpty() && !password.getText().equals("********")) {
+                String hashedPwd = PasswordUtils.cryptPw(password.getText());
+                user.setPassword(hashedPwd);
+            }
             user.setNom(nom.getText());
             user.setPrenom(prenom.getText());
             user.setEmail(email.getText());
@@ -256,11 +226,8 @@ public class ProfilAdminConnecteController {
             user.setDate_naissance(dateNaissance.getValue());
             user.setDescription(description.getText());
 
-            // Gestion de l'image
             if (newImagePath != null) {
-                // Supprimer l'ancienne image si elle existe et si c'est une image différente
                 if (user.getImage() != null && !user.getImage().isEmpty()) {
-                    // Extraire seulement le nom du fichier si le chemin contient "uploads/"
                     String oldImageName = user.getImage().startsWith("uploads/")
                             ? user.getImage().substring("uploads/".length())
                             : user.getImage();
@@ -270,10 +237,9 @@ public class ProfilAdminConnecteController {
                         oldImage.delete();
                     }
                 }
-                user.setImage(newImagePath); // Stocke seulement le nom du fichier
+                user.setImage(newImagePath);
             }
 
-            // Mettre à jour dans la base de données
             User updatedUser = userService.updateUser(user);
             if (updatedUser != null) {
                 this.user = updatedUser;
@@ -289,33 +255,6 @@ public class ProfilAdminConnecteController {
         }
     }
 
-
-
-    private void redirectToDashboard() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/dashboard.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) dashboardButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Dashboard");
-        } catch (Exception e) {
-            Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder au dashboard", e.getMessage());
-        }
-    }
-
-    private void redirectToUsers() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/listActifUser.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) usersButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Gestion des Utilisateurs");
-        } catch (Exception e) {
-            Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'accéder à la gestion des utilisateurs", e.getMessage());
-        }
-    }
 
     private void redirectToLogin() {
         try {

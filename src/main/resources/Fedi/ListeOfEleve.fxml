@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane fx:id="rootPane" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.ListeOfEleve"
+            stylesheets="@css/style-listofclasse.css">
+
+    <top>
+        <VBox styleClass="header-box" spacing="10">
+            <Label text="Liste des Élèves" styleClass="title-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <GridPane fx:id="gridPane" hgap="10" vgap="10" styleClass="card-grid">
+                <!-- Les cartes des élèves seront ajoutées dynamiquement ici -->
+            </GridPane>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox styleClass="button-box" spacing="20" alignment="CENTER">
+            <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

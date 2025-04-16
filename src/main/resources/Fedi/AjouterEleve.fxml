@@ -62,11 +62,10 @@
 
                 <!-- Troisième rangée -->
                 <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    <Label text="ID Parent :" styleClass="form-label"/>
-                    <TextField fx:id="parentIdField" promptText="Entrez l'ID du parent" styleClass="form-field"/>
+                    <Label text="Parent :" styleClass="form-label"/>
+                    <ComboBox fx:id="parentComboBox" promptText="Sélectionnez le parent" styleClass="form-field"/>
                     <Label fx:id="parentErreur" styleClass="error-label"/>
                 </VBox>
-
                 <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <Label text="Moyenne :" styleClass="form-label"/>
                     <TextField fx:id="moyenneField" promptText="Entrez la moyenne" styleClass="form-field"/>
@@ -97,6 +96,7 @@
     <bottom>
         <HBox styleClass="button-box" spacing="15" alignment="CENTER">
             <Button text="Enregistrer" onAction="#handleSave" styleClass="action-button"/>
+            <Button text="Liste des Élèves" onAction="#handleListEleves" styleClass="export-button"/>
             <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
         </HBox>
     </bottom>

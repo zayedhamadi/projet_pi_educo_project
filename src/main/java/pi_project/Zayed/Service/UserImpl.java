@@ -4,13 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import org.mindrot.jbcrypt.BCrypt;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Genre;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Interface.UserService;
 import pi_project.Zayed.Utils.Mail;
+import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.db.DataSource;
 
 import javax.mail.MessagingException;
@@ -22,7 +22,6 @@ import java.util.Set;
 public class UserImpl implements UserService<User> {
     protected final String addUserrr = "INSERT INTO user (nom, prenom, adresse, description, num_tel, date_naissance, email, image, password, roles, etat_compte, genre) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     protected final String updateUserrr = "UPDATE user SET nom=?, prenom=?, adresse=?, description=?, num_tel=?, date_naissance=?, email=?, image=?, password=?, roles=?, etat_compte=?, genre=? WHERE id=?";
-    protected final String cesserUserrr = "UPDATE user SET etat_compte = ? WHERE id = ?";
     protected final String getSpeceficUserrr = "SELECT * FROM user WHERE id = ?";
     private final Connection cnx;
     private final Gson gson = new Gson();
@@ -32,17 +31,15 @@ public class UserImpl implements UserService<User> {
         cnx = DataSource.getInstance().getConn();
     }
 
-
     public static void showAlert(Alert.AlertType alertType, String message, String headerText, String title) {
         Alert alert = new Alert(alertType, message, ButtonType.OK);
         alert.setHeaderText(headerText);
         alert.setTitle(title);
         alert.show();
     }
-
     @Override
     public void addUser(User user) {
-        String hashedPwd = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        String hashedPwd = PasswordUtils.cryptPw(user.getPassword());
         user.setEtat_compte(EtatCompte.active);
 
         try (PreparedStatement pst = cnx.prepareStatement(this.addUserrr)) {
@@ -70,25 +67,14 @@ public class UserImpl implements UserService<User> {
         }
     }
 
-    @Override
-    public void cesserUser(int id) {
-        try (PreparedStatement pst = cnx.prepareStatement(this.cesserUserrr)) {
-            pst.setString(1, EtatCompte.inactive.name());
-            pst.setInt(2, id);
-            pst.executeUpdate();
-            System.out.println("Utilisateur " + id + " désactivé.");
-        } catch (SQLException e) {
-            System.out.println("Erreur désactivation : " + e.getMessage());
-        }
-    }
 
     @Override
-    public User  updateUser(User user) {
+    public User updateUser(User user) {
         try (PreparedStatement pst = cnx.prepareStatement(this.updateUserrr)) {
             // Ne pas re-hasher le mot de passe s'il est déjà hashé
-            String hashedPwd = user.getPassword().startsWith("$2a$")
-                    ? user.getPassword()
-                    : BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+            String hashedPwd = user.getPassword();
+
+            PasswordUtils.checkPw(user.getPassword(), hashedPwd);
 
             pst.setString(1, user.getNom());
             pst.setString(2, user.getPrenom());
@@ -102,7 +88,7 @@ public class UserImpl implements UserService<User> {
             pst.setString(10, gson.toJson(user.getRoles()));
             pst.setString(11, user.getEtat_compte().name());
             pst.setString(12, user.getGenre().name());
-            pst.setInt(13, user.getId()); // Maintenant c'est correct car il y a 13 paramètres dans la requête
+            pst.setInt(13, user.getId());
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows == 0) {

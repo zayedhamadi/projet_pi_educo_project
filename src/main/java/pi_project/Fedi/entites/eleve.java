@@ -1,140 +1,168 @@
 package pi_project.Fedi.entites;
 
+import pi_project.Zayed.Entity.User;
 import java.util.Date;
 
 public class eleve {
     private int id;
-    private classe id_classe;
-    private int id_parent;
+    private classe classe;
+    private User parent;
     private String nom;
     private String prenom;
-    private Date date_naissance;
+    private Date dateNaissance;
     private double moyenne;
-    private  int nbre_absence;
-    private Date date_inscription;
-    private String qr_code;
+    private int nbreAbsence;
+    private Date dateInscription;
+    private String qrCode;
 
-    public eleve(classe id_classe, int id_parent, String nom, String prenom, Date date_naissance, double moyenne, int nbre_absence, Date date_inscription, String qr_code) {
-        this.id_classe = id_classe;
-        this.id_parent = id_parent;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.date_naissance = date_naissance;
-        this.moyenne = moyenne;
-        this.nbre_absence = nbre_absence;
-        this.date_inscription = date_inscription;
-        this.qr_code = qr_code;
+    // Constructeurs
+    public eleve() {
     }
 
-    public eleve(int id, classe id_cl, int id_parent, String nom, String prenom, Date date_naissance, double moyenne, int nbre_absence, Date date_inscription, String qr_code) {
+    public eleve(classe classe, User parent, String nom, String prenom,
+                 Date dateNaissance, double moyenne, int nbreAbsence,
+                 Date dateInscription, String qrCode) {
+        this.classe = classe;
+        this.parent = parent;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+        this.moyenne = moyenne;
+        this.nbreAbsence = nbreAbsence;
+        this.dateInscription = dateInscription;
+        this.qrCode = qrCode;
+    }
+
+    public eleve(int id, classe classe, User parent, String nom, String prenom,
+                 Date dateNaissance, double moyenne, int nbreAbsence,
+                 Date dateInscription, String qrCode) {
+        this(classe, parent, nom, prenom, dateNaissance, moyenne, nbreAbsence, dateInscription, qrCode);
         this.id = id;
-        this.id_classe = id_cl;
-        this.id_parent = id_parent;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.date_naissance = date_naissance;
-        this.moyenne = moyenne;
-        this.nbre_absence = nbre_absence;
-        this.date_inscription = date_inscription;
-        this.qr_code = qr_code;
-
-    }
-     public eleve(int id, int idClasseId, int idParentId, String nom, String prenom, java.sql.Date dateDeNaissance, float moyenne, int nbreAbscence, java.sql.Date dateInscription, String qrCodeDataUri){
-
-     }
-    @Override
-    public String toString() {
-        return "eleve{" +
-                "id=" + id +
-                ", id_classe=" + id_classe +
-                ", id_parent=" + id_parent +
-                ", nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", date_naissance=" + date_naissance +
-                ", moyenne=" + moyenne +
-                ", nbre_absence=" + nbre_absence +
-                ", date_inscription=" + date_inscription +
-                ", qr_code='" + qr_code + '\'' +
-                '}';
     }
 
+    // Getters et Setters
     public int getId() {
         return id;
-    }
-
-    public classe getId_classe() {
-        return id_classe;
-    }
-
-    public int getId_parent() {
-        return id_parent;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public Date getDate_naissance() {
-        return date_naissance;
-    }
-
-    public float getMoyenne() {
-        return (float) moyenne;
-    }
-
-    public int getNbre_absence() {
-        return nbre_absence;
-    }
-
-    public Date getDate_inscription() {
-        return date_inscription;
-    }
-
-    public String getQr_code() {
-        return qr_code;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setId_classe(classe id_classe) {
-        this.id_classe = id_classe;
+    public classe getClasse() {
+        return classe;
     }
 
-    public void setId_parent(int id_parent) {
-        this.id_parent = id_parent;
+    public void setClasse(classe classe) {
+        this.classe = classe;
+    }
+
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    public String getPrenom() {
+        return prenom;
+    }
+
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
 
-    public void setDate_naissance(Date date_naissance) {
-        this.date_naissance = date_naissance;
+    public Date getDateNaissance() {
+        return dateNaissance;
     }
 
-    public void setMoyenne(float moyenne) {
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public double getMoyenne() {
+        return moyenne;
+    }
+
+    public void setMoyenne(double moyenne) {
         this.moyenne = moyenne;
     }
 
-    public void setNbre_absence(int nbre_absence) {
-        this.nbre_absence = nbre_absence;
+    public int getNbreAbsence() {
+        return nbreAbsence;
     }
 
-    public void setDate_inscription(Date date_inscription) {
-        this.date_inscription = date_inscription;
+    public void setNbreAbsence(int nbreAbsence) {
+        this.nbreAbsence = nbreAbsence;
     }
 
-    public void setQr_code(String qr_code) {
-        this.qr_code = qr_code;
+    public Date getDateInscription() {
+        return dateInscription;
+    }
+
+    public void setDateInscription(Date dateInscription) {
+        this.dateInscription = dateInscription;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    // Méthodes utilitaires
+    public String getNomComplet() {
+        return prenom + " " + nom;
+    }
+
+    public int getAge() {
+        if (dateNaissance == null) return 0;
+        long ageInMillis = System.currentTimeMillis() - dateNaissance.getTime();
+        return (int) (ageInMillis / (1000L * 60 * 60 * 24 * 365));
+    }
+
+    // Méthodes pour les relations
+    public String getNomClasse() {
+        return classe != null ? classe.getNomclasse() : "Non assigné";
+    }
+
+    public String getEmailParent() {
+        return parent != null ? parent.getEmail() : "Non renseigné";
+    }
+
+    @Override
+    public String toString() {
+        return "Eleve{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", classe=" + getNomClasse() +
+                ", parent=" + getEmailParent() +
+                ", moyenne=" + moyenne +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        eleve eleve = (eleve) o;
+        return id == eleve.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 }

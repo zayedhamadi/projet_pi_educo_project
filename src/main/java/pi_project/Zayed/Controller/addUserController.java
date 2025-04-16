@@ -76,15 +76,12 @@ public class addUserController {
                 return;
             }
 
-            // 🔁 GÉNÉRER UN NOM UNIQUE POUR L'IMAGE
             String originalFileName = selectedFile.getName();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
 
-            // 📁 Dossier de destination côté Symfony (uploads)
             Path destinationPath = Paths.get("C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads", uniqueFileName);
             Files.copy(selectedFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
-            // ✅ Ce qu'on stocke en DB : juste le nom du fichier
             String imageName = uniqueFileName;
 
             int num = Integer.parseInt(numTel.getText());
