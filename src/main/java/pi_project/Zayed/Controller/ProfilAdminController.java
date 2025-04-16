@@ -1,5 +1,6 @@
 package pi_project.Zayed.Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -332,5 +333,18 @@ public class ProfilAdminController {
     private void logout() {
         authentication.logout();
         redirectToLogin();
+    }
+    @FXML
+    public void gestionproduit() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Connexion");
+        } catch (Exception e) {
+            System.out.println("Error redirecting to login: " + e.getMessage());
+        }
     }
 }

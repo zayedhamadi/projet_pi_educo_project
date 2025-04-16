@@ -68,6 +68,16 @@
                     </graphic>
                 </Button>
 
+                <Button onAction="#gestionproduit" styleClass="menu-button" text="Gestion produit">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/inactivess.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
                 <Separator styleClass="sidebar-separator"/>
 
                 <Button fx:id="logoutButton" styleClass="logout-button" text="Déconnexion">

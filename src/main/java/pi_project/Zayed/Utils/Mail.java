@@ -18,7 +18,7 @@ public class Mail {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
     private static final String SUBJECT = "Votre Inscription - EDUCO";
-    private static final String IMAGE_PATH = "C:\\Users\\21690\\Desktop\\pi___\\pi\\src\\main\\resources\\Zayed\\images\\educo.jpg";
+//    private static final String IMAGE_PATH = "/Zayed/images/educo.jpg";
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://www.educo.com/login";
 
@@ -45,7 +45,7 @@ public class Mail {
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(textPart);
-        multipart.addBodyPart(createImagePart());
+//        multipart.addBodyPart(createImagePart());
 
         message.setContent(multipart);
         Transport.send(message);
@@ -79,13 +79,13 @@ public class Mail {
         return message;
     }
 
-    private MimeBodyPart createImagePart() throws MessagingException {
-        MimeBodyPart imagePart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(new File(IMAGE_PATH));
-        imagePart.setDataHandler(new DataHandler(fds));
-        imagePart.setFileName(IMAGE_FILE_NAME);
-        return imagePart;
-    }
+//    private MimeBodyPart createImagePart() throws MessagingException {
+//        MimeBodyPart imagePart = new MimeBodyPart();
+////        DataSource fds = new FileDataSource(new File(IMAGE_PATH));
+//        imagePart.setDataHandler(new DataHandler(fds));
+//        imagePart.setFileName(IMAGE_FILE_NAME);
+//        return imagePart;
+//    }
 
     private String buildHtmlContent(String toEmail, String userPassword) {
         return "<html>" +
