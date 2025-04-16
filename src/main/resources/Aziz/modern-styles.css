@@ -1,0 +1,80 @@
+.root {
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-background-color: #f8f9fa;
+}
+
+/* Nouveau style pour la sidebar */
+.modern-sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 25px;
+    -fx-border-radius: 0 25px 25px 0;
+    -fx-alignment: center-left;
+    -fx-background-insets: 0;
+    -fx-cursor: hand;
+    -fx-effect: none;
+    -fx-font-weight: 500;
+}
+
+.modern-sidebar-btn:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.15);
+    -fx-text-fill: #fff;
+}
+
+.modern-sidebar-btn:focused, .modern-sidebar-btn:selected {
+    -fx-background-color: white;
+    -fx-text-fill: #2575fc;
+    -fx-font-weight: bold;
+}
+
+/* Style pour le contenu central */
+.content-pane {
+    -fx-background-color: white;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 0);
+    -fx-padding: 20px;
+}
+
+/* Nouveau style pour les boutons primaires */
+.modern-primary-btn {
+    -fx-background-color: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 25px;
+    -fx-padding: 10px 25px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(106,17,203,0.3), 10, 0, 0, 5);
+}
+
+.modern-primary-btn:hover {
+    -fx-background-color: linear-gradient(to right, #5a0cb3 0%, #1a65e5 100%);
+}
+
+/* Style pour les tableaux modernes */
+.modern-table {
+    -fx-background-color: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 10, 0, 0, 0);
+}
+
+.modern-table .column-header {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e9ecef;
+    -fx-text-fill: #495057;
+}
+
+/* Style pour les inputs */
+.modern-input {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 15px;
+    -fx-font-size: 14px;
+}
+
+.modern-input:focused {
+    -fx-border-color: #2575fc;
+    -fx-effect: dropshadow(gaussian, rgba(37,117,252,0.1), 10, 0, 0, 0);
+}

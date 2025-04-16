@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -173,12 +174,18 @@ public class AfficherQuizController {
 
     private void navigateToAddQuiz() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Aziz/ajouterQuiz.fxml"));
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setOnHidden(e -> loadQuizzes()); // Refresh when window closes
-            stage.show();
+            // Load the FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/ajouterQuiz.fxml"));
+            Parent view = loader.load();
+
+            // Get the content pane from the main layout
+            StackPane contentPane = (StackPane) quizTable.getScene().lookup("#contentPane");
+
+            // Replace the center content
+            contentPane.getChildren().setAll(view);
+
+
+
         } catch (IOException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger le formulaire d'ajout.");
