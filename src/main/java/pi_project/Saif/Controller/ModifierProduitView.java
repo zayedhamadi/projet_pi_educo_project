@@ -86,53 +86,134 @@ public class ModifierProduitView {
         }
     }
 
-    @FXML
-    private void modifierProduit() {
-        try {
-            String nom = tfNom.getText();
-            int id=Integer.parseInt(tfid.getText());
-            String description = tfDescription.getText();
-            double prix = Double.parseDouble(tfPrix.getText());
-            int stock = Integer.parseInt(tfStock.getText());
+//    @FXML
+//    private void modifierProduit() {
+//        try {
+//            String nom = tfNom.getText();
+//            int id=Integer.parseInt(tfid.getText());
+//            String description = tfDescription.getText();
+//            double prix = Double.parseDouble(tfPrix.getText());
+//            int stock = Integer.parseInt(tfStock.getText());
+//
+//            // Récupérer la catégorie sélectionnée et son ID
+//            String categorieNom = categorieComboBox.getSelectionModel().getSelectedItem();
+//            int categorieId = getCategorieIdByName(categorieNom);
+//
+//            if (categorieId == -1) {
+//                throw new Exception("Catégorie invalide");
+//            }
+//
+//            // Sauvegarder l'image si elle a été changée
+//            String imagePath = saveImage();
+//
+//            produit.setNom(nom);
+//            produit.setDescription(description);
+//            produit.setPrix(prix);
+//            produit.setStock(stock);
+//            produit.setCategorieId(categorieId);
+//            produit.setImage(imagePath);
+//
+//            produitService.modifier(produit);
+//
+//            if (produitView != null) {
+//                produitView.refreshTable();
+//            }
+//
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Produit modifié");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Le produit a été modifié avec succès !");
+//            alert.showAndWait();
+//
+//            Stage stage = (Stage) tfNom.getScene().getWindow();
+////            stage.close();
+//            retourListe();
+//        } catch (NumberFormatException e) {
+//            showAlert(Alert.AlertType.ERROR, "Veuillez entrer des valeurs valides pour le prix et le stock.");
+//        } catch (Exception e) {
+//            showAlert(Alert.AlertType.ERROR, "Erreur lors de la modification du produit : " + e.getMessage());
+//        }
+//    }
+@FXML
+private void modifierProduit() {
+    try {
+        String nom = tfNom.getText().trim();
+        String description = tfDescription.getText().trim();
+        String prixText = tfPrix.getText().trim();
+        String stockText = tfStock.getText().trim();
+        String categorieNom = categorieComboBox.getSelectionModel().getSelectedItem();
 
-            // Récupérer la catégorie sélectionnée et son ID
-            String categorieNom = categorieComboBox.getSelectionModel().getSelectedItem();
-            int categorieId = getCategorieIdByName(categorieNom);
-
-            if (categorieId == -1) {
-                throw new Exception("Catégorie invalide");
-            }
-
-            // Sauvegarder l'image si elle a été changée
-            String imagePath = saveImage();
-
-            produit.setNom(nom);
-            produit.setDescription(description);
-            produit.setPrix(prix);
-            produit.setStock(stock);
-            produit.setCategorieId(categorieId);
-            produit.setImage(imagePath);
-
-            produitService.modifier(produit);
-
-            if (produitView != null) {
-                produitView.refreshTable();
-            }
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Produit modifié");
-            alert.setHeaderText(null);
-            alert.setContentText("Le produit a été modifié avec succès !");
-            alert.showAndWait();
-
-            Stage stage = (Stage) tfNom.getScene().getWindow();
-//            stage.close();
-            retourListe();
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Veuillez entrer des valeurs valides pour le prix et le stock.");
-        } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur lors de la modification du produit : " + e.getMessage());
+        // ✅ Contrôle du nom
+        if (nom.isEmpty() || !nom.matches("[a-zA-ZÀ-ÿ\\s]+")) {
+            throw new Exception("Le nom doit contenir uniquement des lettres et ne pas être vide.");
         }
+
+        // ✅ Contrôle de la description
+        if (description.isEmpty()) {
+            throw new Exception("La description ne doit pas être vide.");
+        }
+
+        // ✅ Contrôle du prix
+        double prix;
+        try {
+            prix = Double.parseDouble(prixText);
+            if (prix <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            throw new Exception("Le prix doit être un nombre positif.");
+        }
+
+        // ✅ Contrôle du stock
+        int stock;
+        try {
+            stock = Integer.parseInt(stockText);
+            if (stock < 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            throw new Exception("Le stock doit être un entier positif.");
+        }
+
+        // ✅ Contrôle de la catégorie
+        if (categorieNom == null || categorieNom.isEmpty()) {
+            throw new Exception("Veuillez sélectionner une catégorie.");
+        }
+
+        int categorieId = getCategorieIdByName(categorieNom);
+        if (categorieId == -1) {
+            throw new Exception("Catégorie invalide.");
+        }
+
+        // ✅ Image (si modifiée)
+        String imagePath = saveImage();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            produit.setImage(imagePath);
+        }
+
+        // ✅ Mettre à jour l'objet produit
+        produit.setNom(nom);
+        produit.setDescription(description);
+        produit.setPrix(prix);
+        produit.setStock(stock);
+        produit.setCategorieId(categorieId);
+
+        // ✅ Mise à jour dans la base
+        produitService.modifier(produit);
+
+        if (produitView != null) {
+            produitView.refreshTable();
+        }
+
+        showAlert(Alert.AlertType.INFORMATION, "Produit modifié", "Le produit a été modifié avec succès !");
+        retourListe();
+
+    } catch (Exception e) {
+        showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
+    }
+}
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private int getCategorieIdByName(String nom) {
