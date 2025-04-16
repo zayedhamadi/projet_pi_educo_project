@@ -1,0 +1,85 @@
+/* Form Container */
+.form-container {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 25;
+}
+
+/* Form Title */
+.form-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 0 0 15 0;
+}
+
+/* Form Grid Layout */
+.form-grid {
+    -fx-padding: 10;
+}
+
+/* Labels */
+.form-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
+}
+
+/* Input Fields */
+.form-field {
+    -fx-min-width: 250px;
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+    -fx-padding: 5;
+}
+
+/* Combo Boxes */
+.form-combo {
+    -fx-min-width: 250px;
+    -fx-background-color: white;
+    -fx-border-color: #ced4da;
+    -fx-border-radius: 4px;
+    -fx-padding: 5;
+}
+
+/* Date Picker */
+.date-picker {
+    -fx-min-width: 250px;
+}
+
+/* Buttons Container */
+.button-container {
+    -fx-padding: 15 0 0 0;
+    -fx-spacing: 10;
+}
+
+/* Save/Add Button */
+.save-button {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-border-radius: 4px;
+}
+
+.save-button:hover {
+    -fx-background-color: #218838;
+}
+
+.save-button:pressed {
+    -fx-background-color: #1e7e34;
+}
+.cancel-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-border-radius: 4px;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #c82333;
+}
+
+.cancel-button:pressed {
+    -fx-background-color: #bd2130;
+}

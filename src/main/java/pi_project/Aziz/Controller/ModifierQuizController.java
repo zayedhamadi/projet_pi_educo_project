@@ -188,7 +188,7 @@ public class ModifierQuizController {
 
             showInfo("Succès", "Le quiz a été modifié avec succès.");
             retourListeQuiz();
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             showError("Erreur", "Échec de la mise à jour du quiz: " + e.getMessage());
         }
@@ -268,19 +268,12 @@ public class ModifierQuizController {
 
     @FXML
     private void handleCancel() {
-        try {
-            retourListeQuiz();
-        } catch (IOException e) {
-            showError("Erreur", "Impossible de retourner à la liste.");
-        }
+        retourListeQuiz();
     }
 
-    private void retourListeQuiz() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherQuiz.fxml"));
-        Parent root = loader.load();
+    private void retourListeQuiz() {
         Stage stage = (Stage) titreField.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        stage.close(); // Just close the current window
     }
 
     private void showError(String titre, String message) {

@@ -47,20 +47,8 @@ public class DetailsQuestionController {
 
     @FXML
     private void handleRetour() {
-        try {
-            // Load the previous view (assuming it's the question list)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquestion.fxml"));
-            Parent root = loader.load();
-
-            // Get the current stage
-            Stage stage = (Stage) questionLabel.getScene().getWindow();
-
-            // Set the new scene
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) questionLabel.getScene().getWindow();
+        stage.close(); // ✅ Close the window
     }
 
 

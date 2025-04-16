@@ -28,12 +28,12 @@ public class DetailsQuizController {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
 
-        nomLabel.setText("Titre : " + quiz.getNom());
-        descriptionLabel.setText("Description : " + quiz.getDescription());
-        dateAjoutLabel.setText("Date d'ajout : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(quiz.getDateAjout()));
-        classeLabel.setText("Classe : " + quiz.getClasseName());
-        matiereLabel.setText("Matière : " + quiz.getMatiereName());
-        coursLabel.setText("Cours : " + quiz.getCoursName());
+        nomLabel.setText(quiz.getNom());
+        descriptionLabel.setText(quiz.getDescription());
+        dateAjoutLabel.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(quiz.getDateAjout()));
+        classeLabel.setText(quiz.getClasseName());
+        matiereLabel.setText(quiz.getMatiereName());
+        coursLabel.setText(quiz.getCoursName());
     }
 
     @FXML
@@ -58,15 +58,9 @@ public class DetailsQuizController {
     }
     @FXML
     private void handleRetour(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Aziz/afficherQuiz.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Erreur", "Impossible de retourner à la liste des quiz", Alert.AlertType.ERROR);
-        }
+        // Close the current window
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {

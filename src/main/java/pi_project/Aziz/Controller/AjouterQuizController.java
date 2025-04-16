@@ -133,7 +133,7 @@ public class AjouterQuizController {
             quizService.ajouter(newQuiz);
             showAlert("Success", "Quiz added successfully!", AlertType.INFORMATION);
             retourListeQuiz();
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Error", "An error occurred while adding the quiz: " + e.getMessage(), AlertType.ERROR);
         }
@@ -216,12 +216,9 @@ public class AjouterQuizController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void retourListeQuiz() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherQuiz.fxml"));
-        Parent root = loader.load();
+    private void retourListeQuiz() {
         Stage stage = (Stage) nomTextField.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+        stage.close(); // Just close the current window
     }
     // Helper method to show alert messages
     private void showAlert(String message) {
