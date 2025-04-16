@@ -4,6 +4,7 @@ import pi_project.Fedi.entites.eleve;
 import pi_project.Fedi.interfaces.idsevice;
 import pi_project.Zayed.Entity.User;
 import pi_project.Fedi.entites.classe;
+import pi_project.Zayed.Service.UserImpl;
 import pi_project.db.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class eleveservice implements idsevice<eleve> {
     private final Connection connection;
+    UserImpl userImpl=new UserImpl();
 
     public eleveservice() {
         this.connection = DataSource.getInstance().getConn();
@@ -196,4 +198,37 @@ public class eleveservice implements idsevice<eleve> {
         }
         return parents;
     }
+    public List<eleve> getEnfantsParParent(int idParent) {
+        List<eleve> enfants = new ArrayList<>();
+        String req = "SELECT * FROM eleve WHERE id_parent_id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(req)) {
+            pstmt.setInt(1, idParent);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                eleve e = new eleve();
+                e.setId(rs.getInt("id"));
+                e.setNom(rs.getString("nom"));
+                e.setPrenom(rs.getString("prenom"));
+                e.setDateNaissance(rs.getDate("date_de_naissance"));
+                e.setMoyenne(rs.getFloat("moyenne"));
+                e.setNbreAbsence(rs.getInt("nbre_abscence"));
+                e.setDateInscription(rs.getDate("date_inscription"));
+                e.setQrCode(rs.getString("qr_code_data_uri"));
+                int idParentFromDb = rs.getInt("id_parent_id");
+                User parent = this.userImpl.getSpeceficUser(idParentFromDb);
+                e.setParent(parent);
+
+
+
+                enfants.add(e);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la récupération des enfants du parent avec ID: " + idParent, e);
+        }
+
+        return enfants;
+    }
+
 }
