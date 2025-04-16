@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.StackPane;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
 
@@ -62,18 +63,36 @@ public class CategorieAdd {
         tfDescription.clear();
     }
 
-
     @FXML
     private void retourListe(ActionEvent event) {
         try {
+            // Charger la vue des catégories
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieView.fxml"));
-            Parent root = loader.load();
+            Parent categorieView = loader.load();
 
-            // Remplacer la scène actuelle par la nouvelle vue
-            tfNom.getScene().setRoot(root);
+            // Chercher le conteneur principal qui contient le contenu central (StackPane ou autre)
+            StackPane contentPane = (StackPane) tfNom.getScene().lookup("#contentPane");
+
+            // Remplacer uniquement le contenu central avec la vue des catégories
+            contentPane.getChildren().setAll(categorieView);
         } catch (IOException e) {
+            // Gestion des erreurs si le fichier FXML est introuvable
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la vue des catégories.");
         }
     }
+
+//    @FXML
+//    private void retourListe(ActionEvent event) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieView.fxml"));
+//            Parent root = loader.load();
+//
+//            // Remplacer la scène actuelle par la nouvelle vue
+//            tfNom.getScene().setRoot(root);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

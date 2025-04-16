@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
 import javafx.event.ActionEvent;
@@ -91,22 +92,40 @@ public class ModifierCategorieView {
         tfNom.setText(categorie.getNom());
         tfDescription.setText(categorie.getDescription());
     }
-
-
+    @FXML
     public void retourListeCateg(ActionEvent actionEvent) {
         try {
-            // Charger la vue des produits
+            // Charger la vue des catégories
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieView.fxml"));
-            Parent root = loader.load();
+            Parent categorieView = loader.load();
 
-            // Remplacer le contenu de la scène actuelle par la nouvelle vue
-            // Utilise getScene() pour accéder à la scène actuelle
-            // et setRoot() pour remplacer le contenu de la scène avec la nouvelle vue
-            tfNom.getScene().setRoot(root);
+            // Chercher le StackPane ou le conteneur principal qui contient la vue centrale
+            StackPane contentPane = (StackPane) tfNom.getScene().lookup("#contentPane");
+
+            // Remplacer uniquement le contenu central avec la vue des catégories
+            contentPane.getChildren().setAll(categorieView);
         } catch (IOException e) {
             // Gestion des erreurs si le fichier FXML est introuvable
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la vue des produits.");
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la vue des catégories.");
         }
     }
+
+
+//    public void retourListeCateg(ActionEvent actionEvent) {
+//        try {
+//            // Charger la vue des produits
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieView.fxml"));
+//            Parent root = loader.load();
+//
+//            // Remplacer le contenu de la scène actuelle par la nouvelle vue
+//            // Utilise getScene() pour accéder à la scène actuelle
+//            // et setRoot() pour remplacer le contenu de la scène avec la nouvelle vue
+//            tfNom.getScene().setRoot(root);
+//        } catch (IOException e) {
+//            // Gestion des erreurs si le fichier FXML est introuvable
+//            e.printStackTrace();
+//            showAlert(Alert.AlertType.ERROR, "Erreur de navigation", "Impossible de charger la vue des produits.");
+//        }
+//    }
 }

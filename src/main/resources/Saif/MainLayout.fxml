@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<BorderPane fx:id="mainLayout" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.MainLayoutController"
+            prefWidth="1000.0" prefHeight="600.0">
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+    <!-- Sidebar à gauche -->
+    <left>
+        <VBox style="-fx-background-color: #34495e; -fx-border-radius: 10px; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0.5, 2, 2);"
+              spacing="20" alignment="TOP_CENTER" prefWidth="220">
+
+            <!-- Title or logo section -->
+            <Label text="Menu" style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 20 0 0 0;" />
+
+            <!-- Sidebar buttons with modern style -->
+            <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button" />
+            <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button" />
+            <!-- Add more buttons here -->
+        </VBox>
+    </left>
+
+    <!-- Vue dynamique au centre -->
+    <center>
+        <StackPane fx:id="contentPane"/>
+    </center>
+</BorderPane>

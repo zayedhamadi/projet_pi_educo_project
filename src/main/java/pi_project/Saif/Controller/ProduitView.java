@@ -11,6 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import pi_project.Saif.Entity.Produit;
@@ -141,30 +142,53 @@ public class ProduitView {
         ObservableList<Produit> produits = FXCollections.observableArrayList(service.getAll());
         tableView.setItems(produits);
     }
+
     private void modifierProduit(Produit produit) {
         try {
-            // Charger la vue de modification de produit
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierProduitView.fxml"));
-            Parent root = loader.load();
+            Parent view = loader.load();
 
-            // Récupérer la scène actuelle
-            Stage currentStage = (Stage) tableView.getScene().getWindow();
+            // Récupérer la zone de contenu du layout principal
+            StackPane contentPane = (StackPane) tableView.getScene().lookup("#contentPane");
 
-            // Changer le contenu de la scène en y insérant la vue de modification
-            currentStage.getScene().setRoot(root);
+            // Remplacer le contenu central (sans toucher à la sidebar)
+            contentPane.getChildren().setAll(view);
 
-            // Récupérer le contrôleur de la vue de modification et lui passer le produit à modifier
+            // Transmettre le produit au contrôleur de modification
             ModifierProduitView controller = loader.getController();
-            controller.setProduit(produit);  // Passer l'objet produit à la vue de modification
-            controller.setProduitView(this);  // Lien vers la vue principale pour actualiser la table
+            controller.setProduit(produit);
+            controller.setProduitView(this);
 
-            currentStage.setTitle("Modifier un produit");
-            currentStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la vue de modification");
         }
     }
+
+//    private void modifierProduit(Produit produit) {
+//        try {
+//            // Charger la vue de modification de produit
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierProduitView.fxml"));
+//            Parent root = loader.load();
+//
+//            // Récupérer la scène actuelle
+//            Stage currentStage = (Stage) tableView.getScene().getWindow();
+//
+//            // Changer le contenu de la scène en y insérant la vue de modification
+//            currentStage.getScene().setRoot(root);
+//
+//            // Récupérer le contrôleur de la vue de modification et lui passer le produit à modifier
+//            ModifierProduitView controller = loader.getController();
+//            controller.setProduit(produit);  // Passer l'objet produit à la vue de modification
+//            controller.setProduitView(this);  // Lien vers la vue principale pour actualiser la table
+//
+//            currentStage.setTitle("Modifier un produit");
+//            currentStage.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la vue de modification");
+//        }
+//    }
 
 
 //    private void modifierProduit(Produit produit) {
@@ -213,28 +237,51 @@ public class ProduitView {
 //            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre d'ajout");
 //        }
 //    }
+//@FXML
+//private void ajouterProduit() {
+//    try {
+//        // Charger la vue d'ajout de produit
+//
+//
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/AddProduit.fxml"));
+//        Parent root = loader.load();
+//
+//        // Récupérer la scène actuelle
+//        Stage currentStage = (Stage) tableView.getScene().getWindow();
+//
+//        // Changer le contenu de la scène en y insérant la vue d'ajout
+//        currentStage.getScene().setRoot(root);
+//
+//        // Récupérer le contrôleur de la vue d'ajout et lui passer la vue principale pour mettre à jour la table
+//        AddProduit controller = loader.getController();
+//        controller.setProduitView(this);  // Lien vers la vue principale
+//
+//        currentStage.setTitle("Ajouter un produit");
+//        currentStage.show();
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la vue d'ajout");
+//    }
+//}
 @FXML
 private void ajouterProduit() {
     try {
-        // Charger la vue d'ajout de produit
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/AddProduit.fxml"));
-        Parent root = loader.load();
+        Parent view = loader.load();
 
-        // Récupérer la scène actuelle
-        Stage currentStage = (Stage) tableView.getScene().getWindow();
+        // Récupérer la vue principale avec le StackPane (contentPane)
+        StackPane contentPane = (StackPane) tableView.getScene().lookup("#contentPane");
 
-        // Changer le contenu de la scène en y insérant la vue d'ajout
-        currentStage.getScene().setRoot(root);
+        // Remplacer le contenu central
+        contentPane.getChildren().setAll(view);
 
-        // Récupérer le contrôleur de la vue d'ajout et lui passer la vue principale pour mettre à jour la table
+        // Transmettre le contrôleur si nécessaire
         AddProduit controller = loader.getController();
-        controller.setProduitView(this);  // Lien vers la vue principale
+        controller.setProduitView(this);
 
-        currentStage.setTitle("Ajouter un produit");
-        currentStage.show();
     } catch (Exception e) {
         e.printStackTrace();
-        showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la vue d'ajout");
+        showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'afficher la vue d'ajout");
     }
 }
 

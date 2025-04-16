@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
@@ -123,25 +124,45 @@ public class CategorieView {
 //        }
 //    }
 
-    private void modifierCategorie(Categorie categorie) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierCategorieView.fxml"));
-            Parent root = loader.load();
+//    private void modifierCategorie(Categorie categorie) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierCategorieView.fxml"));
+//            Parent root = loader.load();
+//
+//            ModifierCategorieView controller = loader.getController();
+//            controller.setCategorie(categorie);
+//            controller.setCategorieView(this);
+//
+//            // Remplacer le contenu de la scène actuelle
+//            Stage currentStage = (Stage) tableView.getScene().getWindow();
+//            currentStage.setScene(new Scene(root));
+//            currentStage.setTitle("Modifier une catégorie");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page de modification");
+//        }
+//    }
+private void modifierCategorie(Categorie categorie) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ModifierCategorieView.fxml"));
+        Parent view = loader.load();
 
-            ModifierCategorieView controller = loader.getController();
-            controller.setCategorie(categorie);
-            controller.setCategorieView(this);
+        ModifierCategorieView controller = loader.getController();
+        controller.setCategorie(categorie);
+        controller.setCategorieView(this);
 
-            // Remplacer le contenu de la scène actuelle
-            Stage currentStage = (Stage) tableView.getScene().getWindow();
-            currentStage.setScene(new Scene(root));
-            currentStage.setTitle("Modifier une catégorie");
+        // Rechercher le StackPane avec l'ID contentPane dans la scène actuelle
+        StackPane contentPane = (StackPane) tableView.getScene().lookup("#contentPane");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page de modification");
-        }
+        // Remplacer le contenu central sans toucher à la sidebar
+        contentPane.getChildren().setAll(view);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page de modification");
     }
+}
 
     // Méthode pour supprimer une catégorie
     private void supprimerCategorie(Categorie categorie) {
@@ -155,43 +176,46 @@ public class CategorieView {
         }
     }
 
-    // Méthode pour ajouter une catégorie
+
 //    @FXML
 //    private void ajouterCategorie() {
 //        try {
-//            // Charger la fenêtre de l'ajout de catégorie
 //            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
-//            Stage stage = new Stage();
-//            stage.setTitle("Ajouter une catégorie");
-//            stage.setScene(new Scene(loader.load()));
-//            // 👇 Passer le contrôleur principal à la vue ajout
+//            Parent root = loader.load();
+//
 //            CategorieAdd controller = loader.getController();
 //            controller.setCategorieView(this);
-//            stage.show();
+//
+//            // Remplacer le contenu de la scène actuelle
+//            Stage currentStage = (Stage) tableView.getScene().getWindow();
+//            currentStage.setScene(new Scene(root));
+//            currentStage.setTitle("Ajouter une catégorie");
+//
 //        } catch (Exception e) {
 //            e.printStackTrace();
-//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la fenêtre d'ajout");
+//            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
 //        }
 //    }
-    @FXML
-    private void ajouterCategorie() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
-            Parent root = loader.load();
+@FXML
+private void ajouterCategorie() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
+        Parent view = loader.load();
 
-            CategorieAdd controller = loader.getController();
-            controller.setCategorieView(this);
+        CategorieAdd controller = loader.getController();
+        controller.setCategorieView(this);
 
-            // Remplacer le contenu de la scène actuelle
-            Stage currentStage = (Stage) tableView.getScene().getWindow();
-            currentStage.setScene(new Scene(root));
-            currentStage.setTitle("Ajouter une catégorie");
+        // Rechercher le StackPane avec l'ID contentPane dans la scène actuelle
+        StackPane contentPane = (StackPane) tableView.getScene().lookup("#contentPane");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
-        }
+        // Remplacer le contenu central
+        contentPane.getChildren().setAll(view);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
     }
+}
 
     // Affichage d'une alerte
     private void showAlert(Alert.AlertType type, String title, String msg) {

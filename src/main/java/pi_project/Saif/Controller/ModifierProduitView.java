@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pi_project.Saif.Entity.Produit;
@@ -200,18 +201,34 @@ public class ModifierProduitView {
 //        selectedImage = null;
 //    }
 
-    @FXML
-    private void retourListe() {
-        try {
-            // Charger la vue de la liste des produits
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) tfNom.getScene().getWindow();
-            stage.setScene(new Scene(root));
+//    @FXML
+//    private void retourListe() {
+//        try {
+//            // Charger la vue de la liste des produits
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+//            Parent root = loader.load();
+//            Stage stage = (Stage) tfNom.getScene().getWindow();
+//            stage.setScene(new Scene(root));
+//
+//        } catch (IOException e) {
+//            showAlert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des produits.");
+//        }
+//    }
+@FXML
+private void retourListe() {
+    try {
+        // Charger la vue de la liste des produits
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+        Parent produitView = loader.load();
 
-        } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des produits.");
-        }
+        // Chercher le StackPane contentPane (le conteneur central de ton layout)
+        StackPane contentPane = (StackPane) tfNom.getScene().lookup("#contentPane");
+
+        // Remplacer le contenu central avec la vue des produits
+        contentPane.getChildren().setAll(produitView);
+    } catch (IOException e) {
+        showAlert(Alert.AlertType.ERROR, "Erreur lors du retour à la liste des produits.");
     }
+}
 
 }

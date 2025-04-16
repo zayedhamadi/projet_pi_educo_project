@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Entity.Produit;
@@ -180,17 +181,32 @@ public class AddProduit {
         imageView.setImage(null);
     }
 
-    @FXML
-    private void retourListeProduits(ActionEvent event) {
-        // Naviguer vers la liste des produits, par exemple :
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
-            Parent root = loader.load();
-            nomField.getScene().setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//    @FXML
+//    private void retourListeProduits(ActionEvent event) {
+//        // Naviguer vers la liste des produits, par exemple :
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+//            Parent root = loader.load();
+//            nomField.getScene().setRoot(root);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+@FXML
+private void retourListeProduits(ActionEvent event) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+        Parent produitView = loader.load();
+
+        // Chercher le StackPane contentPane dans la scène actuelle
+        StackPane contentPane = (StackPane) nomField.getScene().lookup("#contentPane");
+
+        // Remplacer le contenu central avec la vue des produits
+        contentPane.getChildren().setAll(produitView);
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
 
 }
 
