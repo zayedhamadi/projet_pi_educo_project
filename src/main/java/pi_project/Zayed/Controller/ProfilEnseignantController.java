@@ -1,5 +1,6 @@
 package pi_project.Zayed.Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -275,5 +276,33 @@ public class ProfilEnseignantController {
     private void logout() {
         authentication.logout();
         redirectToLogin();
+    }
+
+    @FXML
+    public void gestionquiz() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquiz.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Connexion");
+        } catch (Exception e) {
+            System.out.println("Error redirecting to login: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void gestionquestion() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquestion.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Connexion");
+        } catch (Exception e) {
+            System.out.println("Error redirecting to login: " + e.getMessage());
+        }
     }
 }
