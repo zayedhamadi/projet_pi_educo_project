@@ -1,196 +1,279 @@
 package pi_project.Fedi.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.entites.eleve;
-import pi_project.Fedi.services.classeservice;
 import pi_project.Fedi.services.eleveservice;
-import pi_project.Main;
+import pi_project.Zayed.Entity.User;
+import pi_project.db.DataSource;
 
-import java.net.URL;
-import java.time.LocalDate;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class AjouterEleve implements Initializable {
+public class AjouterEleve {
+    // Champs correspondant au FXML
+    @FXML private TextField nomField;
+    @FXML private TextField prenomField;
+    @FXML private DatePicker dateNaissanceField;
+    @FXML private ComboBox<String> classeComboBox;
+    @FXML private ComboBox<String> parentComboBox;
+    @FXML private TextField moyenneField;
+    @FXML private TextField absenceField;
+    @FXML private DatePicker dateInscriptionField;
+
+    // Labels d'erreur
+    @FXML private Label nomErreur;
+    @FXML private Label prenomErreur;
+    @FXML private Label dateNaissanceErreur;
+    @FXML private Label classeErreur;
+    @FXML private Label parentErreur;
+    @FXML private Label moyenneErreur;
+    @FXML private Label absenceErreur;
+    @FXML private Label dateInscriptionErreur;
+
+    @FXML private VBox formContainer;
+
+    private final eleveservice eleveService = new eleveservice();
+    private List<classe> toutesLesClasses;
+    private List<User> tousLesParents;
 
     @FXML
-    private TextField nomField;
-    @FXML
-    private TextField prenomField;
-    @FXML
-    private DatePicker dateNaissanceField;
-    @FXML
-    private TextField moyenneField;
-    @FXML
-    private TextField absenceField;
-    @FXML
-    private DatePicker dateInscriptionField;
-    @FXML
-    private ComboBox<classe> classeComboBox;
-    @FXML
-    private TextField parentIdField;
+    public void initialize() {
+        chargerDonneesInitiales();
+    }
 
-    @FXML
-    private Label nomErreur;
-    @FXML
-    private Label prenomErreur;
-    @FXML
-    private Label dateNaissanceErreur;
-    @FXML
-    private Label moyenneErreur;
-    @FXML
-    private Label absenceErreur;
-    @FXML
-    private Label dateInscriptionErreur;
-    @FXML
-    private Label classeErreur;
-    @FXML
-    private Label parentErreur;
-    @FXML
-    private BorderPane rootPane;
-    private final eleveservice service = new eleveservice();
-    private final classeservice classeService = new classeservice();
+    private void chargerDonneesInitiales() {
+        try {
+            System.out.println("Début du chargement des données...");
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Initialiser la ComboBox des classes
-        classeComboBox.getItems().addAll(classeService.getAll());
-        
-        // Initialiser les dates par défaut
-        dateNaissanceField.setValue(LocalDate.now());
-        dateInscriptionField.setValue(LocalDate.now());
+            // Charger les classes
+            toutesLesClasses = eleveService.getAllClasses();
+            System.out.println("Nombre de classes récupérées: " + toutesLesClasses.size());
+
+            List<String> nomsClasses = toutesLesClasses.stream()
+                    .map(classe::getNomclasse)
+                    .collect(Collectors.toList());
+
+            System.out.println("Noms de classes: " + nomsClasses);
+            classeComboBox.setItems(FXCollections.observableArrayList(nomsClasses));
+
+            // Charger les parents
+            tousLesParents = eleveService.getAllParents();
+            System.out.println("Nombre de parents récupérés: " + tousLesParents.size());
+
+            List<String> emailsParents = tousLesParents.stream()
+                    .map(User::getEmail)
+                    .collect(Collectors.toList());
+
+            System.out.println("Emails des parents: " + emailsParents);
+            parentComboBox.setItems(FXCollections.observableArrayList(emailsParents));
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Erreur", "Erreur de chargement",
+                    "Impossible de charger les données initiales: " + e.getMessage());
+        }
+    }
+    @FXML
+    private void handleListEleves(ActionEvent event) {
+        try {
+            // Charger la nouvelle vue
+            Parent root = FXMLLoader.load(getClass().getResource("/Fedi/ListeOfEleve.fxml"));
+
+            // Obtenir la scène actuelle
+            Scene scene = ((Node) event.getSource()).getScene();
+
+            // Remplacer le contenu de la scène
+            scene.setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Vous pourriez aussi afficher un message d'erreur à l'utilisateur
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText("Impossible d'ouvrir la liste des élèves");
+            alert.setContentText("Une erreur s'est produite lors du chargement de la page.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
     private void handleSave() {
-        if (validateInputs()) {
-            eleve newEleve = new eleve(
-                classeComboBox.getValue(),
-                Integer.parseInt(parentIdField.getText()),
-                nomField.getText(),
-                prenomField.getText(),
+        clearErrorMessages();
+
+        if (!validateFields()) {
+            return;
+        }
+
+        try {
+            eleve nouvelEleve = createEleveFromForm();
+            eleveService.add(nouvelEleve);
+            showAlert("Succès", "Élève ajouté",
+                    "L'élève " + nouvelEleve.getPrenom() + " " + nouvelEleve.getNom() + " a été ajouté avec succès!");
+            closeWindow();
+        } catch (Exception e) {
+            showAlert("Erreur", "Erreur lors de l'ajout", e.getMessage());
+        }
+    }
+
+
+    
+    @FXML
+    private void handleBack() {
+        try {
+            // Chemin relatif vers le fichier FXML
+            Parent root = FXMLLoader.load(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
+
+            // Récupérer la scène actuelle depuis n'importe quel nœud de l'interface
+            Scene currentScene = nomField.getScene(); // ou tout autre champ @FXML
+
+            // Créer une nouvelle scène (ou réutiliser l'actuelle)
+            Stage stage = (Stage) currentScene.getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            System.err.println("Erreur de navigation:");
+            e.printStackTrace();
+            showAlert("Erreur", "Navigation impossible",
+                    "Impossible de charger la liste des classes: " + e.getMessage());
+        }
+    }
+
+    private eleve createEleveFromForm() {
+        // Récupérer la classe sélectionnée
+        String nomClasse = classeComboBox.getValue();
+        classe classeSelectionnee = toutesLesClasses.stream()
+                .filter(c -> c.getNomclasse().equals(nomClasse))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Classe non trouvée"));
+
+        // Récupérer le parent sélectionné
+        String emailParent = parentComboBox.getValue();
+        User parentSelectionne = tousLesParents.stream()
+                .filter(p -> p.getEmail().equals(emailParent))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Parent non trouvé"));
+
+        return new eleve(
+                classeSelectionnee,
+                parentSelectionne,
+                nomField.getText().trim(),
+                prenomField.getText().trim(),
                 Date.from(dateNaissanceField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 Double.parseDouble(moyenneField.getText()),
                 Integer.parseInt(absenceField.getText()),
                 Date.from(dateInscriptionField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                generateQRCode()
-            );
-
-
-            service.add(newEleve);
-            showSuccess("Élève ajouté avec succès!");
-            handleBack();
-        }
+                genererQrCode()
+        );
     }
 
-    private boolean validateInputs() {
+    private String genererQrCode() {
+        return "QR_" + System.currentTimeMillis() + "_"
+                + nomField.getText().substring(0, Math.min(3, nomField.getText().length())).toUpperCase();
+    }
+
+    private boolean validateFields() {
         boolean isValid = true;
 
         // Validation du nom
-        if (nomField.getText().isEmpty()) {
-            nomErreur.setText("Le nom est requis");
+        if (nomField.getText() == null || nomField.getText().trim().isEmpty()) {
+            nomErreur.setText("Le nom est obligatoire");
             isValid = false;
-        } else {
-            nomErreur.setText("");
         }
 
         // Validation du prénom
-        if (prenomField.getText().isEmpty()) {
-            prenomErreur.setText("Le prénom est requis");
+        if (prenomField.getText() == null || prenomField.getText().trim().isEmpty()) {
+            prenomErreur.setText("Le prénom est obligatoire");
             isValid = false;
-        } else {
-            prenomErreur.setText("");
         }
 
-        // Validation de la classe
+        // Validation date naissance
+        if (dateNaissanceField.getValue() == null) {
+            dateNaissanceErreur.setText("Date de naissance requise");
+            isValid = false;
+        }
+
+        // Validation classe
         if (classeComboBox.getValue() == null) {
-            classeErreur.setText("La classe est requise");
-            isValid = false;
-        } else {
-            classeErreur.setText("");
-        }
-
-        // Validation de l'ID parent
-        try {
-            Integer.parseInt(parentIdField.getText());
-            parentErreur.setText("");
-        } catch (NumberFormatException e) {
-            parentErreur.setText("ID parent invalide");
+            classeErreur.setText("Veuillez sélectionner une classe");
             isValid = false;
         }
 
-        // Validation de la moyenne
+        // Validation parent
+        if (parentComboBox.getValue() == null) {
+            parentErreur.setText("Veuillez sélectionner un parent");
+            isValid = false;
+        }
+
+        // Validation moyenne
         try {
             double moyenne = Double.parseDouble(moyenneField.getText());
             if (moyenne < 0 || moyenne > 20) {
-                moyenneErreur.setText("La moyenne doit être entre 0 et 20");
+                moyenneErreur.setText("Doit être entre 0 et 20");
                 isValid = false;
-            } else {
-                moyenneErreur.setText("");
             }
         } catch (NumberFormatException e) {
             moyenneErreur.setText("Moyenne invalide");
             isValid = false;
         }
 
-        // Validation des absences
+        // Validation absences
         try {
             int absences = Integer.parseInt(absenceField.getText());
             if (absences < 0) {
-                absenceErreur.setText("Le nombre d'absences ne peut pas être négatif");
+                absenceErreur.setText("Ne peut pas être négatif");
                 isValid = false;
-            } else {
-                absenceErreur.setText("");
             }
         } catch (NumberFormatException e) {
-            absenceErreur.setText("Nombre d'absences invalide");
+            absenceErreur.setText("Nombre invalide");
+            isValid = false;
+        }
+
+        // Validation date inscription
+        if (dateInscriptionField.getValue() == null) {
+            dateInscriptionErreur.setText("Date d'inscription requise");
             isValid = false;
         }
 
         return isValid;
     }
 
-    private String generateQRCode() {
-        // Logique de génération de QR code à implémenter
-        return "QR_" + System.currentTimeMillis();
+    private void clearErrorMessages() {
+        nomErreur.setText("");
+        prenomErreur.setText("");
+        dateNaissanceErreur.setText("");
+        classeErreur.setText("");
+        parentErreur.setText("");
+        moyenneErreur.setText("");
+        absenceErreur.setText("");
+        dateInscriptionErreur.setText("");
     }
 
-    @FXML
-    private void handleBack() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
-            Parent listeView = loader.load();
-
-            Scene currentScene = rootPane.getScene();
-            currentScene.setRoot(listeView);
-        } catch (Exception e) {
-            showError("Erreur lors du retour à la liste");
-            e.printStackTrace();
-        }
-    }
-
-    private void showSuccess(String message) {
+    private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
         alert.showAndWait();
     }
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void closeWindow() {
+        Stage stage = (Stage) formContainer.getScene().getWindow();
+        stage.close();
     }
 }

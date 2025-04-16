@@ -7,22 +7,23 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
-<BorderPane  fx:id="rootPane" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.AjouterEleve"
+<BorderPane fx:id="rootPane" prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Fedi.controllers.UpdateEleve"
             stylesheets="@css/style-listofclasse.css">
 
     <top>
         <VBox styleClass="header-box" spacing="5" alignment="CENTER">
-            <Label text="Ajouter un Élève" styleClass="title-label"/>
+            <Label text="Modifier un Élève" styleClass="title-label"/>
         </VBox>
     </top>
 
     <center>
         <VBox styleClass="form-container" spacing="5" alignment="CENTER">
-            <!-- Image au-dessus du formulaire -->
             <ImageView fitWidth="180" fitHeight="180" preserveRatio="true">
                 <image>
-                    <Image url="@image/add.jpeg"/>
+                    <Image url="@image/update.png"/> <!-- Mets une image différente si tu veux -->
                 </image>
                 <VBox.margin>
                     <Insets bottom="5"/>
@@ -95,7 +96,7 @@
 
     <bottom>
         <HBox styleClass="button-box" spacing="15" alignment="CENTER">
-            <Button text="Enregistrer" onAction="#handleSave" styleClass="action-button"/>
+            <Button text="Modifier" onAction="#handleSave" styleClass="action-button"/>
             <Button text="Liste des Élèves" onAction="#handleListEleves" styleClass="export-button"/>
             <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
         </HBox>

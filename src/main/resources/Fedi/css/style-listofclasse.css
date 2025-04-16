@@ -387,3 +387,63 @@
 .transparent-scroll-pane .scroll-bar:horizontal .track {
     -fx-background-color: transparent;
 }
+
+
+
+/* Styles pour les cartes élèves */
+.eleve-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+    -fx-pref-width: 180;
+}
+
+.eleve-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 0);
+    -fx-border-color: #4a90e2;
+}
+
+.eleve-card-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.eleve-card-info {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
+}
+
+
+
+/*********/
+.eleve-card {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.eleve-card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.eleve-card-info {
+    -fx-font-size: 14px;
+}
+
+.eleve-card-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 5 15 5 15;
+    -fx-background-radius: 5;
+}
+
+.eleve-card-actions {
+    -fx-alignment: center-left;
+}
