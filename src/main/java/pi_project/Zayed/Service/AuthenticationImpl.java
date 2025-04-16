@@ -1,13 +1,13 @@
 package pi_project.Zayed.Service;
 
 
-import org.mindrot.jbcrypt.BCrypt;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Interface.AuthenticationService;
 import pi_project.Zayed.Utils.Constant;
 import pi_project.Zayed.Utils.Mail;
+import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.Zayed.Utils.session;
 import pi_project.db.DataSource;
 
@@ -62,7 +62,8 @@ public class AuthenticationImpl implements AuthenticationService {
 
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
-                if (storedPassword == null || !BCrypt.checkpw(user.getPassword(), storedPassword)) {
+
+                if (storedPassword == null || !PasswordUtils.checkPw(user.getPassword(), storedPassword)) {
                     System.out.println("Email ou mot de passe incorrect !");
                     return false;
                 }
@@ -94,6 +95,7 @@ public class AuthenticationImpl implements AuthenticationService {
                 return false;
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             Constant.handleException(e, "Erreur lors de la connexion");
             return false;
         }
@@ -110,7 +112,7 @@ public class AuthenticationImpl implements AuthenticationService {
     @Override
     public void forgetPassword(String email) {
         String newPassword = Constant.generateRandomPassword();
-        String encryptedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        String encryptedPassword = PasswordUtils.cryptPw(newPassword);
 
         try (PreparedStatement pst = cnx.prepareStatement(forgetPwd)) {
             pst.setString(1, encryptedPassword);
