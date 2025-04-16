@@ -1,31 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pi_project.Saif.Controller.CategorieView"
-            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff; -fx-padding: 20px;">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #ecf0f1;" stylesheets="@styles.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Saif.Controller.CategorieView">
 
-    <!-- Titre de la fenêtre -->
-    <Text text="Gestion des Catégories" layoutX="200" layoutY="20" style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+    <!-- Sidebar réutilisable -->
+    <!--    <left>-->
+    <!--        <fx:include source="Sidebar.fxml" />-->
+    <!--    </left>-->
 
-    <!-- Bouton Ajouter Catégorie -->
-    <Button layoutX="20.0" layoutY="60.0" onAction="#ajouterCategorie" text="Ajouter une catégorie"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="20.0" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+            </padding>
+            <!-- Titre -->
+            <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" text="Gestion des Catégories"/>
 
-    <!-- Tableau des catégories -->
-    <TableView fx:id="tableView" layoutX="20.0" layoutY="120.0" prefHeight="250.0" prefWidth="560.0" style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
-        <columns>
-            <TableColumn fx:id="colId" text="ID" prefWidth="100" style="-fx-font-size: 14px;"/>
-            <TableColumn fx:id="colNom" text="Nom" prefWidth="150" style="-fx-font-size: 14px;"/>
-            <TableColumn fx:id="colDescription" text="Description" prefWidth="250" style="-fx-font-size: 14px;"/>
-            <TableColumn fx:id="colActions" text="Actions" prefWidth="180" style="-fx-font-size: 14px;"/>
-        </columns>
-    </TableView>
+            <!-- Ligne avec bouton à droite -->
+            <HBox alignment="TOP_RIGHT">
+                <Button onAction="#ajouterCategorie"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"
+                        text="Ajouter une catégorie"/>
+            </HBox>
 
-</AnchorPane>
+            <!-- Tableau des catégories -->
+            <TableView fx:id="tableView"
+                       VBox.vgrow="ALWAYS"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID"/>
+                    <TableColumn fx:id="colNom" text="Nom"/>
+                    <TableColumn fx:id="colDescription" text="Description"/>
+                    <TableColumn fx:id="colActions" text="Actions"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+</BorderPane>

@@ -2,6 +2,8 @@ package pi_project.Saif.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,6 +13,7 @@ import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Service.ProduitService;
 import pi_project.Saif.Service.CategorieService;
 
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -108,7 +111,8 @@ public class AddProduit {
             alert.showAndWait();
 
             // Optionnel : réinitialiser les champs après l'ajout
-            resetForm();
+//            resetForm();
+            retourListeProduits(null);
         } catch (NumberFormatException e) {
             // Gérer les erreurs de conversion de type (prix ou stock)
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -166,5 +170,27 @@ public class AddProduit {
         imageView.setImage(null);
         categorieComboBox.getSelectionModel().clearSelection();
     }
+    @FXML
+    private void annulerFormulaire(ActionEvent event) {
+        nomField.clear();
+        descriptionField.clear();
+        prixField.clear();
+        stockField.clear();
+        categorieComboBox.getSelectionModel().clearSelection();
+        imageView.setImage(null);
+    }
+
+    @FXML
+    private void retourListeProduits(ActionEvent event) {
+        // Naviguer vers la liste des produits, par exemple :
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/ProduitView.fxml"));
+            Parent root = loader.load();
+            nomField.getScene().setRoot(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
