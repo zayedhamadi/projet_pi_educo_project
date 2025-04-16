@@ -16,13 +16,13 @@ public class testinscevent {
         ev.setId(3); // ⚠️ Remplace par un ID réel existant dans ta base de données
 
         // 🔹 Créer une inscription
-        inscriptionevenement inscription = new inscriptionevenement();
-        inscription.setEnfant_id(1); // ⚠️ Remplace par l'ID d’un enfant réel existant
-        inscription.setEvenement(ev);
-        inscription.setDateInscription(LocalDate.now());
+        //inscriptionevenement inscription = new inscriptionevenement();
+        //inscription.setEnfant(1); // ⚠️ Remplace par l'ID d’un enfant réel existant
+        //inscription.setEvenement(ev);
+        //inscription.setDateInscription(LocalDate.now());
 
         // ➕ Ajouter une inscription
-        service.ajouter(inscription);
+       // service.ajouter(inscription);
 
         // 🔁 Afficher toutes les inscriptions
         System.out.println("\n📋 Liste des inscriptions :");

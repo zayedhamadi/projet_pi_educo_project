@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.louay.Controller.ReservationController"
+      spacing="20" alignment="TOP_CENTER"
+      style="-fx-padding: 40; -fx-background-color: #f9f9f9;">
+
+    <!-- Titre -->
+    <Label fx:id="titreLabel"
+           style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+    <!-- Description -->
+    <TextArea fx:id="descriptionArea"
+              editable="false" wrapText="true"
+              prefHeight="100" prefWidth="400"
+              style="-fx-control-inner-background: #ffffff; -fx-background-radius: 10;" />
+
+    <!-- Infos -->
+    <VBox spacing="5" style="-fx-padding: 10;" alignment="CENTER_LEFT">
+        <Label fx:id="lieuLabel" style="-fx-font-size: 14px;" />
+        <Label fx:id="dateLabel" style="-fx-font-size: 14px;" />
+        <Label fx:id="placesLabel" style="-fx-text-fill: #007bff; -fx-font-weight: bold;" />
+    </VBox>
+
+    <Separator prefWidth="400"/>
+
+    <!-- Sélection enfant -->
+    <Label text="Sélectionnez votre enfant"
+           style="-fx-font-size: 16px;" />
+    <ComboBox fx:id="enfantComboBox" prefWidth="300" />
+
+    <!-- Erreur -->
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;" />
+
+    <!-- Boutons -->
+    <HBox spacing="20" alignment="CENTER">
+        <Button text="S'inscrire"
+                onAction="#handleInscription"
+                style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 16; -fx-background-radius: 6;" />
+        <Button text="Retour"
+                onAction="#handleRetour"
+                style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 16; -fx-background-radius: 6;" />
+    </HBox>
+</VBox>

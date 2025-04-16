@@ -4,6 +4,8 @@ import pi_project.db.DataSource;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Entity.inscriptionevenement;
 import pi_project.louay.Interface.Ieventservice;
+import pi_project.Fedi.entites.eleve;
+import pi_project.Zayed.Entity.User;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -19,17 +21,16 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
     }
 
     @Override
-    public void ajouter(inscriptionevenement inscription) {
-        String sql = "INSERT INTO inscription_evenement (enfant, evenement_id, date_inscription) VALUES (?, ?, ?)";
+    public void ajouter(inscriptionevenement insc) {
+        String sql = "INSERT INTO inscription_evenement (enfant_id, evenement_id, date_inscription) VALUES (?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, inscription.getEnfant_id());
-            pst.setInt(2, inscription.getEvenement().getId());
-            pst.setTimestamp(3, Timestamp.valueOf(inscription.getDateInscription().atStartOfDay())); // conversion ici
-
+            pst.setInt(1, insc.getEnfant_id().getId()); // Assure-toi que getId() existe dans eleve
+            pst.setInt(2, insc.getEvenement().getId());
+            pst.setDate(3, java.sql.Date.valueOf(insc.getDateInscription()));
             pst.executeUpdate();
-            System.out.println("Inscription ajoutée !");
-        } catch (SQLException e) {
-            System.out.println("Erreur ajout inscription : " + e.getMessage());
+            System.out.println("Inscription réussie !");
+        } catch (SQLException ex) {
+            System.out.println("Erreur lors de l'inscription : " + ex.getMessage());
         }
     }
 
@@ -37,9 +38,9 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
     public void modifier(inscriptionevenement inscription) {
         String sql = "UPDATE inscription_evenement SET enfant=?, evenement_id=?, date_inscription=? WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, inscription.getEnfant_id());
+            pst.setInt(1, inscription.getEnfant_id().getId());
             pst.setInt(2, inscription.getEvenement().getId());
-            pst.setTimestamp(3, Timestamp.valueOf(inscription.getDateInscription().atStartOfDay())); // conversion ici
+            pst.setTimestamp(3, Timestamp.valueOf(inscription.getDateInscription().atStartOfDay()));
             pst.setInt(4, inscription.getId());
 
             pst.executeUpdate();
@@ -64,7 +65,10 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
     @Override
     public List<inscriptionevenement> getAll() {
         List<inscriptionevenement> list = new ArrayList<>();
-        String sql = "SELECT * FROM inscription_evenement";
+
+        String sql = "SELECT i.id, i.date_inscription, i.evenement_id, i.enfant_id, e.nom " +
+                "FROM inscription_evenement i " +
+                "JOIN eleve e ON i.enfant_id = e.id";
 
         try (Statement stmt = cnx.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -72,25 +76,37 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
             while (rs.next()) {
                 inscriptionevenement insc = new inscriptionevenement();
                 insc.setId(rs.getInt("id"));
-                insc.setEnfant_id(rs.getInt("enfant"));
 
+                // Création de l'enfant
+                eleve enfant = new eleve();
+                enfant.setId(rs.getInt("enfant_id"));
+                enfant.setNom(rs.getString("nom")); // correspond à e.nom
+                insc.setEnfant_id(enfant);
+
+                // Création de l'événement
                 evenement ev = new evenement();
                 ev.setId(rs.getInt("evenement_id"));
                 insc.setEvenement(ev);
 
+                // Date d'inscription
                 insc.setDateInscription(rs.getTimestamp("date_inscription").toLocalDateTime().toLocalDate());
 
                 list.add(insc);
             }
+
         } catch (SQLException e) {
             System.out.println("Erreur récupération inscriptions : " + e.getMessage());
         }
 
         return list;
     }
-
+    @Override
     public inscriptionevenement getById(int id) {
-        String sql = "SELECT * FROM inscription_evenement WHERE id=?";
+        String sql = "SELECT i.id, i.date_inscription, i.evenement_id, i.enfant_id, e.nom " +
+                "FROM inscription_evenement i " +
+                "JOIN eleve e ON i.enfant_id = e.id " +
+                "WHERE i.id=?";
+
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
@@ -98,7 +114,11 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
             if (rs.next()) {
                 inscriptionevenement insc = new inscriptionevenement();
                 insc.setId(rs.getInt("id"));
-                insc.setEnfant_id(rs.getInt("enfant"));
+
+                eleve enfant = new eleve();
+                enfant.setId(rs.getInt("enfant_id"));
+                enfant.setNom(rs.getString("nom"));
+                insc.setEnfant_id(enfant);
 
                 evenement ev = new evenement();
                 ev.setId(rs.getInt("evenement_id"));
@@ -112,6 +132,67 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
         } catch (SQLException e) {
             System.out.println("Erreur récupération par ID : " + e.getMessage());
         }
+
         return null;
     }
+    @Override
+    public List<inscriptionevenement> getReservationsForParent(int parentId) {
+        List<inscriptionevenement> list = new ArrayList<>();
+        String sql = "SELECT i.id, i.date_inscription, i.evenement_id, i.enfant_id, e.nom, ev.titre " +
+                "FROM inscription_evenement i " +
+                "JOIN eleve e ON i.enfant_id = e.id " +
+                "JOIN evenement ev ON i.evenement_id = ev.id " +
+                "WHERE e.id_parent_id = ?";  // Remplace id_parent_id pour faire référence à la colonne qui lie les parents
+
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, parentId);  // Remplacer parentId par l'ID réel du parent connecté
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                inscriptionevenement insc = new inscriptionevenement();
+                insc.setId(rs.getInt("id"));
+
+                // Créer l'objet enfant (eleve)
+                eleve enfant = new eleve();
+                enfant.setId(rs.getInt("enfant_id"));
+                enfant.setNom(rs.getString("nom"));
+                insc.setEnfant_id(enfant);
+
+                // Créer l'objet événement
+                evenement ev = new evenement();
+                ev.setId(rs.getInt("evenement_id"));
+                ev.setTitre(rs.getString("titre"));
+                insc.setEvenement(ev);
+
+                // Récupérer la date d'inscription
+                insc.setDateInscription(rs.getTimestamp("date_inscription").toLocalDateTime().toLocalDate());
+
+                // Ajouter à la liste
+                list.add(insc);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur récupération des réservations du parent : " + e.getMessage());
+        }
+
+        return list;
+    }
+    public boolean estDejaInscrit(int enfantId, int evenementId) {
+        String sql = "SELECT COUNT(*) FROM inscription_evenement WHERE enfant_id = ? AND evenement_id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setInt(1, enfantId);
+            pst.setInt(2, evenementId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erreur vérification doublon : " + ex.getMessage());
+        }
+        return false;
+    }
+
+
+
+
+
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableCell?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.louay.Controller.mesreservation"
+      spacing="15" style="-fx-padding: 20; -fx-background-color: #f0f0f0;">
+
+    <!-- Titre -->
+    <Text text="Mes Réservations" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333; -fx-padding: 10 0;"/>
+
+    <!-- Table des réservations -->
+    <TableView fx:id="reservationTable" prefHeight="350.0" prefWidth="600.0" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-background-color: #ffffff; -fx-border-color: #ddd; -fx-border-width: 1;">
+        <columns>
+            <!-- Colonne Événement -->
+            <TableColumn fx:id="evenementColumn" text="Événement" prefWidth="200"/>
+
+            <!-- Colonne Enfant -->
+            <TableColumn fx:id="enfantColumn" text="Enfant" prefWidth="150"/>
+
+            <!-- Colonne Date d'inscription -->
+            <TableColumn fx:id="dateInscriptionColumn" text="Date d'inscription" prefWidth="150"/>
+
+            <!-- Colonne Actions -->
+            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+    <!-- Bouton Retour -->
+    <Button fx:id="backButton" text="Retour" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 16; -fx-background-radius: 5; -fx-font-weight: bold;"/>
+</VBox>

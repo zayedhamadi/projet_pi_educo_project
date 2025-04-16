@@ -42,6 +42,9 @@ public class eleve {
      public eleve(int id, int idClasseId, int idParentId, String nom, String prenom, java.sql.Date dateDeNaissance, float moyenne, int nbreAbscence, java.sql.Date dateInscription, String qrCodeDataUri){
 
      }
+    public eleve() {
+    }
+
     @Override
     public String toString() {
         return "eleve{" +
