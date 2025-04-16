@@ -1,17 +1,14 @@
 package pi_project.Aziz.Controller;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import pi_project.Aziz.Entity.Question;
 import pi_project.Aziz.Service.QuestionService;
 
@@ -22,66 +19,137 @@ import java.util.List;
 public class AfficherQuestionController {
 
     @FXML
-    private VBox questionContainer;
+    private TableView<Question> questionTable;
+    @FXML
+    private TableColumn<Question, String> texteColumn;
+    @FXML
+    private TableColumn<Question, String> reponseColumn;
+    @FXML
+    private TableColumn<Question, String> quizColumn;
+    @FXML
+    private TableColumn<Question, Void> actionsColumn;
     @FXML
     private Button addButton;
 
     private QuestionService questionService = new QuestionService();
 
+    @FXML
     public void initialize() {
-        addButton.setOnAction(this::navigateToAddQuestion);
-        loadQuestionCards();
+        // Set up columns
+        texteColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getTexte()));
+
+        reponseColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getReponse()));
+
+        quizColumn.setCellValueFactory(cellData -> {
+            Question question = cellData.getValue();
+            if (question.getQuiz() != null) {
+                return new SimpleStringProperty(question.getQuiz().getNom());
+            } else if (question.getQuizName() != null) {
+                return new SimpleStringProperty(question.getQuizName());
+            }
+            return new SimpleStringProperty("N/A");
+        });
+
+        // Set up actions column
+        actionsColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button editBtn = new Button("Modifier");
+            private final Button deleteBtn = new Button("Supprimer");
+            private final Button detailsBtn = new Button("Détails");
+            private final HBox buttons = new HBox(5, editBtn, deleteBtn, detailsBtn);
+
+            {
+                editBtn.getStyleClass().add("action-button");
+                deleteBtn.getStyleClass().add("action-button");
+                detailsBtn.getStyleClass().add("action-button");
+
+                editBtn.setOnAction(event -> {
+                    Question question = getTableView().getItems().get(getIndex());
+                    handleEditQuestion(question);
+                });
+
+                deleteBtn.setOnAction(event -> {
+                    Question question = getTableView().getItems().get(getIndex());
+                    handleDeleteQuestion(question);
+                });
+
+                detailsBtn.setOnAction(event -> {
+                    Question question = getTableView().getItems().get(getIndex());
+                    handleQuestionDetails(question);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(buttons);
+                }
+            }
+        });
+
+        // Load data
+        loadQuestions();
+
+        // Set button action
+        addButton.setOnAction(event -> navigateToAddQuestion());
+    }
+    private void setupActionsColumn() {
+        actionsColumn.setCellFactory(new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+            @Override
+            public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
+                return new TableCell<Question, Void>() {
+                    private final Button editBtn = new Button("Modifier");
+                    private final Button deleteBtn = new Button("Supprimer");
+                    private final Button detailsBtn = new Button("Détails");
+                    private final HBox buttons = new HBox(5, editBtn, deleteBtn, detailsBtn);
+
+                    {
+                        editBtn.getStyleClass().add("action-button");
+                        deleteBtn.getStyleClass().add("action-button");
+                        detailsBtn.getStyleClass().add("action-button");
+
+                        editBtn.setOnAction(event -> {
+                            Question question = getTableView().getItems().get(getIndex());
+                            handleEditQuestion(question);
+                        });
+
+                        deleteBtn.setOnAction(event -> {
+                            Question question = getTableView().getItems().get(getIndex());
+                            handleDeleteQuestion(question);
+                        });
+
+                        detailsBtn.setOnAction(event -> {
+                            Question question = getTableView().getItems().get(getIndex());
+                            handleQuestionDetails(question);
+                        });
+                    }
+
+                    @Override
+                    protected void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(buttons);
+                        }
+                    }
+                };
+            }
+        });
     }
 
-    private void loadQuestionCards() {
+    private void loadQuestions() {
         try {
             List<Question> questionList = questionService.recuperer();
-            questionContainer.getChildren().clear();
-
-            for (Question q : questionList) {
-                HBox card = createQuestionCard(q);
-                questionContainer.getChildren().add(card);
-            }
+            questionTable.getItems().setAll(questionList);
         } catch (SQLException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger les questions.");
         }
-    }
-
-    private HBox createQuestionCard(Question q) {
-        HBox card = new HBox(10);
-        card.setAlignment(Pos.CENTER_LEFT);
-        card.getStyleClass().add("question-card");
-
-        Label texteLabel = new Label(q.getTexte());
-        texteLabel.setMinWidth(250);
-
-        Label reponseLabel = new Label(q.getReponse());
-        reponseLabel.setMinWidth(100);
-
-        Label quizLabel = new Label(q.getQuiz() != null ? q.getQuiz().getNom() : "N/A");
-        quizLabel.setMinWidth(150);
-
-        Button editBtn = new Button("Modifier");
-        Button deleteBtn = new Button("Supprimer");
-        Button detailsBtn = new Button("Détails");
-
-        editBtn.getStyleClass().add("action-button");
-        deleteBtn.getStyleClass().add("action-button");
-        detailsBtn.getStyleClass().add("action-button");
-
-        HBox actionBox = new HBox(5, editBtn, deleteBtn, detailsBtn);
-        actionBox.setMinWidth(120);
-
-        deleteBtn.setOnAction(e -> handleDeleteQuestion(q));
-        editBtn.setOnAction(e -> handleEditQuestion(q));
-        detailsBtn.setOnAction(e -> handleQuestionDetails(q));
-
-
-
-        card.getChildren().addAll(texteLabel, reponseLabel, quizLabel, actionBox);
-
-        return card;
     }
 
     private void handleEditQuestion(Question question) {
@@ -92,14 +160,18 @@ public class AfficherQuestionController {
             ModifierQuestionController controller = loader.getController();
             controller.setQuestion(question);
 
-            Stage stage = (Stage) questionContainer.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage newStage = new Stage();
+            newStage.setTitle("Modifier Question");
+            newStage.setScene(new Scene(root));
+            newStage.setOnHiding(event -> loadQuestions());
+
+            newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger le formulaire de modification.");
         }
     }
+
 
     private void handleDeleteQuestion(Question question) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -111,7 +183,7 @@ public class AfficherQuestionController {
             if (response == javafx.scene.control.ButtonType.OK) {
                 try {
                     questionService.supprimer(question);
-                    loadQuestionCards();
+                    loadQuestions(); // Refresh the table
                 } catch (SQLException e) {
                     e.printStackTrace();
                     showErrorAlert("Erreur", "Une erreur est survenue lors de la suppression.");
@@ -119,6 +191,7 @@ public class AfficherQuestionController {
             }
         });
     }
+
     private void handleQuestionDetails(Question question) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/detailsquestion.fxml"));
@@ -127,22 +200,32 @@ public class AfficherQuestionController {
             DetailsQuestionController controller = loader.getController();
             controller.setQuestion(question);
 
-            Stage stage = (Stage) questionContainer.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage newStage = new Stage();
+            newStage.setTitle("Détails de la Question");
+            newStage.setScene(new Scene(root));
+
+            // Optional: refresh on close if the details view allows modifications
+            newStage.setOnHiding(event -> loadQuestions());
+
+            newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger les détails de la question.");
         }
     }
-
-
-    private void navigateToAddQuestion(javafx.event.ActionEvent event) {
+    private void navigateToAddQuestion() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/Aziz/ajouterquestion.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/ajouterquestion.fxml"));
+            Parent root = loader.load();
+
+            Stage newStage = new Stage();
+            newStage.setTitle("Ajouter Question");
+            newStage.setScene(new Scene(root));
+
+            // Refresh the table when the window closes
+            newStage.setOnHiding(event -> loadQuestions());
+
+            newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showErrorAlert("Erreur", "Impossible de charger le formulaire d'ajout.");

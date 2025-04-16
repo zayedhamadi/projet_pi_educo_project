@@ -93,10 +93,9 @@ public class AjouterQuestionController {
                 Question question = createQuestion();
                 questionService.ajouter(question);
                 showSuccessPopup();
-                retourListeQuiz();
-
+                closeWindow(); // ✅ Just close, don’t reload
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             showAlert("Error", "Save Failed", e.getMessage());
         }
     }
@@ -108,12 +107,10 @@ public class AjouterQuestionController {
         stage.show();
     }
     private boolean validateForm() {
-        // 1. Trim all inputs first
         String question = questionText.getText().trim();
         String answer = correctAnswerField.getText().trim();
         String selectedQuiz = quizCombo.getValue();
 
-        // 2. Question validation
         if (question.isEmpty()) {
             showAlert("Error", "Missing Field", "Please enter question text");
             questionText.requestFocus();
@@ -126,15 +123,33 @@ public class AjouterQuestionController {
             return false;
         }
 
-        // 3. Special character check
         if (containsInvalidChars(question)) {
             showAlert("Error", "Invalid Characters",
                     "Question contains invalid characters: <>{}[]()&^%$#@!~`");
             questionText.requestFocus();
             return false;
         }
+        // 🆕 Validate options
+        List<String> options = new ArrayList<>();
+        for (TextField field : optionFields) {
+            String option = field.getText().trim();
+            if (!option.isEmpty()) {
+                options.add(option);
+            }
+        }
 
-        // 4. Answer validation
+        // 🛑 Not enough options
+        if (options.size() < 2) {
+            showAlert("Error", "Invalid Options", "Please enter at least two options");
+            return false;
+        }
+
+        // 🛑 Duplicate check
+        if (hasDuplicates(options)) {
+            showAlert("Error", "Duplicate Options", "Options must be unique");
+            return false;
+        }
+
         if (answer.isEmpty()) {
             showAlert("Error", "Missing Field", "Please enter correct answer");
             correctAnswerField.requestFocus();
@@ -147,15 +162,14 @@ public class AjouterQuestionController {
             return false;
         }
 
-        // 5. Answer in options check (MOVED BEFORE QUIZ SELECTION)
-        if (!isAnswerInOptions(answer)) {
-            showAlert("Error", "Invalid Answer",
-                    "Correct answer must match one of the options");
+
+        // 🛑 Answer not in options
+        if (!options.stream().anyMatch(opt -> opt.equalsIgnoreCase(answer))) {
+            showAlert("Error", "Invalid Answer", "Correct answer must match one of the options");
             correctAnswerField.requestFocus();
             return false;
         }
 
-        // 6. Quiz selection (now step 6)
         if (selectedQuiz == null || selectedQuiz.isEmpty()) {
             showAlert("Error", "Missing Selection", "Please select a quiz");
             quizCombo.requestFocus();
@@ -163,6 +177,10 @@ public class AjouterQuestionController {
         }
 
         return true;
+    }
+
+    private boolean hasDuplicates(List<String> list) {
+        return list.stream().map(String::toLowerCase).distinct().count() < list.size();
     }
 
     // Updated to check more special characters
@@ -236,3 +254,4 @@ public class AjouterQuestionController {
 
 
 }
+

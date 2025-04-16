@@ -129,7 +129,7 @@ public class ModifierQuestionController {
             }
             questionToEdit.setOptions(options);
 
-            // Set quiz (assuming your Question entity has a Quiz object)
+            // Set quiz
             int quizId = getQuizIdByTitle(quizCombo.getValue());
             if (quizId == -1) {
                 showError("Error", "Invalid quiz selected");
@@ -139,13 +139,13 @@ public class ModifierQuestionController {
             quiz.setId(quizId);
             questionToEdit.setQuiz(quiz);
 
-            // Call service to update
+            // Update in database
             questionService.modifier(questionToEdit);
 
             showInfo("Success", "Question updated successfully");
-            retourListeQuestions();
+            closeWindow(); // ✅ Close instead of loading a new scene
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             showError("Error", "Failed to update question: " + e.getMessage());
             e.printStackTrace();
         }
@@ -153,11 +153,7 @@ public class ModifierQuestionController {
 
     @FXML
     private void handleCancel() {
-        try {
-            retourListeQuestions();
-        } catch (IOException e) {
-            showError("Error", "Failed to return to list: " + e.getMessage());
-        }
+        closeWindow();
     }
 
     private void retourListeQuestions() throws IOException {
@@ -175,6 +171,11 @@ public class ModifierQuestionController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    private void closeWindow() {
+        Stage stage = (Stage) contenuField.getScene().getWindow();
+        stage.close();
+    }
+
 
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

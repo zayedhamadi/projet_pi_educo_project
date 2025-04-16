@@ -8,35 +8,35 @@
       fx:controller="pi_project.Aziz.Controller.ModifierQuizController"
       spacing="15"
       alignment="CENTER_LEFT"
-      styleClass="modify-form"
-      stylesheets="@stylequiz.css"
+      stylesheets="@stylemodifquiz.css"
       prefWidth="400"
-      prefHeight="500">
+      prefHeight="500"
+      styleClass="form-container">
 
     <Label text="Modifier Quiz" styleClass="form-title"/>
 
-    <GridPane hgap="10" vgap="15">
-        <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <GridPane hgap="10" vgap="15" styleClass="form-grid">
+        <Label text="Titre:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="form-label"/>
+        <TextField fx:id="titreField" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="form-field"/>
 
-        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Description:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="form-label"/>
         <TextArea fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1"
-                  wrapText="true" prefRowCount="3"/>
+                  wrapText="true" prefRowCount="3" styleClass="form-field"/>
 
-        <Label text="Classe:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <ComboBox fx:id="classeCombo" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Classe:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="form-label"/>
+        <ComboBox fx:id="classeCombo" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="form-combo"/>
 
-        <Label text="Matière:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <ComboBox fx:id="matiereCombo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Matière:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="form-label"/>
+        <ComboBox fx:id="matiereCombo" GridPane.columnIndex="1" GridPane.rowIndex="3" styleClass="form-combo"/>
 
-        <Label text="Cours:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <ComboBox fx:id="coursCombo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        <Label text="Cours:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="form-label"/>
+        <ComboBox fx:id="coursCombo" GridPane.columnIndex="1" GridPane.rowIndex="4" styleClass="form-combo"/>
 
-        <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-        <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        <Label text="Date:" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="form-label"/>
+        <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="5" styleClass="date-picker"/>
     </GridPane>
 
-    <HBox spacing="10" alignment="CENTER_RIGHT">
+    <HBox spacing="10" alignment="CENTER_RIGHT" styleClass="button-container">
         <Button text="Annuler" styleClass="cancel-button" onAction="#handleCancel"/>
         <Button text="Enregistrer" styleClass="save-button" onAction="#handleSave"/>
     </HBox>

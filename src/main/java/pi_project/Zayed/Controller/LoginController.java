@@ -74,7 +74,6 @@ public class LoginController {
             StackPane.setAlignment(eyeImage, Pos.CENTER_LEFT);
         }
     }
-
     @FXML
     private void login() {
         String userEmail = email.getText().trim();
@@ -97,21 +96,21 @@ public class LoginController {
 
             if (isAuthenticated) {
                 Role userRole = authService.getUserRole(userEmail);
-
                 if (userRole != null) {
                     switch (userRole) {
-                        case Admin:
+                        case Admin -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Admin", "Vous avez accès en tant qu'Admin");
-                            goingtoProfilUSerConnected();
-                            break;
-                        case Enseignant:
+                           loadScene("/Zayed/ProfilAdmin.fxml", "Profil Admin");
+                        }
+                        case Enseignant -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Enseignant", "Vous avez accès en tant qu'Enseignant");
-                            goingtoProfilUSerConnected();
-                            break;
-                        case Parent:
+                            loadScene("/Zayed/ProfilEnseignant.fxml", "Profil Enseignant");
+
+                        }
+                        case Parent -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Parent", "Vous avez accès en tant que Parent");
-                            goingtoProfilUSerConnected();
-                            break;
+                          loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+                        }
                     }
                 } else {
                     Constant.showAlert(Alert.AlertType.WARNING, "Connexion réussie", "Aucun rôle valide trouvé", "Accès restreint");
@@ -120,11 +119,23 @@ public class LoginController {
                 Constant.showAlert(Alert.AlertType.ERROR, "Échec", "Identifiants incorrects", "Échec");
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            Constant.handleException(e, "Identifiants incorrects");
+            Constant.handleException(e, "Une erreur est survenue pendant la connexion");
         }
     }
 
+    private void loadScene(String fxmlPath, String title) {
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+            Stage stage = (Stage) email.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle(title);
+            stage.show();
+        } catch (Exception e) {
+            System.out.println("Erreur lors du chargement de la vue : " + fxmlPath);
+            e.printStackTrace();
+            Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue", e.getMessage());
+        }
+    }
 
     @FXML
     public void goingToForgetPwPage() {
@@ -143,20 +154,6 @@ public class LoginController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "problem on going to forget password", "Erreur d aller a la page forget password");
-        }
-    }
-
-
-    public void goingtoProfilUSerConnected() {
-        try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Zayed/ProfilAdminConnecte.fxml")));;
-            Stage stage = (Stage) s.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("ProfilUserConnecte");
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger le formulaire", e.getMessage());
         }
     }
 

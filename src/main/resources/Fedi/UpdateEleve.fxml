@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane fx:id="rootPane" prefHeight="400.0" prefWidth="500.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Fedi.controllers.UpdateEleve"
+            stylesheets="@css/style-listofclasse.css">
+
+    <top>
+        <VBox styleClass="header-box" spacing="5" alignment="CENTER">
+            <Label text="Modifier un Élève" styleClass="title-label"/>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox styleClass="form-container" spacing="5" alignment="CENTER">
+            <ImageView fitWidth="180" fitHeight="180" preserveRatio="true">
+                <image>
+                    <Image url="@image/update.png"/> <!-- Mets une image différente si tu veux -->
+                </image>
+                <VBox.margin>
+                    <Insets bottom="5"/>
+                </VBox.margin>
+            </ImageView>
+
+            <GridPane hgap="20" vgap="10" alignment="CENTER">
+                <padding>
+                    <Insets top="5" right="20" bottom="5" left="20"/>
+                </padding>
+
+                <!-- Première rangée -->
+                <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Nom :" styleClass="form-label"/>
+                    <TextField fx:id="nomField" promptText="Entrez le nom" styleClass="form-field"/>
+                    <Label fx:id="nomErreur" styleClass="error-label"/>
+                </VBox>
+
+                <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Prénom :" styleClass="form-label"/>
+                    <TextField fx:id="prenomField" promptText="Entrez le prénom" styleClass="form-field"/>
+                    <Label fx:id="prenomErreur" styleClass="error-label"/>
+                </VBox>
+
+                <!-- Deuxième rangée -->
+                <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="Date de naissance :" styleClass="form-label"/>
+                    <DatePicker fx:id="dateNaissanceField" promptText="Sélectionnez la date" styleClass="form-field"/>
+                    <Label fx:id="dateNaissanceErreur" styleClass="error-label"/>
+                </VBox>
+
+                <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Classe :" styleClass="form-label"/>
+                    <ComboBox fx:id="classeComboBox" promptText="Sélectionnez la classe" styleClass="form-field"/>
+                    <Label fx:id="classeErreur" styleClass="error-label"/>
+                </VBox>
+
+                <!-- Troisième rangée -->
+                <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Label text="Parent :" styleClass="form-label"/>
+                    <ComboBox fx:id="parentComboBox" promptText="Sélectionnez le parent" styleClass="form-field"/>
+                    <Label fx:id="parentErreur" styleClass="error-label"/>
+                </VBox>
+                <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Label text="Moyenne :" styleClass="form-label"/>
+                    <TextField fx:id="moyenneField" promptText="Entrez la moyenne" styleClass="form-field"/>
+                    <Label fx:id="moyenneErreur" styleClass="error-label"/>
+                </VBox>
+
+                <!-- Quatrième rangée -->
+                <VBox spacing="3" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <Label text="Nombre d'absences :" styleClass="form-label"/>
+                    <TextField fx:id="absenceField" promptText="Entrez le nombre" styleClass="form-field"/>
+                    <Label fx:id="absenceErreur" styleClass="error-label"/>
+                </VBox>
+
+                <VBox spacing="3" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <Label text="Date d'inscription :" styleClass="form-label"/>
+                    <DatePicker fx:id="dateInscriptionField" promptText="Sélectionnez la date" styleClass="form-field"/>
+                    <Label fx:id="dateInscriptionErreur" styleClass="error-label"/>
+                </VBox>
+
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="200" prefWidth="200"/>
+                </columnConstraints>
+            </GridPane>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox styleClass="button-box" spacing="15" alignment="CENTER">
+            <Button text="Modifier" onAction="#handleSave" styleClass="action-button"/>
+            <Button text="Liste des Élèves" onAction="#handleListEleves" styleClass="export-button"/>
+            <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

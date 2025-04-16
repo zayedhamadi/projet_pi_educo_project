@@ -1,27 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Pos?>
+<BorderPane prefHeight="450.0" prefWidth="650.0" style="-fx-background-color: #ffffff;" stylesheets="@styles.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Saif.Controller.ModifierProduitView">
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="pi_project.Saif.Controller.ModifierProduitView"
-            prefHeight="500.0" prefWidth="600.0">
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="15" style="-fx-padding: 20px;">
+            <Text text="Modifier un Produit" style="-fx-font-size: 22px; -fx-font-weight: 700; -fx-text-fill: #2c3e50;"/>
 
-    <Text layoutX="40.0" layoutY="30.0" text="Modifier un produit" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            <GridPane hgap="10" vgap="10" style="-fx-background-color: #ffffff; -fx-border-radius: 8px; -fx-border-color: #e0e0e0; -fx-border-width: 1px; -fx-padding: 15px;">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="65"/>
+                </columnConstraints>
 
-    <TextField fx:id="tfNom" layoutX="40.0" layoutY="60.0" promptText="Nom"/>
-    <TextArea fx:id="tfDescription" layoutX="40.0" layoutY="100.0" promptText="Description" prefHeight="60"/>
-    <TextField fx:id="tfPrix" layoutX="40.0" layoutY="170.0" promptText="Prix"/>
-    <TextField fx:id="tfStock" layoutX="40.0" layoutY="210.0" promptText="Stock"/>
-    <ComboBox fx:id="categorieComboBox" layoutX="40.0" layoutY="250.0" promptText="Catégorie"/>
+                <!-- ID -->
+                <Label text="ID du produit:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="tfid" disable="true" promptText="ID du produit" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-    <Button layoutX="40.0" layoutY="290.0" text="Choisir une image" onAction="#choisirImage"/>
-    <ImageView fx:id="imageView" layoutX="180.0" layoutY="290.0" fitHeight="100" fitWidth="100"/>
+                <!-- Nom -->
+                <Label text="Nom du produit:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="tfNom" promptText="Nom du produit" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-    <Button layoutX="40.0" layoutY="410.0" onAction="#modifierProduit" text="Modifier"
-            style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <!-- Description -->
+                <Label text="Description:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextArea fx:id="tfDescription" promptText="Description" prefRowCount="2" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-</AnchorPane>
+                <!-- Prix -->
+                <Label text="Prix:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="tfPrix" promptText="Prix" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <!-- Stock -->
+                <Label text="Stock:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="tfStock" promptText="Stock" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <!-- Catégorie -->
+                <Label text="Catégorie:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="categorieComboBox" promptText="Catégorie" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <!-- Choix image -->
+                <Label text="Image:" style="-fx-font-size: 12px; -fx-font-weight: 600;" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <Button text="Choisir une image" onAction="#choisirImage"
+                        style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-size: 12px; -fx-padding: 6px 10px;"
+                        GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <!-- ImageView -->
+                <ImageView fx:id="imageView" fitHeight="70" fitWidth="70" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <!-- Buttons -->
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding-top: 15px;">
+                <!-- Retour à la liste (Hyperlink) -->
+                <Hyperlink text="Retour à la liste" onAction="#retourListe"
+                           style="-fx-font-size: 14px; -fx-text-fill: #007bff; -fx-underline: true;"/>
+
+                <!-- Annuler -->
+            <HBox spacing="10" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+
+            <Button text="Annuler" onAction="#annuler"
+                        style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-border-radius: 15px; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+
+                <!-- Modifier -->
+                <Button text="Modifier" onAction="#modifierProduit"
+                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 15px; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-font-weight: bold;"/>
+            </HBox>
+
+            </HBox>
+
+
+        </VBox>
+    </center>
+</BorderPane>
