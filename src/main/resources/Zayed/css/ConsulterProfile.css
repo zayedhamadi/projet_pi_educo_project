@@ -1,0 +1,211 @@
+/* Styles généraux */
+.root {
+    -fx-font-family: 'Arial';
+    -fx-base: #f0f0f0;
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #34495e;
+    -fx-padding: 15px 10px;
+    -fx-spacing: 10px;
+    -fx-min-width: 200px;
+    -fx-pref-width: 200px;
+}
+
+.sidebar-title {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.sidebar-separator {
+    -fx-padding: 5px 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-color: #2c3e50;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+    -fx-min-width: 180px;
+    -fx-max-width: 180px;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: #3498db;
+}
+
+.sidebar-button-active {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: #3498db;
+    -fx-font-weight: bold;
+    -fx-border-color: #3498db;
+    -fx-border-width: 0 0 0 3px;
+}
+
+.sidebar-logout-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 15px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.sidebar-logout-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+/* En-tête */
+.header-bar {
+    -fx-background-color: #2c3e50;
+    -fx-padding: 15px;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.header-title {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Contenu principal */
+.content-container {
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+    -fx-background-color: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+.profile-image {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+}
+
+/* Sections d'information */
+.info-section {
+    -fx-padding: 15px;
+    -fx-background-color: #f9f9f9;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-max-width: 600px;
+}
+
+.section-title {
+    -fx-font-size: 18px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.info-grid {
+    -fx-padding: 10px;
+}
+
+.info-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+.info-field {
+    -fx-font-size: 14px;
+    -fx-background-color: transparent;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1px 0;
+    -fx-pref-width: 250px;
+}
+
+.info-textarea {
+    -fx-font-size: 14px;
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 3px;
+    -fx-pref-height: 60px;
+    -fx-pref-width: 250px;
+}
+
+/* Boutons d'action */
+.button-bar {
+    -fx-padding: 20px 0 0 0;
+}
+
+.action-button {
+    -fx-font-size: 14px;
+    -fx-padding: 8px 20px;
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.action-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+#CesserProfileButton {
+    -fx-background-color: #e74c3c;
+}
+/* Dans le fichier profilUser.css */
+.action-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 15;
+    -fx-background-radius: 5;
+}
+
+.action-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.action-button:disabled {
+    -fx-background-color: #cccccc;
+    -fx-text-fill: #666666;
+}
+
+.dialog-pane {
+    -fx-background-color: #f5f5f5;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: #e0e0e0;
+}
+
+.dialog-pane .content.label {
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+.content-container {
+    -fx-padding: 20px;
+}
+
+.info-grid {
+    -fx-padding: 10px;
+}
+
+#CesserProfileButton:hover {
+    -fx-background-color: #c0392b;
+}
+
+#retourButton {
+    -fx-background-color: #95a5a6;
+}
+
+#retourButton:hover {
+    -fx-background-color: #7f8c8d;
+}

@@ -1,52 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
-
+<?import javafx.scene.text.Font?>
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pi_project.Zayed.Controller.listActifUserController">
 
     <left>
-        <VBox style="-fx-background-color: #2e3b4e; -fx-pref-width: 250px; -fx-padding: 10;">
-            <ImageView fx:id="userImage" fitWidth="100" fitHeight="100" preserveRatio="true"/>
-            <Button text="Tableau des Utilisateurs" fx:id="dashboardButton"
-                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
-            <Button text="Autre Option" fx:id="otherOptionButton"
-                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
+        <VBox alignment="TOP_CENTER" prefWidth="280" styleClass="sidebar">
+            <HBox alignment="CENTER" styleClass="sidebar-header" spacing="10">
+                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">
+                    <image>
+                        <Image url="@images/educo.jpg"/>
+                    </image>
+                </ImageView>
+                <Label styleClass="sidebar-title" text="Admin Panel">
+                    <font>
+                        <Font name="Segoe UI Semibold" size="16"/>
+                    </font>
+                </Label>
+            </HBox>
+
+            <Separator styleClass="sidebar-separator"/>
+
+            <VBox spacing="8" styleClass="menu-items">
+                <Button fx:id="dashboardButton" styleClass="menu-button" text="Dashboard">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/dashboard-icon.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+
+                <Button onAction="#profile_user" styleClass="menu-button" text="profile">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/users-icon.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <Separator styleClass="sidebar-separator"/>
+
+                <Button onAction="#logout" styleClass="logout-button" text="Déconnexion">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/logout-icon.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+            </VBox>
+
+            <!-- Bottom spacer -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Current user info -->
+            <VBox styleClass="user-info-container" spacing="5">
+                <Separator styleClass="sidebar-separator"/>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <ImageView fitHeight="40" fitWidth="40" styleClass="user-avatar">
+                        <image>
+                            <Image url="@images/default-avatar.png"/>
+                        </image>
+                    </ImageView>
+                    <VBox spacing="2">
+                        <Label styleClass="user-name" text="Admin User"/>
+                        <Label styleClass="user-role" text="Administrateur"/>
+                    </VBox>
+                </HBox>
+            </VBox>
         </VBox>
     </left>
 
     <top>
-        <HBox spacing="10" alignment="CENTER" style="-fx-background-color: #2e3b4e; -fx-padding: 10px;">
-            <Label text="Utilisateur Connecté" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+        <HBox alignment="CENTER_LEFT" styleClass="header-bar">
+            <Label styleClass="header-title" text="Profil Utilisateur">
+                <font>
+                    <Font name="Segoe UI Semibold" size="18"/>
+                </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button styleClass="notification-button" contentDisplay="GRAPHIC_ONLY">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@images/notification-icon.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
         </HBox>
     </top>
 
+
     <center>
-        <VBox spacing="15" style="-fx-padding: 20;">
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <ImageView fx:id="userProfileImage" fitWidth="50" fitHeight="50" preserveRatio="true"/>
-                <Label text="Liste des Utilisateurs" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-            </HBox>
+        <StackPane fx:id="contentPane">
+            <!-- Vue par défaut (liste des utilisateurs) -->
+            <VBox fx:id="listView" spacing="15" style="-fx-padding: 20;">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <ImageView fx:id="userProfileImage" fitWidth="50" fitHeight="50" preserveRatio="true"/>
+                    <Label text="Liste des Utilisateurs" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                </HBox>
 
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <TextField fx:id="search" promptText="Rechercher un utilisateur" prefWidth="250"/>
-                <Button text="Ajouter un utilisateur" fx:id="addUser" prefWidth="180"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#goingToAddUser"/>
-            </HBox>
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="search" promptText="Rechercher un utilisateur" prefWidth="250"/>
+                    <Button text="Ajouter un utilisateur" prefWidth="180"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white;" onAction="#goingToAddUser"/>
+                </HBox>
 
-            <TableView fx:id="listUser" prefHeight="400">
-                <columns>
-                    <TableColumn fx:id="image" text="Image" prefWidth="100"/>
-                    <TableColumn fx:id="nom" text="Nom" prefWidth="150"/>
-                    <TableColumn fx:id="prenom" text="Prénom" prefWidth="150"/>
-                    <TableColumn fx:id="email" text="Email" prefWidth="200"/>
-                    <TableColumn fx:id="role" text="Rôle" prefWidth="150"/>
-                </columns>
-            </TableView>
+                <TableView fx:id="listUser" prefHeight="400">
+                    <columns>
+                        <TableColumn fx:id="image" text="Image" prefWidth="100"/>
+                        <TableColumn fx:id="nom" text="Nom" prefWidth="150"/>
+                        <TableColumn fx:id="prenom" text="Prénom" prefWidth="150"/>
+                        <TableColumn fx:id="email" text="Email" prefWidth="200"/>
+                        <TableColumn fx:id="role" text="Rôle" prefWidth="150"/>
+                        <TableColumn fx:id="action" text="Action" prefWidth="150"/>
+                    </columns>
+                </TableView>
 
-            <Pagination fx:id="pagination" style="-fx-alignment: center;" />
-        </VBox>
+                <Pagination fx:id="pagination" style="-fx-alignment: center;"/>
+            </VBox>
+        </StackPane>
     </center>
 </BorderPane>

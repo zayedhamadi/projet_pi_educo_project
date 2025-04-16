@@ -59,6 +59,9 @@ public class Mail {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", SMTP_HOST);
         properties.put("mail.smtp.port", SMTP_PORT);
+        properties.put("mail.smtp.ssl.trust", SMTP_HOST); // Add trust for Gmail
+        properties.put("mail.smtp.connectiontimeout", "5000000000000"); // 5 seconds timeout
+        properties.put("mail.smtp.timeout", "5000");
 
         return Session.getInstance(properties, new Authenticator() {
             @Override
@@ -108,5 +111,28 @@ public class Mail {
                 "</div>" +
                 "<div class='footer'><p>Cordialement,<br>L'équipe Educo</p></div>" +
                 "</div></body></html>";
+    }
+
+
+
+    public void sendMailDeCessation(String toEmail, String motif) throws MessagingException {
+        String content = "<h3>Notification de cessation de compte</h3>" +
+                "<p>Bonjour,</p>" +
+                "<p>Votre compte a été désactivé pour le motif suivant :</p>" +
+                "<p><b>" + motif + "</b></p>" +
+                "<p>Si vous pensez qu'il s'agit d'une erreur, veuillez contacter notre support.</p>" +
+                "<p>Cordialement,<br>L'équipe Educo</p>";
+        sendEmail(toEmail, content);
+    }
+
+    public void sendMailReactivation(String toEmail, String motif) throws MessagingException {
+        String content = "<h3>Notification de réactivation de compte</h3>" +
+                "<p>Bonjour,</p>" +
+                "<p>Votre compte a été réactivé après la cessation précédente pour le motif :</p>" +
+                "<p><b>" + motif + "</b></p>" +
+                "<p>Vous pouvez maintenant vous connecter à nouveau à votre compte.</p>" +
+                "<p><a href='" + LOGIN_URL + "' class='button'>Se connecter maintenant</a></p>" +
+                "<p>Cordialement,<br>L'équipe Educo</p>";
+        sendEmail(toEmail, content);
     }
 }

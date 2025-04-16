@@ -148,7 +148,7 @@ public class AddProduit {
         // Créer un chemin de destination dans 'public/uploads'
         String fileName = imageFile.getName();
         Path destination = Paths.get("E:/version_pidev/symfony_project-/educo_platform/public/uploads", fileName);
-
+//"C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads"
         // Vérifier si un fichier avec le même nom existe déjà
         if (Files.exists(destination)) {
             // Supprimer l'ancien fichier s'il existe
