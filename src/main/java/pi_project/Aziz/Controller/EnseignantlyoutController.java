@@ -39,5 +39,7 @@ public class EnseignantlyoutController {
     }
 
 
-
+    public void showCoursView() {
+        loadView("/Farouk/cours_list.fxml") ;
+    }
 }

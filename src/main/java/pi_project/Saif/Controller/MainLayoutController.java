@@ -38,4 +38,10 @@ public class MainLayoutController {
     public void showProfilAdmin() {
         this.loadView("/Zayed/ProfilAdmin.fxml");
     }
+
+    @FXML
+    public void showMatiereView() {
+        loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
+    }
+
 }

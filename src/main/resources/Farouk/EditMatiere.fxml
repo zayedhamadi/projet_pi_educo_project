@@ -21,7 +21,8 @@
         </columnConstraints>
 
         <Label text="Teacher ID:" styleClass="form-label" GridPane.rowIndex="0"/>
-        <TextField fx:id="enseignantIdField" styleClass="text-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+<!--        <TextField fx:id="enseignantIdField" styleClass="text-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>-->
+        <ComboBox fx:id="enseignantCombo" promptText="Select Teacher"/>
 
         <Label text="Name:" styleClass="form-label" GridPane.rowIndex="1"/>
         <TextField fx:id="nomField" styleClass="text-field" GridPane.rowIndex="1" GridPane.columnIndex="1"/>

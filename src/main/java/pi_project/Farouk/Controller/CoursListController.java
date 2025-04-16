@@ -100,6 +100,8 @@ public class CoursListController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/AjouterCours.fxml"));
             Parent root = loader.load();
+
+
             Stage stage = (Stage) coursListView.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (IOException e) {

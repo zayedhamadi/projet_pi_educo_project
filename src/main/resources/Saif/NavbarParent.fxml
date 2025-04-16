@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<BorderPane fx:id="navparent" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.NavbarParent"
+             prefWidth="1000" prefHeight="600">
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT" styleClass="navbar">
+
+
+            <Button text="🏠 Boutique" fx:id="btnBoutique" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+            <Button text="🏠 Boutique" fx:id="btnBoutiquee" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+            <Button text="🏠 Boutique" fx:id="btnBoutiqure" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Tu peux ajouter d'autres boutons ici -->
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane fx:id="navbarparent" style="-fx-background-color: #f4f4f4;" />
+    </center>
+</BorderPane>
