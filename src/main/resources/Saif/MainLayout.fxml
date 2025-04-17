@@ -31,7 +31,7 @@
                 <Button text="Gestion Eleve" onAction="#showEleveView" styleClass="sidebar-button" />
                 <Button text="reclamation" onAction="#showreclamationView" styleClass="sidebar-button" />
                 <Button text="evenement" onAction="#showevenementView" styleClass="sidebar-button" />
-                <Button text="se déconnecté" fx:id="logoutt" onAction="#logout" styleClass="sidebar-button"/>
+                <Button text="se déconnecter" fx:id="logoutt" onAction="#logout" styleClass="sidebar-button"/>
             </VBox>
         </ScrollPane>
     </left>
