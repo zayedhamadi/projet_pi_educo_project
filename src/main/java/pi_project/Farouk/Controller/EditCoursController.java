@@ -16,6 +16,7 @@ import pi_project.Farouk.Services.CoursService;
 import pi_project.Farouk.Services.MatiereService;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
+import pi_project.Aziz.Controller.EnseignantlyoutController;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,9 +132,13 @@ public class EditCoursController {
 
     private void navigateToCoursList() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/cours_list.fxml"));
+            // Load the main layout
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/enseignanlayout.fxml"));
             Parent root = loader.load();
 
+            // Get controller and show cours list
+            EnseignantlyoutController mainController = loader.getController();
+            mainController.showCoursView();
             // Get the current stage and replace the scene
             Stage stage = (Stage) pdfLabel.getScene().getWindow();
             stage.setScene(new Scene(root));

@@ -34,15 +34,15 @@
                 <!-- Nom de classe -->
                 <Label text="Nom de la classe :" styleClass="form-label"/>
                 <TextField fx:id="nomClasseField" promptText="Nom classe" styleClass="form-field"
-                          GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <Label fx:id="nomErreur" styleClass="error-label" 
+                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Label fx:id="nomErreur" styleClass="error-label"
                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <!-- Numéro de salle -->
                 <Label text="Numéro de salle :" styleClass="form-label"
                        GridPane.rowIndex="2" GridPane.columnIndex="0"/>
                 <TextField fx:id="numSalleField" promptText="Numéro salle" styleClass="form-field"
-                          GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                           GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 <Label fx:id="salleErreur" styleClass="error-label"
                        GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
@@ -50,7 +50,7 @@
                 <Label text="Capacité :" styleClass="form-label"
                        GridPane.rowIndex="4" GridPane.columnIndex="0"/>
                 <TextField fx:id="capaciteField" promptText="Capacité" styleClass="form-field"
-                          GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                           GridPane.rowIndex="4" GridPane.columnIndex="1"/>
                 <Label fx:id="capaciteErreur" styleClass="error-label"
                        GridPane.rowIndex="5" GridPane.columnIndex="1"/>
             </GridPane>

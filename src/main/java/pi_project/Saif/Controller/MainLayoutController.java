@@ -1,8 +1,10 @@
 package pi_project.Saif.Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
@@ -12,7 +14,15 @@ public class MainLayoutController {
     @FXML
     private StackPane contentPane;
 
-    // Méthode pour afficher ProduitView dans le center
+    private void loadView(String fxmlPath) {
+        try {
+            Node node = FXMLLoader.load(getClass().getResource(fxmlPath));
+            contentPane.getChildren().setAll(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void showProduitView() {
         loadView("/Saif/ProduitView.fxml");
@@ -30,15 +40,28 @@ public class MainLayoutController {
     public void showevenementView() {
         loadView("/louay/evenement.fxml");
     }
+
     public void initialize() {
-        showCategorieView(); // charge la vue par défaut
+        showCategorieView(); //
     }
-    private void loadView(String fxmlPath) {
-        try {
-            Node node = FXMLLoader.load(getClass().getResource(fxmlPath));
-            contentPane.getChildren().setAll(node);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    public void showProfilAdmin() {
+        this.loadView("/Zayed/ProfilAdmin.fxml");
+    }
+
+    @FXML
+    public void showMatiereView() {
+        loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
+
+    }
+
+    @FXML
+    public void showClassView() {
+        loadView("/Fedi/ListeOfClasse.fxml");
+
+    }
+    @FXML
+    public void showEleveView() {
+        loadView("/Fedi/ListeOfEleve.fxml");
     }
 }
