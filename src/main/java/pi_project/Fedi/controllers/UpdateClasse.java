@@ -1,7 +1,9 @@
 package pi_project.Fedi.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,6 +13,8 @@ import javafx.stage.Stage;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
 import pi_project.Main;
+
+import java.io.IOException;
 
 public class UpdateClasse {
     @FXML
@@ -75,5 +79,6 @@ public class UpdateClasse {
             alert.showAndWait();
         }
     }
+
 
 }
