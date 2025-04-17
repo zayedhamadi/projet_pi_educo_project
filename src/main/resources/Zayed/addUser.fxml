@@ -8,15 +8,15 @@
 <BorderPane fx:id="mainForm" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pi_project.Zayed.Controller.addUserController">
 
-    <left>
-        <VBox style="-fx-background-color: #2e3b4e; -fx-pref-width: 250px; -fx-padding: 10;">
-            <ImageView fx:id="userImage" fitWidth="100" fitHeight="100" preserveRatio="true"/>
-            <Button text="Tableau des Utilisateurs"
-                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
-            <Button text="Autre Option"
-                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>
-        </VBox>
-    </left>
+<!--    <left>-->
+<!--        <VBox style="-fx-background-color: #2e3b4e; -fx-pref-width: 250px; -fx-padding: 10;">-->
+<!--            <ImageView  fx:id="userImage" fitWidth="100" fitHeight="100" preserveRatio="true"/>-->
+<!--            <Button fx:id="backToActiveUserr" onAction="#backToActiveUser" text="Tableau des Utilisateurs"-->
+<!--                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>-->
+<!--            <Button text="Autre Option"-->
+<!--                    style="-fx-background-color: #3c4e70; -fx-text-fill: white; -fx-pref-width: 220px;"/>-->
+<!--        </VBox>-->
+<!--    </left>-->
 
     <center>
         <ScrollPane fitToWidth="true">

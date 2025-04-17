@@ -20,6 +20,13 @@
                 <Label text="Menu"
                        style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 20 0 0 0;"/>
 
+            <!-- Sidebar buttons with modern style -->
+
+            <Button text="Profile" onAction="#ProfilAdmin" styleClass="sidebar-button"/>
+            <Button text="ajouter user " onAction="#ajouterUser" styleClass="sidebar-button"/>
+
+            <Button text="Liste users actives" onAction="#ListeUsersActives" styleClass="sidebar-button"/>
+            <Button text="Liste users inactives" onAction="#ListeUsersInactives" styleClass="sidebar-button"/>
                 <Button text="Profile" onAction="#ProfilAdmin" styleClass="sidebar-button"/>
                 <Button text="Liste users actives" onAction="#ListeUsersActives" styleClass="sidebar-button"/>
                 <Button text="Liste users inactives" onAction="#ListeUsersInactives" styleClass="sidebar-button"/>
