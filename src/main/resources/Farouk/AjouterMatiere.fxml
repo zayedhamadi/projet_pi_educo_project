@@ -21,9 +21,10 @@
         </columnConstraints>
 
         <Label text="Teacher ID:" GridPane.rowIndex="0" style="-fx-font-weight: bold;"/>
-        <TextField fx:id="enseignantIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+<!--        <TextField fx:id="enseignantIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>-->
+        <ComboBox fx:id="enseignantCombo" promptText="Select Teacher"/>
 
-        <Label text="Name:" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
+        <Label text="Name Matiere :" GridPane.rowIndex="1" style="-fx-font-weight: bold;"/>
         <TextField fx:id="nomField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
         <Label text="Coefficient:" GridPane.rowIndex="2" style="-fx-font-weight: bold;"/>

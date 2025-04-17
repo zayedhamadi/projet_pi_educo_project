@@ -26,11 +26,11 @@
             <TableColumn fx:id="enseignantIdCol" text="Teacher ID" prefWidth="100"/>
             <TableColumn fx:id="nomCol" text="Name" prefWidth="300"/>
             <TableColumn fx:id="coeffCol" text="Coefficient" prefWidth="100"/>
-            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120">
-                <cellValueFactory>
-                    <PropertyValueFactory property="dummy" /> <!-- Needed for the column to show -->
-                </cellValueFactory>
-            </TableColumn>
+            <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120"/>
+<!--                <cellValueFactory>-->
+<!--                    <PropertyValueFactory property="dummy" /> &lt;!&ndash; Needed for the column to show &ndash;&gt;-->
+<!--                </cellValueFactory>-->
+<!--            </TableColumn>-->
         </columns>
     </TableView>
 </VBox>

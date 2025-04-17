@@ -35,6 +35,15 @@
     -fx-border-radius: 5px;
 }
 
+
+.retour-button {
+    -fx-background-color: #FF0000;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 15px;
+    -fx-border-radius: 5px;
+}
+
 .motto-text {
     -fx-font-size: 14px;
 }

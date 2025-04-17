@@ -28,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.ResourceBundle;
+import pi_project.Aziz.Controller.EnseignantlyoutController;
 
 public class CoursController implements Initializable {
 
@@ -198,8 +199,11 @@ public class CoursController implements Initializable {
 
     private void navigateToCoursList() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Farouk/cours_list.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/enseignanlayout.fxml"));
             Parent root = loader.load();
+
+            EnseignantlyoutController controller = loader.getController();
+            controller.showCoursView();
 
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.setScene(new Scene(root));

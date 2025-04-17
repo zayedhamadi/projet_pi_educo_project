@@ -76,59 +76,135 @@ public class AddProduit {
     }
 
     // Méthode pour ajouter le produit
+//    @FXML
+//    private void ajouterProduit(ActionEvent event) {
+//        try {
+//            // Récupérer les valeurs saisies dans le formulaire
+//            String nom = nomField.getText();
+//            String description = descriptionField.getText();
+//            double prix = Double.parseDouble(prixField.getText());
+//            int stock = Integer.parseInt(stockField.getText());
+//
+//            // Récupérer l'image choisie et la copier dans le répertoire 'public/uploads'
+//            String imagePath = saveImage();
+//
+//            // Récupérer l'ID de la catégorie sélectionnée
+//            String categorieNom = categorieComboBox.getSelectionModel().getSelectedItem();
+//            int categorieId = getCategorieIdByName(categorieNom);
+//
+//            if (categorieId == -1) {
+//                throw new Exception("Catégorie invalide");
+//            }
+//
+//            // Créer un objet Produit avec les données du formulaire
+//            Produit produit = new Produit(0, nom, description, prix, stock, imagePath, categorieId);
+//
+//            // Appeler la méthode du service pour ajouter le produit à la base de données
+//            produitService.ajouter(produit);
+//            if (produitView != null) {
+//                produitView.refreshTable();  // Rafraîchir le tableau
+//            }
+//            // Afficher un message de succès
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("Produit ajouté");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Le produit a été ajouté avec succès !");
+//            alert.showAndWait();
+//
+//            // Optionnel : réinitialiser les champs après l'ajout
+////            resetForm();
+//            retourListeProduits(null);
+//        } catch (NumberFormatException e) {
+//            // Gérer les erreurs de conversion de type (prix ou stock)
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Erreur");
+//            alert.setHeaderText("Entrée invalide");
+//            alert.setContentText("Veuillez entrer des valeurs valides pour le prix et le stock.");
+//            alert.showAndWait();
+//        } catch (Exception e) {
+//            // Gérer les erreurs générales
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Erreur");
+//            alert.setHeaderText("Erreur lors de l'ajout");
+//            alert.setContentText(e.getMessage());
+//            alert.showAndWait();
+//        }
+//    }
     @FXML
     private void ajouterProduit(ActionEvent event) {
         try {
-            // Récupérer les valeurs saisies dans le formulaire
-            String nom = nomField.getText();
-            String description = descriptionField.getText();
-            double prix = Double.parseDouble(prixField.getText());
-            int stock = Integer.parseInt(stockField.getText());
-
-            // Récupérer l'image choisie et la copier dans le répertoire 'public/uploads'
-            String imagePath = saveImage();
-
-            // Récupérer l'ID de la catégorie sélectionnée
+            String nom = nomField.getText().trim();
+            String description = descriptionField.getText().trim();
+            String prixText = prixField.getText().trim();
+            String stockText = stockField.getText().trim();
             String categorieNom = categorieComboBox.getSelectionModel().getSelectedItem();
+
+            // ✅ Vérification du nom : lettres + espaces uniquement
+            if (nom.isEmpty() || !nom.matches("[a-zA-ZÀ-ÿ\\s]+")) {
+                throw new Exception("Le nom doit contenir uniquement des lettres et ne pas être vide.");
+            }
+
+            // ✅ Vérification de la description
+            if (description.isEmpty()) {
+                throw new Exception("La description ne doit pas être vide.");
+            }
+
+            // ✅ Vérification du prix
+            double prix;
+            try {
+                prix = Double.parseDouble(prixText);
+                if (prix <= 0) throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                throw new Exception("Le prix doit être un nombre positif.");
+            }
+
+            // ✅ Vérification du stock
+            int stock;
+            try {
+                stock = Integer.parseInt(stockText);
+                if (stock < 0) throw new NumberFormatException();
+            } catch (NumberFormatException e) {
+                throw new Exception("Le stock doit être un entier positif.");
+            }
+
+            // ✅ Vérification de la catégorie sélectionnée
+            if (categorieNom == null || categorieNom.isEmpty()) {
+                throw new Exception("Veuillez sélectionner une catégorie.");
+            }
+
             int categorieId = getCategorieIdByName(categorieNom);
-
             if (categorieId == -1) {
-                throw new Exception("Catégorie invalide");
+                throw new Exception("Catégorie invalide.");
             }
 
-            // Créer un objet Produit avec les données du formulaire
+            // ✅ Enregistrement de l'image
+            String imagePath = saveImage();
+            if (imagePath == null || imagePath.isEmpty()) {
+                throw new Exception("Veuillez choisir une image.");
+            }
+
+            // ✅ Création et enregistrement du produit
             Produit produit = new Produit(0, nom, description, prix, stock, imagePath, categorieId);
-
-            // Appeler la méthode du service pour ajouter le produit à la base de données
             produitService.ajouter(produit);
-            if (produitView != null) {
-                produitView.refreshTable();  // Rafraîchir le tableau
-            }
-            // Afficher un message de succès
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Produit ajouté");
-            alert.setHeaderText(null);
-            alert.setContentText("Le produit a été ajouté avec succès !");
-            alert.showAndWait();
 
-            // Optionnel : réinitialiser les champs après l'ajout
-//            resetForm();
+            if (produitView != null) {
+                produitView.refreshTable();
+            }
+
+            // ✅ Message de succès
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Le produit a été ajouté avec succès !");
             retourListeProduits(null);
-        } catch (NumberFormatException e) {
-            // Gérer les erreurs de conversion de type (prix ou stock)
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Entrée invalide");
-            alert.setContentText("Veuillez entrer des valeurs valides pour le prix et le stock.");
-            alert.showAndWait();
+
         } catch (Exception e) {
-            // Gérer les erreurs générales
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText("Erreur lors de l'ajout");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Erreur de saisie", e.getMessage());
         }
+    }
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     // Méthode pour récupérer l'ID de la catégorie à partir du nom

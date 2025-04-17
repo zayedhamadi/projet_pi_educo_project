@@ -14,7 +14,15 @@ public class MainLayoutController {
     @FXML
     private StackPane contentPane;
 
-    // Méthode pour afficher ProduitView dans le center
+    private void loadView(String fxmlPath) {
+        try {
+            Node node = FXMLLoader.load(getClass().getResource(fxmlPath));
+            contentPane.getChildren().setAll(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void showProduitView() {
         loadView("/Saif/ProduitView.fxml");
@@ -24,9 +32,18 @@ public class MainLayoutController {
     public void showCategorieView() {
         loadView("/Saif/CategorieView.fxml");
     }
+
     public void initialize() {
-        showCategorieView(); // charge la vue par défaut
+        showCategorieView(); //
     }
+
+    public void showProfilAdmin() {
+        this.loadView("/Zayed/ProfilAdmin.fxml");
+    }
+
+    @FXML
+    public void showMatiereView() {
+        loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
     private void loadView(String fxmlPath) {
         try {
             Node node = FXMLLoader.load(getClass().getResource(fxmlPath));
@@ -36,6 +53,7 @@ public class MainLayoutController {
             e.printStackTrace();
         }
     }
+
 
     public void showClassView(ActionEvent actionEvent) {
         loadView("/Fedi/ListeOfClasse.fxml");

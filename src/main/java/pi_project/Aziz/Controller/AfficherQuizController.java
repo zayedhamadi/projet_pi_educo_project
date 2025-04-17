@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -68,8 +69,14 @@ public class AfficherQuizController {
 
             {
                 editBtn.getStyleClass().add("action-button");
+                editBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
                 deleteBtn.getStyleClass().add("action-button");
+                deleteBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
                 detailsBtn.getStyleClass().add("action-button");
+                detailsBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;");
+
 
                 editBtn.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
@@ -184,7 +191,6 @@ public class AfficherQuizController {
             showErrorAlert("Erreur", "Impossible de charger le formulaire d'ajout.");
         }
     }
-
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
