@@ -1,6 +1,5 @@
 package pi_project.Zayed.Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.Setter;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.AuthenticationImpl;
@@ -24,9 +24,10 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 public class ProfilAdminController {
-
     private final UserImpl userService = new UserImpl();
     AuthenticationImpl authentication = new AuthenticationImpl();
+    @Setter
+    private listActifUserController listActifUserController;
     @FXML
     private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte;
     @FXML
@@ -122,9 +123,9 @@ public class ProfilAdminController {
         editProfileButton.setOnAction(event -> toggleEditMode());
         saveProfileButton.setOnAction(event -> saveProfileChanges());
         changeImageButton.setOnAction(event -> changeProfileImage());
-        dashboardButton.setOnAction(event -> redirectToDashboard());
-        usersButton.setOnAction(event -> redirectToUsers());
-        logoutButton.setOnAction(event -> logout());
+       // dashboardButton.setOnAction(event -> redirectToDashboard());
+        //usersButton.setOnAction(event -> redirectToUsers());
+        // logoutButton.setOnAction(event -> logout());
     }
 
     private void toggleEditMode() {
@@ -334,6 +335,7 @@ public class ProfilAdminController {
         authentication.logout();
         redirectToLogin();
     }
+
     @FXML
     public void gestionproduit() {
         try {

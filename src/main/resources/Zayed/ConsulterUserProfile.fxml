@@ -99,7 +99,6 @@
                     </GridPane>
                 </VBox>
 
-                <!-- Boutons d'action -->
                 <HBox spacing="15" alignment="CENTER" styleClass="button-bar">
                     <Button text="Cesser cet utilisateur" fx:id="CesserProfileButton"
                             styleClass="action-button" prefWidth="200" onAction="#handleCesserUser"/>

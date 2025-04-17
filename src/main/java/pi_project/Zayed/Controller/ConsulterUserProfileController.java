@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class ConsulterUserProfileController {
+
     @Setter @Getter
     private listActifUserController parentController;
 
@@ -54,13 +55,11 @@ public class ConsulterUserProfileController {
 
     @FXML
     private void handleCesserUser() {
-        // Créer une boîte de dialogue pour saisir le motif
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Cessation d'utilisateur");
         dialog.setHeaderText("Motif de la cessation");
         dialog.setContentText("Veuillez entrer le motif:");
 
-        // Afficher la boîte de dialogue et attendre la réponse
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(motif -> {

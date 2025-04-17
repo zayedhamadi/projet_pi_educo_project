@@ -100,7 +100,7 @@ public class LoginController {
                     switch (userRole) {
                         case Admin -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Admin", "Vous avez accès en tant qu'Admin");
-                           loadScene("/Zayed/ProfilAdmin.fxml", "Profil Admin");
+                           loadScene("/Saif/MainLayout.fxml", "Profil Admin");
                         }
                         case Enseignant -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Enseignant", "Vous avez accès en tant qu'Enseignant");
