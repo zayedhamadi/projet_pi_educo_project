@@ -347,4 +347,32 @@ public class ProfilAdminController {
             System.out.println("Error redirecting to login: " + e.getMessage());
         }
     }
+
+    @FXML
+    public void reclamation() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/reclamation.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Connexion");
+        } catch (Exception e) {
+            System.out.println("Error redirecting to login: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void evenement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Connexion");
+        } catch (Exception e) {
+            System.out.println("Error redirecting to login: " + e.getMessage());
+        }
+    }
 }

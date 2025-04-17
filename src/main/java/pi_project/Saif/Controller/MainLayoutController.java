@@ -22,6 +22,14 @@ public class MainLayoutController {
     public void showCategorieView() {
         loadView("/Saif/CategorieView.fxml");
     }
+    @FXML
+    public void showreclamationView() {
+        loadView("/louay/reclamation.fxml");
+    }
+    @FXML
+    public void showevenementView() {
+        loadView("/louay/evenement.fxml");
+    }
     public void initialize() {
         showCategorieView(); // charge la vue par défaut
     }

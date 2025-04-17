@@ -77,6 +77,24 @@
                         </ImageView>
                     </graphic>
                 </Button>
+                <Button onAction="#reclamation" styleClass="menu-button" text="reclamation">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/inactivess.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button onAction="#evenement" styleClass="menu-button" text="evenement">
+                    <graphic>
+                        <ImageView fitHeight="18" fitWidth="18">
+                            <image>
+                                <Image url="@images/inactivess.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
 
                 <Separator styleClass="sidebar-separator"/>
 

@@ -7,6 +7,12 @@ import javafx.stage.Stage;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Enum.EventType;
 import pi_project.louay.Service.evenementImp;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.StackPane;
+import java.io.IOException;
+
+
 
 import java.time.LocalDate;
 
@@ -34,16 +40,13 @@ public class ajouterevenement {
     private Button retourButton;
 
     private final evenementImp evenementService = new evenementImp();
+    private EvenementController evenementController; // Référence au contrôleur parent
 
     @FXML
     public void initialize() {
-        // Remplir la ComboBox avec les valeurs de l'enum EventType
         typeComboBox.getItems().setAll(EventType.values());
 
-        // Désactiver le champ "Nombre de places" par défaut
         nombrePlacesField.setDisable(true);
-
-        // Activer/désactiver selon la checkbox
         inscriptionRequiseCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             nombrePlacesField.setDisable(!newVal);
             if (!newVal) {
@@ -51,11 +54,13 @@ public class ajouterevenement {
             }
         });
 
-        // Action du bouton ajouter
         ajouterButton.setOnAction(this::ajouterEvenement);
-
-        // Action du bouton retour
         retourButton.setOnAction(this::retour);
+    }
+
+    // Setter pour récupérer le contrôleur parent
+    public void setEvenementController(EvenementController controller) {
+        this.evenementController = controller;
     }
 
     private void ajouterEvenement(ActionEvent event) {
@@ -69,7 +74,7 @@ public class ajouterevenement {
             Integer nombrePlaces = null;
             EventType type = typeComboBox.getValue();
 
-            // === CONTRÔLES DE BASE ===
+            // Validations
             if (titre.isEmpty()) {
                 showAlert("Le titre est obligatoire.");
                 return;
@@ -120,7 +125,6 @@ public class ajouterevenement {
                 return;
             }
 
-            // === CONTRÔLE SI INSCRIPTION REQUISE ===
             if (inscriptionRequise) {
                 String placesText = nombrePlacesField.getText().trim();
                 if (placesText.isEmpty()) {
@@ -139,13 +143,19 @@ public class ajouterevenement {
                 }
             }
 
-            // === Création de l'objet ===
+            // Création de l'objet
             evenement e = new evenement(0, titre, description, dateDebut, dateFin, lieu, inscriptionRequise, nombrePlaces, type);
-
             evenementService.ajouter(e);
+
             showAlert("Événement ajouté avec succès !");
-            clearForm();
-            ((Button) event.getSource()).getScene().getWindow().hide();
+
+            // Rafraîchir la table des événements
+            if (evenementController != null) {
+                evenementController.refreshTable();
+            }
+
+            // Revenir à la page des événements
+            retour(null);  // Appel de la méthode retour pour revenir à la page des événements
 
         } catch (Exception e) {
             showAlert("Erreur lors de l'ajout : " + e.getMessage());
@@ -153,8 +163,28 @@ public class ajouterevenement {
     }
 
     private void retour(ActionEvent event) {
-        // Ferme la fenêtre actuelle et retourne à la fenêtre précédente
-        Stage stage = (Stage) retourButton.getScene().getWindow();
+        try {
+            // Charger la vue des événements et remplacer le contenu
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml"));
+            Parent view = loader.load();
+
+            // Récupérer le StackPane du contrôleur Evenement
+            StackPane contentPane = (StackPane) retourButton.getScene().lookup("#contentPane");
+
+            // Remplacer le contenu central avec la vue des événements
+            contentPane.getChildren().setAll(view);
+
+            // Passer la référence du contrôleur EvenementController au nouveau contrôleur
+            EvenementController controller = loader.getController();
+            controller.refreshTable();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeWindow(ActionEvent event) {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
 

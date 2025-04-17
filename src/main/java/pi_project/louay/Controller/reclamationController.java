@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import pi_project.louay.Entity.reclamation;
 import pi_project.louay.Service.reclamationImp;
 import pi_project.louay.Enum.Statut;
+import javafx.scene.layout.StackPane;
+
 
 import java.io.IOException;
 
@@ -67,26 +69,31 @@ public class reclamationController {
             if (selected != null) {
                 try {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/modifierreclamation.fxml"));
-                    Parent root = loader.load();
+                    Parent view = loader.load();
 
+                    // Remplacer seulement le contenu central (ex: dans un StackPane avec fx:id="contentPane")
+                    StackPane contentPane = (StackPane) tableView.getScene().lookup("#contentPane");
+                    contentPane.getChildren().setAll(view);
+
+                    // Passer la réclamation au contrôleur de modification
                     modifierRController controller = loader.getController();
                     controller.setReclamation(selected);
-
-                    Stage stage = new Stage();
-                    stage.setTitle("Modifier Réclamation");
-                    stage.setScene(new Scene(root));
-                    stage.showAndWait();
-
-                    // Refresh table
-                    data.setAll(service.getAll());
+                    //controller.setReclamationController(this); // si tu veux pouvoir faire un refresh après
 
                 } catch (IOException ex) {
                     ex.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Impossible d'ouvrir la vue de modification.", ButtonType.OK);
+                    alert.showAndWait();
                 }
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Veuillez sélectionner une réclamation à modifier.", ButtonType.OK);
                 alert.showAndWait();
             }
         });
+
     }
+    public void refreshTable() {
+        data.setAll(service.getAll());
+    }
+
 }
