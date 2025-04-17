@@ -7,5 +7,7 @@ public interface CesserService {
 
     void cesserUser(int id, String motif);
 
-    User ActiverUserCesser(int  id);
+    User ActiverUserCesser(int id);
+
+    void SupprimerCessation(int id);
 }

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pi_project.Zayed.Entity.User;
@@ -16,7 +17,6 @@ import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,13 +29,24 @@ public class addUserController {
 
     private final UserImpl userImpl = new UserImpl();
 
-    @FXML private TextField nom, prenom, email, description, numTel, adresse;
-    @FXML private PasswordField password;
-    @FXML private DatePicker dateNaissance;
-    @FXML private ComboBox<String> role, genre;
-    @FXML private ImageView imageP;
-    @FXML private Label all;
-    @FXML private Button AnnulerAjout;
+    @FXML
+    private BorderPane mainForm;
+    @FXML
+    private Button backToActiveUserr;
+    @FXML
+    private TextField nom, prenom, email, description, numTel, adresse;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private DatePicker dateNaissance;
+    @FXML
+    private ComboBox<String> role, genre;
+    @FXML
+    private ImageView imageP;
+    @FXML
+    private Label all;
+    @FXML
+    private Button AnnulerAjout;
 
     private File selectedFile;
 

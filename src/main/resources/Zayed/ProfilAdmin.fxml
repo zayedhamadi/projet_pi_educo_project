@@ -1,134 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <BorderPane stylesheets="@css/profilUser.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Zayed.Controller.ProfilAdminController">
 
-    <left>
-        <VBox alignment="TOP_CENTER" prefWidth="280" styleClass="sidebar">
-            <!-- Logo/Header Area -->
-            <HBox alignment="CENTER" styleClass="sidebar-header" spacing="10">
-                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">
-                    <image>
-                        <Image url="@images/educo.jpg"/>
-                    </image>
-                </ImageView>
-                <Label styleClass="sidebar-title" text="Admin Panel">
-                    <font>
-                        <Font name="Segoe UI Semibold" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
+    <!--    <left>-->
+    <!--        <VBox alignment="TOP_CENTER" prefWidth="280" styleClass="sidebar">-->
+    <!--            &lt;!&ndash; Logo/Header Area &ndash;&gt;-->
+    <!--            <HBox alignment="CENTER" styleClass="sidebar-header" spacing="10">-->
+    <!--                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">-->
+    <!--                    <image>-->
+    <!--                        <Image url="@images/educo.jpg"/>-->
+    <!--                    </image>-->
+    <!--                </ImageView>-->
+    <!--                <Label styleClass="sidebar-title" text="Admin Panel">-->
+    <!--                    <font>-->
+    <!--                        <Font name="Segoe UI Semibold" size="16"/>-->
+    <!--                    </font>-->
+    <!--                </Label>-->
+    <!--            </HBox>-->
 
-            <Separator styleClass="sidebar-separator"/>
+    <!--            <Separator styleClass="sidebar-separator"/>-->
 
-            <!-- Menu Items -->
-            <VBox spacing="8" styleClass="menu-items">
-                <Button fx:id="dashboardButton" styleClass="menu-button" text="Dashboard">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/dashboard-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+    <!--            &lt;!&ndash; Menu Items &ndash;&gt;-->
+    <!--            <VBox spacing="8" styleClass="menu-items">-->
+    <!--                <Button fx:id="dashboardButton" styleClass="menu-button" text="Dashboard">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/dashboard-icon.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
 
-                <Button onAction="#redirectToAddUser" styleClass="menu-button" text="ajouter un utilisateur ">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/userAdd.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+    <!--                <Button onAction="#redirectToAddUser" styleClass="menu-button" text="ajouter un utilisateur ">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/userAdd.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
 
-                <Button fx:id="usersButton" styleClass="menu-button" text="liste des utilisateurs actives">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/users-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+    <!--                <Button fx:id="usersButton" styleClass="menu-button" text="liste des utilisateurs actives">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/users-icon.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
 
-                <Button onAction="#Usersinactives" styleClass="menu-button" text="liste des utilisateurs inactives">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/inactivess.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+    <!--                <Button onAction="#Usersinactives" styleClass="menu-button" text="liste des utilisateurs inactives">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/inactivess.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
 
-                <Button onAction="#gestionproduit" styleClass="menu-button" text="Gestion produit">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/inactivess.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#reclamation" styleClass="menu-button" text="reclamation">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/inactivess.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#evenement" styleClass="menu-button" text="evenement">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/inactivess.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
+    <!--                <Button onAction="#gestionproduit" styleClass="menu-button" text="Gestion produit">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/inactivess.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
 
-                <Separator styleClass="sidebar-separator"/>
+    <!--                <Separator styleClass="sidebar-separator"/>-->
 
-                <Button fx:id="logoutButton" styleClass="logout-button" text="Déconnexion">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/logout-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </VBox>
+    <!--                <Button fx:id="logoutButton" styleClass="logout-button" text="Déconnexion">-->
+    <!--                    <graphic>-->
+    <!--                        <ImageView fitHeight="18" fitWidth="18">-->
+    <!--                            <image>-->
+    <!--                                <Image url="@images/logout-icon.png"/>-->
+    <!--                            </image>-->
+    <!--                        </ImageView>-->
+    <!--                    </graphic>-->
+    <!--                </Button>-->
+    <!--            </VBox>-->
 
-            <!-- Bottom spacer -->
-            <Region VBox.vgrow="ALWAYS"/>
+    <!--            &lt;!&ndash; Bottom spacer &ndash;&gt;-->
+    <!--            <Region VBox.vgrow="ALWAYS"/>-->
 
-            <!-- Current user info -->
-            <VBox styleClass="user-info-container" spacing="5">
-                <Separator styleClass="sidebar-separator"/>
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fitHeight="40" fitWidth="40" styleClass="user-avatar">
-                        <image>
-                            <Image url="@images/default-avatar.png"/>
-                        </image>
-                    </ImageView>
-                    <VBox spacing="2">
-                        <Label styleClass="user-name" text="Admin User"/>
-                        <Label styleClass="user-role" text="Administrateur"/>
-                    </VBox>
-                </HBox>
-            </VBox>
-        </VBox>
-    </left>
+    <!--            &lt;!&ndash; Current user info &ndash;&gt;-->
+    <!--            <VBox styleClass="user-info-container" spacing="5">-->
+    <!--                <Separator styleClass="sidebar-separator"/>-->
+    <!--                <HBox alignment="CENTER_LEFT" spacing="10">-->
+    <!--                    <ImageView fitHeight="40" fitWidth="40" styleClass="user-avatar">-->
+    <!--                        <image>-->
+    <!--                            <Image url="@images/default-avatar.png"/>-->
+    <!--                        </image>-->
+    <!--                    </ImageView>-->
+    <!--                    <VBox spacing="2">-->
+    <!--                        <Label styleClass="user-name" text="Admin User"/>-->
+    <!--                        <Label styleClass="user-role" text="Administrateur"/>-->
+    <!--                    </VBox>-->
+    <!--                </HBox>-->
+    <!--            </VBox>-->
+    <!--        </VBox>-->
+    <!--    </left>-->
 
     <top>
         <HBox alignment="CENTER_LEFT" styleClass="header-bar">

@@ -1,14 +1,10 @@
 package pi_project.Zayed.Utils;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.File;
 import java.util.Properties;
 
 public class Mail {
@@ -18,7 +14,7 @@ public class Mail {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
     private static final String SUBJECT = "Votre Inscription - EDUCO";
-//    private static final String IMAGE_PATH = "/Zayed/images/educo.jpg";
+    //    private static final String IMAGE_PATH = "/Zayed/images/educo.jpg";
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://www.educo.com/login";
 
@@ -81,12 +77,12 @@ public class Mail {
 
 //    private MimeBodyPart createImagePart() throws MessagingException {
 //        MimeBodyPart imagePart = new MimeBodyPart();
-////        DataSource fds = new FileDataSource(new File(IMAGE_PATH));
+
+    /// /        DataSource fds = new FileDataSource(new File(IMAGE_PATH));
 //        imagePart.setDataHandler(new DataHandler(fds));
 //        imagePart.setFileName(IMAGE_FILE_NAME);
 //        return imagePart;
 //    }
-
     private String buildHtmlContent(String toEmail, String userPassword) {
         return "<html>" +
                 "<head><style>" +
@@ -114,7 +110,6 @@ public class Mail {
     }
 
 
-
     public void sendMailDeCessation(String toEmail, String motif) throws MessagingException {
         String content = "<h3>Notification de cessation de compte</h3>" +
                 "<p>Bonjour,</p>" +
@@ -125,11 +120,10 @@ public class Mail {
         sendEmail(toEmail, content);
     }
 
-    public void sendMailReactivation(String toEmail, String motif) throws MessagingException {
+    public void sendMailReactivation(String toEmail) throws MessagingException {
         String content = "<h3>Notification de réactivation de compte</h3>" +
                 "<p>Bonjour,</p>" +
-                "<p>Votre compte a été réactivé après la cessation précédente pour le motif :</p>" +
-                "<p><b>" + motif + "</b></p>" +
+                "<p>Votre compte a été réactivé après la cessation précédente :</p>" +
                 "<p>Vous pouvez maintenant vous connecter à nouveau à votre compte.</p>" +
                 "<p><a href='" + LOGIN_URL + "' class='button'>Se connecter maintenant</a></p>" +
                 "<p>Cordialement,<br>L'équipe Educo</p>";

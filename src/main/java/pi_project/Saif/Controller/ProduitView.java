@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import pi_project.Saif.Entity.Produit;
@@ -137,10 +138,31 @@ public class ProduitView {
         loadProduits();
     }
 
+    @FXML
+    private Pagination pagination;
 
-    public void loadProduits() {
-        ObservableList<Produit> produits = FXCollections.observableArrayList(service.getAll());
-        tableView.setItems(produits);
+    private static final int ROWS_PER_PAGE = 10;
+    private ObservableList<Produit> allProduits = FXCollections.observableArrayList();
+
+//    public void loadProduits() {
+//        ObservableList<Produit> produits = FXCollections.observableArrayList(service.getAll());
+//        tableView.setItems(produits);
+//    }
+public void loadProduits() {
+    allProduits = FXCollections.observableArrayList(service.getAll());
+    int pageCount = (int) Math.ceil((double) allProduits.size() / ROWS_PER_PAGE);
+    pagination.setPageCount(pageCount > 0 ? pageCount : 1);
+    pagination.setCurrentPageIndex(0);
+    pagination.setPageFactory(this::createPage);
+}
+    private VBox createPage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, allProduits.size());
+
+        ObservableList<Produit> pageData = FXCollections.observableArrayList(allProduits.subList(fromIndex, toIndex));
+        tableView.setItems(pageData);
+
+        return new VBox(tableView);
     }
 
     private void modifierProduit(Produit produit) {

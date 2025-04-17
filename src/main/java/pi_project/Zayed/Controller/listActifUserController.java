@@ -217,9 +217,32 @@ public class listActifUserController {
         loadFXMLScene("/Zayed/addUser.fxml", "Ajouter un utilisateur");
     }
 
+    //    @FXML
+//    private void profile_user() {
+//        loadFXMLScene("/Zayed/ProfilAdmin.fxml", "Profil Administrateur");
+//    }
+    private void showAlert(Alert.AlertType type, String title, String msg) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+
     @FXML
     private void profile_user() {
-        loadFXMLScene("/Zayed/ProfilAdmin.fxml", "Profil Administrateur");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/ProfilAdmin.fxml"));
+            Parent view = loader.load();
+
+            ProfilAdminController profilAdminController = loader.getController();
+            profilAdminController.setListActifUserController(this);
+            StackPane contentPane = (StackPane) this.mainPane.getScene().lookup("#contentPane");
+            contentPane.getChildren().setAll(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
+        }
     }
 
     @FXML
@@ -246,7 +269,6 @@ public class listActifUserController {
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue", e.getMessage());
         }
     }
-
 
 
 }
