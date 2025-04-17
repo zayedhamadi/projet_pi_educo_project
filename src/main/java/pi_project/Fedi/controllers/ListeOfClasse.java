@@ -128,20 +128,20 @@ public class ListeOfClasse implements Initializable {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    private void handleAjouterEleve() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/AjouterEleve.fxml"));
-            Parent listeView = loader.load();
-
-            Scene currentScene = rootPane.getScene();
-            currentScene.setRoot(listeView);
-        } catch (Exception e) {
-            System.out.println(("Erreur lors du retour à la liste"));
-            e.printStackTrace();
-        }
-    }
+//
+//    @FXML
+//    private void handleAjouterEleve() {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/AjouterEleve.fxml"));
+//            Parent listeView = loader.load();
+//
+//            Scene currentScene = rootPane.getScene();
+//            currentScene.setRoot(listeView);
+//        } catch (Exception e) {
+//            System.out.println(("Erreur lors du retour à la liste"));
+//            e.printStackTrace();
+//        }
+//    }
 
     private void ouvrirSceneUpdate(classe selected, Stage stage) throws Exception {
         try {

@@ -25,7 +25,8 @@
 
     <bottom>
         <HBox styleClass="button-box" spacing="20" alignment="CENTER">
-            <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>
+           <!-- <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>-->
+            <Button text="Créer un élève" onAction="#handleAjouterEleve" styleClass="action-button"/>
         </HBox>
     </bottom>
 
