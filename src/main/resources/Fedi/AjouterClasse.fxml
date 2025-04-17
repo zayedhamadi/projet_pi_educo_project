@@ -36,7 +36,7 @@
                 <Label text="Nom de la classe :" styleClass="form-label"/>
                 <TextField fx:id="nomclasse" promptText="Entrez le nom de la classe" styleClass="form-field"
                           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-                <Label fx:id="nomErreur" styleClass="error-label" 
+                <Label fx:id="nomErreur" styleClass="error-label"
                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                 <!-- Numéro de salle -->

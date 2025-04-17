@@ -2,6 +2,10 @@ package pi_project.louay.Controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.time.LocalDate;
 import pi_project.louay.Entity.evenement;
@@ -58,7 +62,7 @@ public class modifierevenement {
 
         // Gérer les actions des boutons
         modifierButton.setOnAction(e -> modifierEvenement());
-        retourButton.setOnAction(e -> fermerFenetre());
+        retourButton.setOnAction(e -> retournerVersEvenements());
 
         // Désactiver le champ de nombre de places par défaut
         nombrePlacesField.setDisable(true);
@@ -152,7 +156,7 @@ public class modifierevenement {
             evenementService.modifier(evenementAModifier);
 
             showAlert(Alert.AlertType.INFORMATION, "Événement modifié avec succès !");
-            fermerFenetre();
+            retournerVersEvenements();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -166,8 +170,23 @@ public class modifierevenement {
         alert.showAndWait();
     }
 
-    private void fermerFenetre() {
-        Stage stage = (Stage) retourButton.getScene().getWindow();
-        stage.close();
+    private void retournerVersEvenements() {
+        try {
+            // Charger la page des événements depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml")); // Remplace par le bon chemin de ton fichier FXML
+            Parent view = loader.load();
+
+            // Récupérer le StackPane du contrôleur Evenement
+            StackPane contentPane = (StackPane) retourButton.getScene().lookup("#contentPane");
+
+            // Remplacer le contenu central avec la vue des événements
+            contentPane.getChildren().setAll(view);
+            EvenementController controller = loader.getController();
+            controller.refreshTable();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur lors de la navigation vers la page des événements.");
+        }
     }
 }

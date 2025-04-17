@@ -1,11 +1,13 @@
 package pi_project.Saif.Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pi_project.Zayed.Service.AuthenticationImpl;
@@ -36,6 +38,14 @@ public class MainLayoutController {
     @FXML
     public void showCategorieView() {
         loadView("/Saif/CategorieView.fxml");
+    }
+    @FXML
+    public void showreclamationView() {
+        loadView("/louay/reclamation.fxml");
+    }
+    @FXML
+    public void showevenementView() {
+        loadView("/louay/evenement.fxml");
     }
 
     public void initialize() {
@@ -70,4 +80,20 @@ public class MainLayoutController {
     }
 
 
+
+    @FXML
+    public void showMatiereView() {
+        loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
+
+    }
+
+    @FXML
+    public void showClassView() {
+        loadView("/Fedi/ListeOfClasse.fxml");
+
+    }
+    @FXML
+    public void showEleveView() {
+        loadView("/Fedi/ListeOfEleve.fxml");
+    }
 }

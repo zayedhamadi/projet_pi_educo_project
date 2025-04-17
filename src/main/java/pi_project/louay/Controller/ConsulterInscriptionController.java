@@ -3,17 +3,18 @@ package pi_project.louay.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Entity.inscriptionevenement;
 import pi_project.louay.Service.inscevenementImp;
 import pi_project.Fedi.entites.eleve;
-import javafx.scene.control.TableCell;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,6 +32,9 @@ public class ConsulterInscriptionController {
 
     @FXML
     private Label titreLabel;
+
+    @FXML
+    private Button retourButton;  // Bouton retour
 
     private final inscevenementImp inscriptionService = new inscevenementImp();
 
@@ -83,5 +87,37 @@ public class ConsulterInscriptionController {
                 }
             }
         });
+    }
+
+    @FXML
+    private void initialize() {
+        // Gestionnaire d'événements pour le bouton retour
+        retourButton.setOnAction(event -> retournerVersEvenements());
+    }
+
+    private void retournerVersEvenements() {
+        try {
+            // Charger la page des événements depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml")); // Remplace par le bon chemin de ton fichier FXML
+            Parent view = loader.load();
+
+            // Récupérer le StackPane du contrôleur Evenement
+            StackPane contentPane = (StackPane) retourButton.getScene().lookup("#contentPane");
+
+            // Remplacer le contenu central avec la vue des événements
+            contentPane.getChildren().setAll(view);
+            EvenementController controller = loader.getController();
+            controller.refreshTable();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur lors de la navigation vers la page des événements.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

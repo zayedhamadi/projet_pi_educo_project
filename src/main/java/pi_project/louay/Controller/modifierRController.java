@@ -1,24 +1,18 @@
 package pi_project.louay.Controller;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import pi_project.louay.Entity.reclamation;
 import pi_project.louay.Enum.Statut;
 import pi_project.louay.Service.reclamationImp;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
 
 public class modifierRController {
-
-    @FXML
-    private ComboBox<Statut> statutComboBox;
-
-    @FXML
-    private Button btnModifier;
 
     @FXML
     private Label labelTitre;
@@ -26,42 +20,98 @@ public class modifierRController {
     @FXML
     private Label labelDescription;
 
+    @FXML
+    private ComboBox<Statut> statutComboBox;
+
+    @FXML
+    private Button btnModifier;
 
     private final reclamationImp reclamationService = new reclamationImp();
 
     private reclamation reclamationAmodifier;
 
+    private reclamationController reclamationView; // Pour rafraîchir la vue principale
+
     public void setReclamation(reclamation r) {
         this.reclamationAmodifier = r;
-        statutComboBox.setValue(r.getStatut()); // Afficher le statut actuel
-        labelTitre.setText(r.getTitre());
-        labelDescription.setText(r.getDescription());
 
+        if (r != null) {
+            labelTitre.setText(r.getTitre());
+            labelDescription.setText(r.getDescription());
+            statutComboBox.setValue(r.getStatut());  // Afficher le statut actuel
+        }
+    }
+
+    public void setReclamationController(reclamationController controller) {
+        this.reclamationView = controller;
     }
 
     @FXML
     public void initialize() {
         // Remplir le ComboBox avec les valeurs de l'énumération Statut
-        statutComboBox.setItems(FXCollections.observableArrayList(Statut.values()));
-
-        btnModifier.setOnAction(this::modifierStatut);
+        statutComboBox.getItems().setAll(Statut.values());
     }
 
-    private void modifierStatut(ActionEvent event) {
-        if (reclamationAmodifier != null) {
-            Statut nouveauStatut = statutComboBox.getValue();
-            if (nouveauStatut != null && nouveauStatut != reclamationAmodifier.getStatut()) {
-                reclamationAmodifier.setStatut(nouveauStatut);
-                reclamationService.modifier(reclamationAmodifier);
+    // Méthode pour modifier le statut de la réclamation
+    @FXML
+    private void modifierReclamation(ActionEvent event) {
+        Statut nouveauStatut = statutComboBox.getValue();
 
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Succès");
-                alert.setHeaderText(null);
-                alert.setContentText("Statut modifié avec succès !");
-                alert.showAndWait();
-                ((Button) event.getSource()).getScene().getWindow().hide();
+        // Vérifier si un statut a été sélectionné
+        if (nouveauStatut == null) {
+            showAlert(Alert.AlertType.ERROR, "Veuillez sélectionner un statut.");
+            return;
+        }
+
+        // Si une modification est effectuée (comparaison avec l'ancien statut)
+        if (reclamationAmodifier != null && nouveauStatut != reclamationAmodifier.getStatut()) {
+            reclamationAmodifier.setStatut(nouveauStatut);
+            reclamationService.modifier(reclamationAmodifier);
+
+            // Rafraîchir la table dans le contrôleur principal
+            if (reclamationView != null) {
+                reclamationView.refreshTable(); // Rafraîchir la table des réclamations
             }
+
+            // Afficher un message de succès et fermer la fenêtre
+            showAlert(Alert.AlertType.INFORMATION, "Statut modifié avec succès !");
+
+            // Revenir à la page des réclamations
+            revenirAReclamations();
+        } else {
+            // Si aucune modification n'est détectée
+            showAlert(Alert.AlertType.WARNING, "Aucune modification détectée.");
         }
     }
-}
 
+    // Méthode pour revenir à la page des réclamations
+    private void revenirAReclamations() {
+        try {
+            // Charger la page des réclamations (reclamation.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/reclamation.fxml"));
+            Parent reclamationViewNode = loader.load();
+
+            // Récupérer le contrôleur de la vue des réclamations
+            reclamationController controller = loader.getController();
+            controller.refreshTable(); // Rafraîchir la table des réclamations
+
+            // Chercher le StackPane contentPane (le conteneur central de ton layout)
+            StackPane contentPane = (StackPane) btnModifier.getScene().lookup("#contentPane");
+
+            // Remplacer le contenu central du StackPane avec la vue des réclamations
+            contentPane.getChildren().setAll(reclamationViewNode);
+
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur lors du retour à la page des réclamations.");
+        }
+    }
+
+    // Méthode pour afficher des alertes
+    private void showAlert(Alert.AlertType type, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

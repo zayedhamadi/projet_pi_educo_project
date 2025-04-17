@@ -30,6 +30,14 @@
 
             <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button"/>
             <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button"/>
+
+            <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button" />
+            <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button" />
+            <Button text="Matieres" onAction="#showMatiereView" styleClass="sidebar-button"/>
+            <Button text="Gestion classe" onAction="#showClassView" styleClass="sidebar-button" />
+            <Button text="Gestion Eleve" onAction="#showEleveView" styleClass="sidebar-button" />
+            <Button text="reclamation" onAction="#showreclamationView" styleClass="sidebar-button" />
+            <Button text="evenement" onAction="#showevenementView" styleClass="sidebar-button" />
             <Button text="se déconnecté" fx:id="logoutt" onAction="#logout" styleClass="sidebar-button"/>
 
             <!-- Add more buttons here -->

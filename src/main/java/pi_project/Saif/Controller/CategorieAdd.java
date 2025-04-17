@@ -27,27 +27,57 @@ public class CategorieAdd {
         this.categorieView = categorieView;
     }
 
-    @FXML
-    private void ajouterCategorie() {
-        String nom = tfNom.getText().trim();
-        String desc = tfDescription.getText().trim();
+//    @FXML
+//    private void ajouterCategorie() {
+//        String nom = tfNom.getText().trim();
+//        String desc = tfDescription.getText().trim();
+//
+//        if (nom.isEmpty() || desc.isEmpty()) {
+//            showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
+//            return;
+//        }
+//
+//        Categorie categorie = new Categorie(0, nom, desc);
+//        service.ajouter(categorie);
+//        showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie ajoutée avec succès !");
+////        tfNom.clear();
+////        tfDescription.clear();
+//        retourListe(null);
+//        // 🔁 Actualiser le tableau dans la vue principale
+//        if (categorieView != null) {
+//            categorieView.loadCategories();
+//        }
+//    }
+@FXML
+private void ajouterCategorie() {
+    String nom = tfNom.getText().trim();
+    String desc = tfDescription.getText().trim();
 
-        if (nom.isEmpty() || desc.isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
-            return;
-        }
-
-        Categorie categorie = new Categorie(0, nom, desc);
-        service.ajouter(categorie);
-        showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie ajoutée avec succès !");
-//        tfNom.clear();
-//        tfDescription.clear();
-        retourListe(null);
-        // 🔁 Actualiser le tableau dans la vue principale
-        if (categorieView != null) {
-            categorieView.loadCategories();
-        }
+    // ✅ Vérifie que les champs ne sont pas vides
+    if (nom.isEmpty() || desc.isEmpty()) {
+        showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
+        return;
     }
+
+    // ✅ Vérifie que le nom contient uniquement des lettres
+    if (!nom.matches("[a-zA-ZÀ-ÿ\\s]+")) {
+        showAlert(Alert.AlertType.ERROR, "Nom invalide", "Le nom ne doit contenir que des lettres.");
+        return;
+    }
+
+    // ✅ Création et enregistrement
+    Categorie categorie = new Categorie(0, nom, desc);
+    service.ajouter(categorie);
+    showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie ajoutée avec succès !");
+
+    // 🔁 Actualiser la vue principale si besoin
+    if (categorieView != null) {
+        categorieView.loadCategories();
+    }
+
+    // 🔁 Retour à la liste
+    retourListe(null);
+}
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);

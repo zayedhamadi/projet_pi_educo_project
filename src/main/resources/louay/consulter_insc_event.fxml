@@ -23,7 +23,7 @@
 
         <!-- Bouton retour -->
         <HBox alignment="CENTER_RIGHT" prefWidth="600">
-            <Button text="Retour à la liste des événements"
+            <Button fx:id="retourButton" text="Retour à la liste des événements"
                     style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 16;" />
         </HBox>
 

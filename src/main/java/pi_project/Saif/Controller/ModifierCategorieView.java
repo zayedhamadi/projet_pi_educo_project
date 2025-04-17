@@ -38,43 +38,87 @@ public class ModifierCategorieView {
         tfNom.setText(categorie.getNom());
         tfDescription.setText(categorie.getDescription());
     }
+//
+//    @FXML
+//    private void modifierCategorie() {
+//        try {
+//            int id = Integer.parseInt(tfId.getText().trim());
+//            String nom = tfNom.getText().trim();
+//            String description = tfDescription.getText().trim();
+//
+//            if (nom.isEmpty() || description.isEmpty()) {
+//                showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
+//                return;
+//            }
+//
+//            // Mettre à jour la catégorie
+//            categorie.setNom(nom);
+//            categorie.setDescription(description);
+//
+//            // Appeler le service pour modifier la catégorie
+//            service.modifier(categorie);
+//            showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie modifiée avec succès !");
+//            tfId.clear();
+//            tfNom.clear();
+//            tfDescription.clear();
+//            // 🔁 Actualiser le tableau principal
+//            if (categorieView != null) {
+//                categorieView.loadCategories();
+//                // Après modification de la catégorie
+//                categorieView.refreshTable(); // Cela va rafraîchir la table pour refléter les changements
+//
+//            }
+////// ✅ Fermer la fenêtre après modification
+////            tfNom.getScene().getWindow().hide();
+//            retourListeCateg(null);
+//        } catch (NumberFormatException e) {
+//            showAlert(Alert.AlertType.ERROR, "Format invalide", "L'ID doit être un nombre.");
+//        }
+//    }
+@FXML
+private void modifierCategorie() {
+    try {
+        int id = Integer.parseInt(tfId.getText().trim());
+        String nom = tfNom.getText().trim();
+        String description = tfDescription.getText().trim();
 
-    @FXML
-    private void modifierCategorie() {
-        try {
-            int id = Integer.parseInt(tfId.getText().trim());
-            String nom = tfNom.getText().trim();
-            String description = tfDescription.getText().trim();
-
-            if (nom.isEmpty() || description.isEmpty()) {
-                showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
-                return;
-            }
-
-            // Mettre à jour la catégorie
-            categorie.setNom(nom);
-            categorie.setDescription(description);
-
-            // Appeler le service pour modifier la catégorie
-            service.modifier(categorie);
-            showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie modifiée avec succès !");
-            tfId.clear();
-            tfNom.clear();
-            tfDescription.clear();
-            // 🔁 Actualiser le tableau principal
-            if (categorieView != null) {
-                categorieView.loadCategories();
-                // Après modification de la catégorie
-                categorieView.refreshTable(); // Cela va rafraîchir la table pour refléter les changements
-
-            }
-//// ✅ Fermer la fenêtre après modification
-//            tfNom.getScene().getWindow().hide();
-            retourListeCateg(null);
-        } catch (NumberFormatException e) {
-            showAlert(Alert.AlertType.ERROR, "Format invalide", "L'ID doit être un nombre.");
+        // 🔎 Vérifie si les champs sont vides
+        if (nom.isEmpty() || description.isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Champs requis", "Veuillez remplir tous les champs.");
+            return;
         }
+
+        // 🔠 Vérifie que le nom contient uniquement des lettres
+        if (!nom.matches("[a-zA-ZÀ-ÿ\\s]+")) {
+            showAlert(Alert.AlertType.ERROR, "Nom invalide", "Le nom ne doit contenir que des lettres.");
+            return;
+        }
+
+        // ✅ Mise à jour de la catégorie
+        categorie.setNom(nom);
+        categorie.setDescription(description);
+        service.modifier(categorie);
+
+        showAlert(Alert.AlertType.INFORMATION, "Succès", "Catégorie modifiée avec succès !");
+
+        // Réinitialiser les champs
+        tfId.clear();
+        tfNom.clear();
+        tfDescription.clear();
+
+        // 🔁 Rafraîchir la table dans la vue principale
+        if (categorieView != null) {
+            categorieView.loadCategories();
+            categorieView.refreshTable();
+        }
+
+        // 🔙 Retour à la liste
+        retourListeCateg(null);
+
+    } catch (NumberFormatException e) {
+        showAlert(Alert.AlertType.ERROR, "Format invalide", "L'ID doit être un nombre.");
     }
+}
 
     private void showAlert(Alert.AlertType type, String title, String msg) {
         Alert alert = new Alert(type);

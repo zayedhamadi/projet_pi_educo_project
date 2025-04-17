@@ -19,13 +19,13 @@
             style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
 
     <!-- Questions Table -->
-    <TableView fx:id="questionTable" layoutX="20.0" layoutY="120.0" prefHeight="350.0" prefWidth="825.0"
+    <TableView fx:id="questionTable" layoutX="20.0" layoutY="120.0" prefHeight="350.0" prefWidth="835.0"
                style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
         <columns>
             <TableColumn fx:id="texteColumn" text="TEXTE" prefWidth="300"/>
             <TableColumn fx:id="reponseColumn" text="RÉPONSE" prefWidth="120"/>
             <TableColumn fx:id="quizColumn" text="QUIZ" prefWidth="200"/>
-            <TableColumn fx:id="actionsColumn" text="ACTIONS" prefWidth="200"/>
+            <TableColumn fx:id="actionsColumn" text="ACTIONS" prefWidth="250"/>
         </columns>
     </TableView>
 

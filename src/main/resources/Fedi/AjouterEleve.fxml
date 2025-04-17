@@ -8,8 +8,8 @@
 <?import javafx.scene.image.Image?>
 
 <BorderPane  fx:id="rootPane" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.AjouterEleve"
-            stylesheets="@css/style-listofclasse.css">
+             xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.Fedi.controllers.AjouterEleve"
+             stylesheets="@css/style-listofclasse.css">
 
     <top>
         <VBox styleClass="header-box" spacing="5" alignment="CENTER">

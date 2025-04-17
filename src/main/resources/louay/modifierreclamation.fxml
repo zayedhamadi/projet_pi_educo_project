@@ -52,7 +52,9 @@
                 <children>
                     <Button fx:id="btnModifier" text="Modifier"
                             prefWidth="140.0" prefHeight="40.0"
-                            style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 6;" />
+                            style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 6;"
+                            onAction="#modifierReclamation" />
+
                 </children>
             </HBox>
         </GridPane>
