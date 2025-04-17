@@ -44,23 +44,16 @@ public class MainLayoutController {
     @FXML
     public void showMatiereView() {
         loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
-    private void loadView(String fxmlPath) {
-        try {
-            Node node = FXMLLoader.load(getClass().getResource(fxmlPath));
 
-            contentPane.getChildren().setAll(node);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-
-    public void showClassView(ActionEvent actionEvent) {
+    @FXML
+    public void showClassView() {
         loadView("/Fedi/ListeOfClasse.fxml");
 
     }
-
-    public void showEleveView(ActionEvent actionEvent) {
+    @FXML
+    public void showEleveView() {
         loadView("/Fedi/ListeOfEleve.fxml");
     }
 }
