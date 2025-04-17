@@ -6,17 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.util.Callback;
 
 public class CategorieView {
@@ -95,12 +92,28 @@ public class CategorieView {
         loadCategories(); // This will reload the data into the table
         tableView.refresh(); // This forces a refresh of the table's display
     }
-
-     public void loadCategories() {
-        // Récupérer toutes les catégories depuis le service
-        ObservableList<Categorie> categories = FXCollections.observableArrayList(service.getAll());
-        tableView.setItems(categories);
+    public void loadCategories() {
+        allCategories = FXCollections.observableArrayList(service.getAll());
+        int pageCount = (int) Math.ceil((double) allCategories.size() / ROWS_PER_PAGE);
+        pagination.setPageCount(pageCount > 0 ? pageCount : 1);
+        pagination.setCurrentPageIndex(0);
+        pagination.setPageFactory(this::createPage);
     }
+    private VBox createPage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, allCategories.size());
+
+        ObservableList<Categorie> pageData = FXCollections.observableArrayList(allCategories.subList(fromIndex, toIndex));
+        tableView.setItems(pageData);
+
+        return new VBox(tableView); // juste pour que Pagination fonctionne, on retourne un conteneur
+    }
+
+//     public void loadCategories() {
+//        // Récupérer toutes les catégories depuis le service
+//        ObservableList<Categorie> categories = FXCollections.observableArrayList(service.getAll());
+//        tableView.setItems(categories);
+//    }
 
     // Méthode pour modifier une catégorie
 //    private void modifierCategorie(Categorie categorie) {
@@ -196,7 +209,14 @@ private void modifierCategorie(Categorie categorie) {
 //            showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
 //        }
 //    }
-@FXML
+
+    @FXML
+    private Pagination pagination;
+
+    private static final int ROWS_PER_PAGE = 10;
+    private ObservableList<Categorie> allCategories = FXCollections.observableArrayList();
+
+    @FXML
 private void ajouterCategorie() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/CategorieAdd.fxml"));
