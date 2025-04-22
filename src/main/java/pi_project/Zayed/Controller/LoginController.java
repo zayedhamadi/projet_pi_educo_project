@@ -104,12 +104,15 @@ public class LoginController {
                         }
                         case Enseignant -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Enseignant", "Vous avez accès en tant qu'Enseignant");
-                            loadScene("/Zayed/ProfilEnseignant.fxml", "Profil Enseignant");
+//                            loadScene("/Zayed/ProfilEnseignant.fxml", "Profil Enseignant");
+                            loadScene("/Aziz/enseignanlayout.fxml", "Profil Enseignant");
 
                         }
                         case Parent -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Parent", "Vous avez accès en tant que Parent");
-                          loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+//                          loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+                            loadScene("/Saif/NavbarParent.fxml", "Profil Parent");
+
                         }
                     }
                 } else {
