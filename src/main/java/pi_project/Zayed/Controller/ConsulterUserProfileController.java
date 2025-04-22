@@ -13,8 +13,11 @@ import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.CesserImpl;
 import pi_project.Zayed.Service.UserImpl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 
 public class ConsulterUserProfileController {
 
@@ -41,7 +44,6 @@ public class ConsulterUserProfileController {
     private Button UpdateProfileButton, CesserProfileButton;
 
     private boolean editMode = false;
-    private User user;
     private User currentUser;
 
     @FXML
@@ -248,18 +250,39 @@ public class ConsulterUserProfileController {
     private void handleRetour() {
         parentController.returnToList();
     }
-
     private Image loadImageFromPath(String path) {
         try {
             if (path != null && !path.isEmpty()) {
-                String fullPath = "C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads/" + path;
-                return new Image("file:" + fullPath);
+                Properties props = new Properties();
+                props.load(new FileInputStream("config.properties"));
+                String uploadPath = props.getProperty("upload.path");
+
+                String fullPath = uploadPath + "/" + path;
+                File file = new File(fullPath);
+                if (file.exists()) {
+                    return new Image(file.toURI().toString());
+                } else {
+                    System.out.println("Image non trouvée à : " + fullPath);
+                }
             }
         } catch (Exception e) {
             System.out.println("Erreur de chargement de l'image: " + e.getMessage());
         }
         return null;
     }
+
+
+//    private Image loadImageFromPath(String path) {
+//        try {
+//            if (path != null && !path.isEmpty()) {
+//                String fullPath = "C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads/" + path;
+//                return new Image("file:" + fullPath);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Erreur de chargement de l'image: " + e.getMessage());
+//        }
+//        return null;
+//    }
 
     private void showErrorAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -19,9 +19,11 @@ import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.Zayed.Utils.session;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.Properties;
 
 public class ProfilAdminController {
     private final UserImpl userService = new UserImpl();
@@ -96,27 +98,49 @@ public class ProfilAdminController {
         profileImage.setImage(Objects.requireNonNullElseGet(image, () -> new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")))));
     }
 
-    public Image loadImageFromPath(String path) {
-        if (path == null || path.isEmpty()) {
-            return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
-        }
+//    public Image loadImageFromPath(String path) {
+//        if (path == null || path.isEmpty()) {
+//            return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
+//        }
+//
+//        try {
+//            String imageName = path.startsWith("uploads/")
+//                    ? path.substring("uploads/".length())
+//                    : path;
+//
+//            String fullPath = "C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\" + imageName;
+//            File file = new File(fullPath);
+//
+//            if (file.exists()) {
+//                return new Image(file.toURI().toString());
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Erreur de chargement de l'image: " + e.getMessage());
+//        }
+//        return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
+//    }
 
+    private Image loadImageFromPath(String path) {
         try {
-            String imageName = path.startsWith("uploads/")
-                    ? path.substring("uploads/".length())
-                    : path;
+            if (path != null && !path.isEmpty()) {
+                Properties props = new Properties();
+                props.load(new FileInputStream("config.properties"));
+                String uploadPath = props.getProperty("upload.path");
 
-            String fullPath = "C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\" + imageName;
-            File file = new File(fullPath);
-
-            if (file.exists()) {
-                return new Image(file.toURI().toString());
+                String fullPath = uploadPath + "/" + path;
+                File file = new File(fullPath);
+                if (file.exists()) {
+                    return new Image(file.toURI().toString());
+                } else {
+                    System.out.println("Image non trouvée à : " + fullPath);
+                }
             }
         } catch (Exception e) {
             System.out.println("Erreur de chargement de l'image: " + e.getMessage());
         }
-        return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
+        return null;
     }
+
 
 
     private void setupButtonActions() {
@@ -174,33 +198,39 @@ public class ProfilAdminController {
         File selectedFile = fileChooser.showOpenDialog(profileImage.getScene().getWindow());
         if (selectedFile != null) {
             try {
-                String destDir = "C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\";
-                File destFolder = new File(destDir);
+                // Lire le chemin d'upload depuis config.properties
+                Properties props = new Properties();
+                props.load(new FileInputStream("config.properties"));
+                String uploadPath = props.getProperty("upload.path");
+
+                File destFolder = new File(uploadPath);
                 if (!destFolder.exists()) {
                     destFolder.mkdirs();
                 }
 
-                String originalFileName = selectedFile.getName();
-                String destPath = destDir + originalFileName;
+                // Nettoyage du nom de fichier pour éviter les problèmes
+                String originalFileName = selectedFile.getName().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+                File destinationFile = new File(uploadPath, originalFileName);
 
-                File destinationFile = new File(destPath);
+                // Éviter les doublons en ajoutant un compteur
                 int counter = 1;
                 while (destinationFile.exists()) {
                     String baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
                     String extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
                     originalFileName = baseName + "_" + counter + extension;
-                    destPath = destDir + originalFileName;
-                    destinationFile = new File(destPath);
+                    destinationFile = new File(uploadPath, originalFileName);
                     counter++;
                 }
 
+                // Copier l'image
                 Files.copy(selectedFile.toPath(),
                         destinationFile.toPath(),
                         StandardCopyOption.REPLACE_EXISTING);
 
+                // Charger l'image dans l'interface
                 profileImage.setImage(new Image(destinationFile.toURI().toString()));
 
-                // Stocker uniquement le nom du fichier (sans "uploads/")
+                // Stocker uniquement le nom du fichier pour l'enregistrer dans la base
                 newImagePath = originalFileName;
 
             } catch (Exception e) {
@@ -209,16 +239,19 @@ public class ProfilAdminController {
         }
     }
 
+
     private void saveProfileChanges() {
         try {
             if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()) {
                 Constant.showAlert(Alert.AlertType.WARNING, "Champs obligatoires", "Veuillez remplir tous les champs obligatoires", "");
                 return;
             }
+
             if (!password.getText().isEmpty() && !password.getText().equals("********")) {
                 String hashedPwd = PasswordUtils.cryptPw(password.getText());
                 user.setPassword(hashedPwd);
             }
+
             user.setNom(nom.getText());
             user.setPrenom(prenom.getText());
             user.setEmail(email.getText());
@@ -235,14 +268,20 @@ public class ProfilAdminController {
             user.setDescription(description.getText());
 
             if (newImagePath != null) {
+                // Supprimer l'ancienne image si elle existe
                 if (user.getImage() != null && !user.getImage().isEmpty()) {
-                    String oldImageName = user.getImage().startsWith("uploads/")
-                            ? user.getImage().substring("uploads/".length())
-                            : user.getImage();
+                    try {
+                        Properties props = new Properties();
+                        props.load(new FileInputStream("config.properties"));
+                        String uploadPath = props.getProperty("upload.path");
 
-                    File oldImage = new File("C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\" + oldImageName);
-                    if (oldImage.exists()) {
-                        oldImage.delete();
+                        String oldImageName = user.getImage();
+                        File oldImage = new File(uploadPath, oldImageName);
+                        if (oldImage.exists()) {
+                            oldImage.delete();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erreur lors de la suppression de l'ancienne image: " + e.getMessage());
                     }
                 }
                 user.setImage(newImagePath);
@@ -262,6 +301,7 @@ public class ProfilAdminController {
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil", e.getMessage());
         }
     }
+
 
 
     private void redirectToDashboard() {
