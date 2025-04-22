@@ -3,23 +3,23 @@ package pi_project.Saif.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
 import pi_project.Saif.Service.ProduitService;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Properties;
 
 public class ModifierProduitView {
 
@@ -225,15 +225,37 @@ private void modifierProduit() {
         return -1; // Catégorie non trouvée
     }
 
-    private String saveImage() throws IOException {
-        if (selectedImage == null) {
-            return produit.getImage();
-        }
-//"E:/version_pidev/symfony_project-/educo_platform/public/uploads/"
-        File destFile = new File("C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads" + selectedImage.getName());
-        Files.copy(selectedImage.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        return  selectedImage.getName();
+//    private String saveImage() throws IOException {
+//        if (selectedImage == null) {
+//            return produit.getImage();
+//        }
+//
+//        File destFile = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + selectedImage.getName());
+//        Files.copy(selectedImage.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//        return  selectedImage.getName();
+//    }
+private String saveImage() throws IOException {
+    if (selectedImage == null) {
+        return produit.getImage(); // On conserve l'image précédente si aucune nouvelle sélection
     }
+
+    // Charger le chemin depuis le fichier de config
+    Properties props = new Properties();
+    FileInputStream in = new FileInputStream("config.properties");
+    props.load(in);
+    in.close();
+
+    String uploadPath = props.getProperty("upload.path"); // Exemple: E:/xampp/htdocs/uploads
+
+    // Créer le fichier destination
+    File destFile = new File(uploadPath + "/" + selectedImage.getName());
+
+    // Copier l’image sélectionnée vers le dossier d’upload
+    Files.copy(selectedImage.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+    // Retourner le nom du fichier (pour la base de données)
+    return selectedImage.getName();
+}
 
     private void showAlert(Alert.AlertType type, String content) {
         Alert alert = new Alert(type);

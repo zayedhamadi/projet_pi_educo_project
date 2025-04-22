@@ -14,14 +14,15 @@ import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Service.ProduitService;
 import pi_project.Saif.Service.CategorieService;
 
-import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Properties;
 
 public class AddProduit {
 
@@ -218,26 +219,55 @@ public class AddProduit {
     }
 
     // Méthode pour sauvegarder l'image dans le répertoire 'public/uploads'
+//    private String saveImage() throws IOException {
+//        // Obtenir le fichier image sélectionné
+//        File imageFile = new File(imageView.getImage().getUrl().replace("file:/", ""));
+//
+//        // Créer un chemin de destination dans 'public/uploads'
+//        String fileName = imageFile.getName();
+//        Path destination = Paths.get("E:/version_pidev/symfony_project-/educo_platform/public/uploads", fileName);
+////"C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads"
+//        // Vérifier si un fichier avec le même nom existe déjà
+//        if (Files.exists(destination)) {
+//            // Supprimer l'ancien fichier s'il existe
+//            Files.delete(destination);
+//        }
+//
+//        // Copier l'image dans le répertoire de destination
+//        Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+//
+//        // Retourner le chemin relatif pour l'enregistrer dans la base de données
+//        return fileName;
+//    }
+
     private String saveImage() throws IOException {
+        // Charger le chemin d'upload depuis un fichier config.properties
+        Properties props = new Properties();
+        FileInputStream in = new FileInputStream("config.properties");
+        props.load(in);
+        in.close();
+
+        String uploadPath = props.getProperty("upload.path"); // ex: "E:/xampp/htdocs/uploads"
+
         // Obtenir le fichier image sélectionné
         File imageFile = new File(imageView.getImage().getUrl().replace("file:/", ""));
 
-        // Créer un chemin de destination dans 'public/uploads'
+        // Nom du fichier
         String fileName = imageFile.getName();
-        Path destination = Paths.get("E:/version_pidev/symfony_project-/educo_platform/public/uploads", fileName);
-//"C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads"
-        // Vérifier si un fichier avec le même nom existe déjà
+        Path destination = Paths.get(uploadPath, fileName);
+
+        // Supprimer l'ancien fichier s'il existe
         if (Files.exists(destination)) {
-            // Supprimer l'ancien fichier s'il existe
             Files.delete(destination);
         }
 
-        // Copier l'image dans le répertoire de destination
+        // Copier l'image dans le dossier choisi
         Files.copy(imageFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
 
-        // Retourner le chemin relatif pour l'enregistrer dans la base de données
-        return fileName;
+        // Retourner le chemin relatif (pour la base de données ou affichage web)
+        return  fileName; // utilisable avec http://localhost/uploads/xxx.jpg
     }
+
     // Méthode pour réinitialiser le formulaire après l'ajout d'un produit
     private void resetForm() {
         nomField.clear();

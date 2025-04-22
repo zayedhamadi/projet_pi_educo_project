@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -13,12 +12,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Service.ProduitService;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 public class ProduitView {
 
@@ -80,8 +80,13 @@ public class ProduitView {
                     setGraphic(null);
                 } else {
                     try {
-                        String ii="C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads";
-                        File file = new File(ii + imagePath);  // Make sure to include the full path
+//                        File file = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + imagePath);  // Make sure to include the full path
+                        Properties props = new Properties();
+                        props.load(new FileInputStream("config.properties"));
+                        String uploadPath = props.getProperty("upload.path");
+
+                        File file = new File(uploadPath + "/" + imagePath);
+
                         if (file.exists()) {
                             Image image = new Image(file.toURI().toString(), 60, 60, true, true);  // Ensure the image is resized to fit 60x60
                             imageView.setImage(image);
