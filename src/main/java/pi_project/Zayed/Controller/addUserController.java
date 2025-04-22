@@ -74,18 +74,23 @@ public class addUserController {
         }
     }
 
+    private boolean doingsomecheckValidator() {
+        if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()
+                || password.getText().isEmpty() || description.getText().isEmpty()
+                || numTel.getText().isEmpty() || adresse.getText().isEmpty()
+                || dateNaissance.getValue() == null || role.getValue() == null || genre.getValue() == null
+                || selectedFile == null) {
+            Constant.showAlert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs et sélectionner une image", "Erreur d'ajout", "Erreur d'ajout");
+            all.setText("Veuillez remplir tous les champs et sélectionner une image.");
+
+        }
+        return false;
+    }
+
     @FXML
     void AjouterUser() {
         try {
-            if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()
-                    || password.getText().isEmpty() || description.getText().isEmpty()
-                    || numTel.getText().isEmpty() || adresse.getText().isEmpty()
-                    || dateNaissance.getValue() == null || role.getValue() == null || genre.getValue() == null
-                    || selectedFile == null) {
-                Constant.showAlert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs et sélectionner une image", "Erreur d'ajout", "Erreur d'ajout");
-                all.setText("Veuillez remplir tous les champs et sélectionner une image.");
-                return;
-            }
+            doingsomecheckValidator();
 
             String originalFileName = selectedFile.getName();
             String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;

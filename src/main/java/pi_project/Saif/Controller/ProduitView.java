@@ -80,7 +80,8 @@ public class ProduitView {
                     setGraphic(null);
                 } else {
                     try {
-                        File file = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + imagePath);  // Make sure to include the full path
+                        String ii="C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads";
+                        File file = new File(ii + imagePath);  // Make sure to include the full path
                         if (file.exists()) {
                             Image image = new Image(file.toURI().toString(), 60, 60, true, true);  // Ensure the image is resized to fit 60x60
                             imageView.setImage(image);

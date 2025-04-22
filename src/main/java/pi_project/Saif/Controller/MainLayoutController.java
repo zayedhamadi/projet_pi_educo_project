@@ -100,4 +100,8 @@ public class MainLayoutController {
     public void ajouterUser() {
         this.loadView("/Zayed/addUser.fxml");
     }
+
+    public void dashboardAdmin() {
+        this.loadView("/Zayed/StatistiqueAdmin.fxml");
+    }
 }

@@ -9,10 +9,9 @@ public interface UserService<T> {
 
     void addUser(T user);
 
+    User updateUser(User user);
 
-    User  updateUser(User user);
-
-    User getSpeceficUser(int id) throws SQLException;;
+    User getSpeceficUser(int id) throws SQLException;
 
     List<T> getActifUser() throws SQLException;
 

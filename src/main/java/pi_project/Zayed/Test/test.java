@@ -4,6 +4,7 @@ package pi_project.Zayed.Test;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.Genre;
 import pi_project.Zayed.Enum.Role;
+import pi_project.Zayed.Service.AuthenticationImpl;
 import pi_project.Zayed.Service.UserImpl;
 
 import java.sql.SQLException;
@@ -12,8 +13,9 @@ import java.util.Set;
 
 public class test {
     public static void main(String[] args) throws SQLException {
-//        UserImpl userService = new UserImpl();
-//        User newUser = new User();
+        UserImpl userService = new UserImpl();
+        AuthenticationImpl authentication = new AuthenticationImpl();
+            User user = new User("zayedh80@gmail.com","9CpS%SaJpe");
 //        /* testing add User */
 //        newUser.setId(40);
 //        newUser.setNom("Doejjlnomoisdvdsvneee");
@@ -52,6 +54,8 @@ public class test {
 //        System.out.println(userService.getSpeceficUser(1));
 
 
+
+authentication.forgetPassword("zayedh80@gmail.com");
 
 
     }

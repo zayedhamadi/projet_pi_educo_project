@@ -6,6 +6,8 @@ import lombok.*;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Genre;
 import pi_project.Zayed.Enum.Role;
+import pi_project.Zayed.Validator.PhoneNumber;
+import pi_project.Zayed.Validator.dateNaissance;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -33,12 +35,12 @@ public class User {
     @Size(max = 500, message = "La description ne doit pas dépasser 500 caractères")
     private String description;
 
-    @Min(8)
-    @Max(8)
-    @Pattern(regexp = "^[529][0-9]{7}$", message = "Le numéro doit commencer par 5, 2 ou 9 et contenir 8 chiffres")
+    @PhoneNumber
+    @NotNull(message = "Le numéro de téléphone est obligatoire")
     private int num_tel;
 
     @NotNull(message = "La date de naissance est obligatoire")
+    @dateNaissance
     private LocalDate date_naissance;
 
     @NotBlank(message = "L'email est obligatoire")

@@ -229,8 +229,8 @@ private void modifierProduit() {
         if (selectedImage == null) {
             return produit.getImage();
         }
-
-        File destFile = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + selectedImage.getName());
+//"E:/version_pidev/symfony_project-/educo_platform/public/uploads/"
+        File destFile = new File("C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads" + selectedImage.getName());
         Files.copy(selectedImage.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         return  selectedImage.getName();
     }
