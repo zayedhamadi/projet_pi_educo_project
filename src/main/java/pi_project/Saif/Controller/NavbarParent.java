@@ -28,6 +28,9 @@ public class NavbarParent {
     public void loadBoutiqueView() {
         loadView("/Saif/BoutiqueView.fxml");
     }
+    public void loadsuivrecommandeView() {
+        loadView("/Saif/suivrecommande.fxml");
+    }
 
     public void loadreclamationView() {
         loadView("/louay/mesreclamation.fxml");

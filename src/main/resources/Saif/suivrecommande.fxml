@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.SuiviCommandeController"
+            style="-fx-background-color: #f5f6fa;">
+
+    <!-- Center TableView -->
+    <center>
+        <VBox spacing="20" alignment="TOP_CENTER" style="-fx-padding: 20;">
+            <TableView fx:id="table"
+                       style="-fx-background-color: white; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #dcdde1;">
+                <columns>
+<!--                    <TableColumn fx:id="idCol" text="Code" prefWidth="100"/>-->
+                    <TableColumn fx:id="dateCol" text="Date de Commande" prefWidth="180"/>
+                    <TableColumn fx:id="montantCol" text="Montant Total" prefWidth="140"/>
+                    <TableColumn fx:id="statutCol" text="Statut" prefWidth="140"/>
+                    <TableColumn fx:id="paiementCol" text="Mode de Paiement" prefWidth="180"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- Bottom Info -->
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" style="-fx-background-color: #2f3640; -fx-padding: 15;" effect="$shadow">
+            <Label text="📦 Suivi de votre commande"
+                   style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-family: 'Segoe UI Semibold';"/>
+        </HBox>
+    </bottom>
+
+    <!-- Drop Shadow -->
+    <fx:define>
+        <DropShadow fx:id="shadow" radius="8" color="#b2bec3"/>
+    </fx:define>
+
+</BorderPane>

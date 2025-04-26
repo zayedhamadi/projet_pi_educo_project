@@ -36,7 +36,7 @@
                        VBox.vgrow="ALWAYS"
                        style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
                 <columns>
-                    <TableColumn fx:id="colId" text="ID"/>
+<!--                    <TableColumn fx:id="colId" text="ID"/>-->
                     <TableColumn fx:id="colNom" text="Nom"/>
                     <TableColumn fx:id="colDescription" text="Description"/>
                     <TableColumn fx:id="colActions" text="Actions"/>

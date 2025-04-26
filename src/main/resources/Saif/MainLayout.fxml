@@ -34,6 +34,8 @@
 
                 <Button text="Produits" onAction="#showProduitView" styleClass="sidebar-button"/>
                 <Button text="Catégories" onAction="#showCategorieView" styleClass="sidebar-button"/>
+                <Button text="Commandes" onAction="#Admincommande" styleClass="sidebar-button"/>
+
                 <Button text="Matieres" onAction="#showMatiereView" styleClass="sidebar-button"/>
                 <Button text="Gestion classe" onAction="#showClassView" styleClass="sidebar-button" />
                 <Button text="Gestion Eleve" onAction="#showEleveView" styleClass="sidebar-button" />

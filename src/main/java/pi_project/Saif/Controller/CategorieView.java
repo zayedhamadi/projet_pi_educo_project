@@ -38,7 +38,7 @@ public class CategorieView {
     @FXML
     public void initialize() {
         // Initialiser les colonnes
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
