@@ -16,7 +16,8 @@ public class DataSource {
     public DataSource() {
 
         try {
-            final String url = "jdbc:mysql://localhost:3307/projet_pidev";
+     final String url = "jdbc:mysql://localhost:3306/projet_pidev";
+       //     final String url = "jdbc:mysql://localhost:3306/testingreconnaisance";
             final String user = "root";
             final String password = "";
             conn = DriverManager.getConnection(url, user, password);

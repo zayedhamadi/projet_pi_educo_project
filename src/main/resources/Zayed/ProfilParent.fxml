@@ -9,68 +9,6 @@
             fx:controller="pi_project.Zayed.Controller.ProfilParentController"
             stylesheets="@css/profilUser.css">
 
-
-    <left>
-        <VBox alignment="TOP_CENTER" prefWidth="280" styleClass="sidebar">
-            <!-- Logo/Header Area -->
-            <HBox alignment="CENTER" styleClass="sidebar-header" spacing="10">
-                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">
-                    <image>
-                        <Image url="@images/educo.jpg"/>
-                    </image>
-                </ImageView>
-                <Label styleClass="sidebar-title" text="Admin Panel">
-                    <font>
-                        <Font name="Segoe UI Semibold" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-
-            <Separator styleClass="sidebar-separator"/>
-
-            <!-- Menu Items -->
-            <VBox spacing="8" styleClass="menu-items">
-                <Button fx:id="dashboardButton" styleClass="menu-button" text="Dashboard">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/dashboard-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-
-
-                <Separator styleClass="sidebar-separator"/>
-
-                <Button fx:id="logoutButton" styleClass="logout-button" text="Déconnexion">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/logout-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </VBox>
-
-            <!-- Bottom spacer -->
-            <Region VBox.vgrow="ALWAYS"/>
-
-            <!-- Current user info -->
-            <VBox styleClass="user-info-container" spacing="5">
-                <Separator styleClass="sidebar-separator"/>
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fitHeight="40" fitWidth="40" styleClass="user-avatar">
-                        <image>
-                            <Image url="@images/default-avatar.png"/>
-                        </image>
-                    </ImageView>
-                </HBox>
-            </VBox>
-        </VBox>
-    </left>
-
     <top>
         <HBox alignment="CENTER_LEFT" styleClass="header-bar">
             <Label styleClass="header-title" text="Profil Utilisateur">
@@ -111,48 +49,37 @@
 
                     <!-- Form Fields -->
                     <Label text="Nom :" styleClass="form-label" GridPane.rowIndex="0"/>
-                    <TextField fx:id="nom" editable="false" styleClass="form-field" GridPane.rowIndex="0"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="nom" editable="false" styleClass="form-field" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                     <Label text="Prénom :" styleClass="form-label" GridPane.rowIndex="1"/>
-                    <TextField fx:id="prenom" editable="false" styleClass="form-field" GridPane.rowIndex="1"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="prenom" editable="false" styleClass="form-field" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                     <Label text="Email :" styleClass="form-label" GridPane.rowIndex="2"/>
-                    <TextField fx:id="email" editable="false" styleClass="form-field" GridPane.rowIndex="2"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="email" editable="false" styleClass="form-field" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
                     <Label text="Téléphone :" styleClass="form-label" GridPane.rowIndex="3"/>
-                    <TextField fx:id="numTel" editable="false" styleClass="form-field" GridPane.rowIndex="3"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="numTel" editable="false" styleClass="form-field" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
                     <Label text="Adresse :" styleClass="form-label" GridPane.rowIndex="4"/>
-                    <TextField fx:id="adresse" editable="false" styleClass="form-field" GridPane.rowIndex="4"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="adresse" editable="false" styleClass="form-field" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
                     <Label text="Date de naissance :" styleClass="form-label" GridPane.rowIndex="5"/>
-                    <DatePicker fx:id="dateNaissance" editable="false" styleClass="form-field" GridPane.rowIndex="5"
-                                GridPane.columnIndex="1"/>
+                    <DatePicker fx:id="dateNaissance" editable="false" styleClass="form-field" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                     <Label text="Genre :" styleClass="form-label" GridPane.rowIndex="6"/>
-                    <TextField fx:id="genre" editable="false" styleClass="form-field" GridPane.rowIndex="6"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="genre" editable="false" styleClass="form-field" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
                     <Label text="Rôle :" styleClass="form-label" GridPane.rowIndex="7"/>
-                    <TextField fx:id="roles" editable="false" styleClass="form-field" GridPane.rowIndex="7"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="roles" editable="false" styleClass="form-field" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
 
                     <Label text="État du compte :" styleClass="form-label" GridPane.rowIndex="8"/>
-                    <TextField fx:id="etatCompte" editable="false" styleClass="form-field" GridPane.rowIndex="8"
-                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="etatCompte" editable="false" styleClass="form-field" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
 
                     <Label text="Description :" styleClass="form-label" GridPane.rowIndex="9"/>
-                    <TextArea fx:id="description" editable="false" styleClass="form-textarea" wrapText="true"
-                              GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+                    <TextArea fx:id="description" editable="false" styleClass="form-textarea" wrapText="true" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
 
                     <Label text="Mot de passe :" styleClass="form-label" GridPane.rowIndex="10"/>
-                    <PasswordField fx:id="password" editable="false" styleClass="form-field" GridPane.rowIndex="10"
-                                   GridPane.columnIndex="1"/>
+                    <PasswordField fx:id="password" editable="false" styleClass="form-field" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <!-- Action Buttons -->

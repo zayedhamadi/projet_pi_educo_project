@@ -2,20 +2,19 @@ package pi_project.Zayed.Test;
 
 
 import pi_project.Zayed.Entity.User;
+import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Genre;
-import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.AuthenticationImpl;
 import pi_project.Zayed.Service.UserImpl;
+import pi_project.Zayed.Utils.GeminiRolePredictor;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Set;
 
 public class test {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         UserImpl userService = new UserImpl();
         AuthenticationImpl authentication = new AuthenticationImpl();
-            User user = new User("zayedh80@gmail.com","9CpS%SaJpe");
+        User user = new User("zayedh80@gmail.com", "9CpS%SaJpe");
 //        /* testing add User */
 //        newUser.setId(40);
 //        newUser.setNom("Doejjlnomoisdvdsvneee");
@@ -54,8 +53,24 @@ public class test {
 //        System.out.println(userService.getSpeceficUser(1));
 
 
+//authentication.forgetPassword("zayedh80@gmail.com");
+//authentication.forgetPasswordByNumTel("90264626");
+        User testUser = new User();
+        testUser.setNom("Ali");
+    //    testUser.setPrenom("Ali");
+        testUser.setEmail("ali@example.com");
+        testUser.setEtat_compte(EtatCompte.active);
+        testUser.setGenre(Genre.homme);
+        testUser.setDescription("Prof expérimenté dans un lycée public.");
+      //  testUser.setAdresse("mrjel");
+        //testUser.setDate_naissance(LocalDate.of(1985, 5, 15));
+        //testUser.setNum_tel(223456789);
+        //testUser.setPassword("password123");
+        //testUser.setImage(null);
 
-authentication.forgetPassword("zayedh80@gmail.com");
+// Appel API
+        String role = GeminiRolePredictor.predictRole(testUser);
+        System.out.println("Rôle prédit par Gemini : " + role);
 
 
     }

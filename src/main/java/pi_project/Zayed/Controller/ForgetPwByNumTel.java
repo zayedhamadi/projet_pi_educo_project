@@ -1,7 +1,5 @@
 package pi_project.Zayed.Controller;
 
-
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,19 +15,17 @@ import pi_project.Zayed.Utils.Constant;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ForgetPwController {
+public class ForgetPwByNumTel {
 
-
-    private static final Logger LOGGER = Logger.getLogger(ForgetPwController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ForgetPwByNumTel.class.getName());
 
     @FXML
     AnchorPane s;
+    @FXML
+    private TextField numTel;
 
     @FXML
-    private TextField email;
-
-    @FXML
-    public void goingTologinPage() {
+    public void goingToChoiXpassword() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/ChoixForgetPw.fxml"));
             Parent root = loader.load();
@@ -49,32 +45,32 @@ public class ForgetPwController {
     }
 
     @FXML
-    public void forgetPassword() {
+    public void forgetPasswordBynumTel() {
         try {
-            String mail = email.getText().trim();
-            if (mail.isEmpty()) {
-                showWarning("Champs requis", "Veuillez remplir le champ email.");
+            String num = this.numTel.getText();
+            if (
+                    num.isEmpty()
+                            ||
+                            (!(num.length() == 8))
+            ) {
+                showWarning();
                 return;
             }
-            if (!mail.matches(".+@.+\\..+")) {
-                showWarning("Email invalide", "Format d'email incorrect.");
-                return;
-            }
+
 
             AuthenticationImpl authentication = new AuthenticationImpl();
-            authentication.forgetPassword(mail);
+            authentication.forgetPasswordByNumTel(num);
 
 
-            LOGGER.info("Mot de passe oublié - email envoyé à : " + mail);
-            Platform.runLater(() -> Constant.showAlert(Alert.AlertType.INFORMATION, "Succès", "Veuillez consulter votre mail pour votre nouveau mot de passe", "Email envoyé."));
+            LOGGER.info("Mot de passe oublié - numtel  envoyé à : " + num);
+            Platform.runLater(() -> Constant.showAlert(Alert.AlertType.INFORMATION, "Succès", "Veuillez consulter votre message de sms pour votre nouveau mot de passe", "Email envoyé."));
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Erreur lors de la récupération du mot de passe", e);
             Constant.showAlert(Alert.AlertType.ERROR, "Échec", "Une erreur est survenue. Veuillez réessayer.", "Erreur");
         }
     }
 
-    private void showWarning(String title, String message) {
-        Platform.runLater(() -> Constant.showAlert(Alert.AlertType.WARNING, title, message, "Échec"));
+    private void showWarning() {
+        Platform.runLater(() -> Constant.showAlert(Alert.AlertType.WARNING, "Champs requis", "Veuillez remplir le champ email.", "Échec"));
     }
-
 }
