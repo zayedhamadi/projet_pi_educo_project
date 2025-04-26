@@ -97,24 +97,43 @@ public class EditCoursController {
     private void onCancel() {
         navigateToCoursList();
     }
-
     @FXML
     private void onSave() {
+        // Reset styles
+        nameField.setStyle(null);
+
         try {
-            if (nameField.getText().isEmpty()) {
+            String courseName = nameField.getText().trim();
+
+            if (courseName.isEmpty()) {
                 showAlert("Error", "Course name is required!");
+                nameField.setStyle("-fx-border-color: red;");
                 return;
             }
+
+            if (courseName.matches(".*\\d.*")) {
+                showAlert("Error", "Course name must not contain numbers!");
+                nameField.setStyle("-fx-border-color: red;");
+                return;
+            }
+
+            if (!Character.isUpperCase(courseName.charAt(0))) {
+                showAlert("Error", "Course name must start with a capital letter!");
+                nameField.setStyle("-fx-border-color: red;");
+                return;
+            }
+
             if (matiereComboBox.getValue() == null) {
                 showAlert("Error", "Please select a matiere!");
                 return;
             }
+
             if (classComboBox.getValue() == null) {
                 showAlert("Error", "Please select a class!");
                 return;
             }
 
-            cours.setName(nameField.getText());
+            cours.setName(courseName);
             cours.setIdMatiere(matiereComboBox.getValue().getId());
             cours.setClasse(classComboBox.getValue().getId());
             cours.setPdfFilename(selectedPdfPath);
@@ -125,10 +144,44 @@ public class EditCoursController {
             } else {
                 showAlert("Error", "Failed to update course");
             }
+
         } catch (Exception e) {
             showAlert("Error", "An error occurred: " + e.getMessage());
         }
     }
+
+
+//    @FXML
+//    private void onSave() {
+//        try {
+//            if (nameField.getText().isEmpty()) {
+//                showAlert("Error", "Course name is required!");
+//                return;
+//            }
+//            if (matiereComboBox.getValue() == null) {
+//                showAlert("Error", "Please select a matiere!");
+//                return;
+//            }
+//            if (classComboBox.getValue() == null) {
+//                showAlert("Error", "Please select a class!");
+//                return;
+//            }
+//
+//            cours.setName(nameField.getText());
+//            cours.setIdMatiere(matiereComboBox.getValue().getId());
+//            cours.setClasse(classComboBox.getValue().getId());
+//            cours.setPdfFilename(selectedPdfPath);
+//
+//            boolean updated = coursService.modifier(cours);
+//            if (updated) {
+//                navigateToCoursList();
+//            } else {
+//                showAlert("Error", "Failed to update course");
+//            }
+//        } catch (Exception e) {
+//            showAlert("Error", "An error occurred: " + e.getMessage());
+//        }
+//    }
 
     private void navigateToCoursList() {
         try {
