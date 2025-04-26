@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
@@ -9,79 +10,6 @@
             fx:controller="pi_project.Zayed.Controller.ProfilEnseignantController"
             stylesheets="@css/profilUser.css">
 
-    <left>
-        <VBox alignment="TOP_CENTER" prefWidth="280" styleClass="sidebar">
-            <!-- Logo/Header Area -->
-            <HBox alignment="CENTER" styleClass="sidebar-header" spacing="10">
-                <ImageView fitHeight="32" fitWidth="32" preserveRatio="true">
-                    <image>
-                        <Image url="@images/educo.jpg"/>
-                    </image>
-                </ImageView>
-                <Label styleClass="sidebar-title" text="Admin Panel">
-                    <font>
-                        <Font name="Segoe UI Semibold" size="16"/>
-                    </font>
-                </Label>
-            </HBox>
-
-            <Separator styleClass="sidebar-separator"/>
-
-            <!-- Menu Items -->
-            <VBox spacing="8" styleClass="menu-items">
-                <Button fx:id="dashboardButton" styleClass="menu-button" text="Dashboard">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/dashboard-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-
-
-             <Separator styleClass="sidebar-separator"/>
-                <MenuButton text="Quiz" styleClass="menu-button">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/inactivess.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <items>
-                        <MenuItem text="Quiz" onAction="#gestionquiz"/>
-                        <MenuItem text="Question" onAction="#gestionquestion"/>
-                    </items>
-                </MenuButton>
-
-                <Button fx:id="logoutButton" styleClass="logout-button" text="Déconnexion">
-                    <graphic>
-                        <ImageView fitHeight="18" fitWidth="18">
-                            <image>
-                                <Image url="@images/logout-icon.png"/>
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </VBox>
-
-            <!-- Bottom spacer -->
-            <Region VBox.vgrow="ALWAYS"/>
-
-            <!-- Current user info -->
-            <VBox styleClass="user-info-container" spacing="5">
-                <Separator styleClass="sidebar-separator"/>
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <ImageView fitHeight="40" fitWidth="40" styleClass="user-avatar">
-                        <image>
-                            <Image url="@images/default-avatar.png"/>
-                        </image>
-                    </ImageView>
-                </HBox>
-            </VBox>
-        </VBox>
-    </left>
 
     <top>
         <HBox alignment="CENTER_LEFT" styleClass="header-bar">

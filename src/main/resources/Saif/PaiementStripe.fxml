@@ -3,20 +3,31 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="pi_project.Saif.Controller.PaiementStripeController">
-    <VBox alignment="CENTER" spacing="15" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <Label text="Paiement par Carte (Stripe)" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Saif.Controller.PaiementStripeController"
+      spacing="25"
+      alignment="CENTER"
+      style="-fx-background-color: linear-gradient(to bottom, #ffffff, #f0f0f0); -fx-padding: 40;">
 
-        <Label fx:id="totalLabel" text="Total: 0.00 DT" style="-fx-font-size: 16px;" />
+    <Label fx:id="totalLabel"
+           style="-fx-font-size: 22px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" />
 
-        <TextField fx:id="cardNumberField" promptText="Numéro de carte (ex: 4242 4242 4242 4242)" />
-        <TextField fx:id="expiryField" promptText="MM/AA" />
-        <TextField fx:id="cvcField" promptText="CVC" />
+    <Label text="Veuillez patienter pendant la redirection vers Stripe..."
+           style="-fx-font-size: 16px; -fx-text-fill: #34495e;" />
 
-        <Button text="Payer" fx:id="payButton" onAction="#handlePaiement" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20; -fx-background-radius: 8;" />
+    <Label fx:id="statusLabel"
+           style="-fx-font-size: 14px; -fx-text-fill: #16a085;" />
 
-        <Label fx:id="statusLabel" text="" style="-fx-text-fill: red;" />
-    </VBox>
-</AnchorPane>
+    <ProgressIndicator fx:id="loadingIndicator" progress="-1.0" />
+
+
+    <!-- Bouton retour désactivé pour l’instant -->
+    <!--
+    <Button text="Retour"
+            onAction="#handleRetour"
+            style="-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-padding: 8 16 8 16; -fx-font-size: 14px;"
+            prefWidth="120"/>
+    -->
+
+</VBox>

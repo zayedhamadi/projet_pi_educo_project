@@ -63,6 +63,9 @@ public class MainLayoutController {
     public void ProfilAdmin() {
         this.loadView("/Zayed/ProfilAdmin.fxml");
     }
+    public void Admincommande() {
+        this.loadView("/Saif/AdminCommandeView.fxml");
+    }
 
     @FXML
     private void logout() {

@@ -1,14 +1,10 @@
 package pi_project.Zayed.Service;
 
-
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Interface.AuthenticationService;
-import pi_project.Zayed.Utils.Constant;
-import pi_project.Zayed.Utils.Mail;
-import pi_project.Zayed.Utils.PasswordUtils;
-import pi_project.Zayed.Utils.session;
+import pi_project.Zayed.Utils.*;
 import pi_project.db.DataSource;
 
 import javax.mail.MessagingException;
@@ -19,20 +15,25 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class AuthenticationImpl implements AuthenticationService {
-    private static final String FORGET_PWD_QUERY = "UPDATE user SET password = ? WHERE email = ?";
-    private static final String LOGIN_QUERY = "SELECT * FROM user WHERE email = ? AND etat_compte = 'Active'";
-    private static final String FIND_BY_EMAIL_QUERY = "SELECT * FROM user WHERE email = ?";
 
+
+    private static final String updatePwdByNumTel = "UPDATE user SET password = ? WHERE num_tel = ?";
+    private static final String updatePwdByEmail = "UPDATE user SET password = ? WHERE email = ?";
+    private static final String loginAuthentification = "SELECT * FROM user WHERE email = ? AND etat_compte = 'Active'";
+    private static final String findUserByEmail = "SELECT * FROM user WHERE email = ?";
+    private static final String findUserByNumTel = "SELECT * FROM user WHERE num_tel = ?";
     private final Connection connection;
     private final Mail mailService;
+    private final SMS smsService;
 
     public AuthenticationImpl() {
         this.connection = DataSource.getInstance().getConn();
         this.mailService = new Mail();
+        this.smsService = new SMS();
     }
 
     public Role getUserRole(String email) {
-        try (PreparedStatement pst = connection.prepareStatement(LOGIN_QUERY)) {
+        try (PreparedStatement pst = connection.prepareStatement(loginAuthentification)) {
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
 
@@ -50,13 +51,15 @@ public class AuthenticationImpl implements AuthenticationService {
     }
 
     private boolean isAccountInactive(User user) {
-        return user == null && user.getEtat_compte() == EtatCompte.inactive;
+        return user != null && user.getEtat_compte() == EtatCompte.inactive;
     }
 
     private boolean checkEmailValid(String email) {
-
         return email != null && !email.isEmpty();
+    }
 
+    private boolean checkNumTelValid(String numTel) {
+        return numTel != null && numTel.length() == 8;
     }
 
     private boolean isPasswordValid(String inputPassword, String storedPassword) {
@@ -74,7 +77,7 @@ public class AuthenticationImpl implements AuthenticationService {
             return false;
         }
 
-        try (PreparedStatement pst = connection.prepareStatement(LOGIN_QUERY)) {
+        try (PreparedStatement pst = connection.prepareStatement(loginAuthentification)) {
             pst.setString(1, user.getEmail());
             ResultSet rs = pst.executeQuery();
 
@@ -92,9 +95,8 @@ public class AuthenticationImpl implements AuthenticationService {
                     return false;
                 }
 
-                System.out.println("Role : " + userRole);
+                System.out.println("Rôle : " + userRole);
                 session.setUserSession(rs.getInt("id"));
-
 
                 switch (userRole) {
                     case Admin -> System.out.println("Connexion en tant qu'administrateur");
@@ -104,8 +106,10 @@ public class AuthenticationImpl implements AuthenticationService {
 
                 return true;
             }
+
             System.out.println("Utilisateur non trouvé !");
             return false;
+
         } catch (SQLException e) {
             Constant.handleException(e, "Erreur lors de la connexion");
             return false;
@@ -120,16 +124,15 @@ public class AuthenticationImpl implements AuthenticationService {
 
     @Override
     public boolean findUserByEmail(String email) {
-        if (!this.checkEmailValid(email)) {
+        if (!checkEmailValid(email)) {
             System.out.println("Email est invalide");
             return false;
         }
 
-        try (PreparedStatement ps = connection.prepareStatement(FIND_BY_EMAIL_QUERY)) {
+        try (PreparedStatement ps = connection.prepareStatement(findUserByEmail)) {
             ps.setString(1, email);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
         } catch (SQLException e) {
             Constant.handleException(e, "Erreur lors de la recherche par email");
             return false;
@@ -138,19 +141,21 @@ public class AuthenticationImpl implements AuthenticationService {
 
     @Override
     public void forgetPassword(String email) {
-        if (!this.checkEmailValid(email)) {
+        if (!checkEmailValid(email)) {
             System.out.println("Email est invalide");
+            return;
         }
 
         try {
             if (!findUserByEmail(email)) {
                 System.out.println("Aucun utilisateur trouvé avec cet email : " + email);
+                return;
             }
 
             String newPassword = Constant.generateRandomPassword();
             String encryptedPassword = PasswordUtils.cryptPw(newPassword);
 
-            try (PreparedStatement pst = connection.prepareStatement(FORGET_PWD_QUERY)) {
+            try (PreparedStatement pst = connection.prepareStatement(updatePwdByEmail)) {
                 pst.setString(1, encryptedPassword);
                 pst.setString(2, email);
 
@@ -158,11 +163,60 @@ public class AuthenticationImpl implements AuthenticationService {
                 if (rowsUpdated > 0) {
                     System.out.println("Mot de passe réinitialisé pour : " + email);
                     mailService.sendForgetPasswordMail(email, newPassword);
+                } else {
+                    System.out.println("Échec de la mise à jour du mot de passe pour : " + email);
                 }
-                System.out.println("Échec de la mise à jour du mot de passe pour : " + email);
             }
         } catch (SQLException | MessagingException e) {
             Constant.handleException(e, "Erreur lors de la réinitialisation du mot de passe");
+        }
+    }
+
+    public boolean findUserByNumTel(String numTel) {
+        if (!(this.checkNumTelValid(numTel))) {
+            System.out.println("Numéro de téléphone invalide");
+            return false;
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(findUserByNumTel)) {
+            ps.setString(1, numTel);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Constant.handleException(e, "Erreur lors de la recherche par numéro de téléphone");
+            return false;
+        }
+    }
+
+
+    public void forgetPasswordByNumTel(String numTel) {
+        if (!(this.checkNumTelValid(numTel))) {
+            System.out.println("Numéro de téléphone invalide");
+            return;
+        }
+
+        try {
+            if (!findUserByNumTel(numTel)) {
+                System.out.println("Aucun utilisateur trouvé avec ce numéro : " + numTel);
+                return;
+            }
+
+
+            String cryptPw = PasswordUtils.cryptPw(Constant.generateRandomPassword());
+            try (PreparedStatement pst = connection.prepareStatement(updatePwdByNumTel)) {
+                pst.setString(1, cryptPw);
+                pst.setString(2, numTel);
+
+                int rowsUpdated = pst.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Mot de passe réinitialisé pour le numéro : " + numTel);
+                    smsService.envoyerSms(numTel, "Votre nouveau mot de passe est : " + cryptPw);
+                } else {
+                    System.out.println("Échec de la mise à jour du mot de passe pour : " + numTel);
+                }
+            }
+        } catch (SQLException e) {
+            Constant.handleException(e, "Erreur lors de la réinitialisation du mot de passe par téléphone");
         }
     }
 }

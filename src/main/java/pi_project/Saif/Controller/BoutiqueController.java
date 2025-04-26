@@ -40,7 +40,7 @@ public class BoutiqueController {
         filtrerBtn.setOnAction(e -> filtrerProduits());
         voirPanierBtn.setOnAction(e -> ouvrirPanier());
 
-        updatePanierCount();
+//        updatePanierCount();
     }
 
     private void loadCategories() {
@@ -61,7 +61,7 @@ public class BoutiqueController {
 
         List<Produit> filtres = allProduits.stream()
                 .filter(p -> p.getNom().toLowerCase().contains(recherche))
-//                .filter(p -> selectedCategorie == null || p.getCategorie().getId() == selectedCategorie.getId())
+                .filter(p -> selectedCategorie == null || p.getCategorieId() == selectedCategorie.getId())
                 .collect(Collectors.toList());
 
         afficherProduits(filtres);
@@ -81,11 +81,29 @@ public class BoutiqueController {
 
                 // Assigne les données du produit à la carte
                 controller.setData(p, () -> {
-                    panier.add(p); // Ajoute le produit au panier
-                    updatePanierCount(); // Met à jour le nombre d'articles dans le panier
+                    boolean found = false;
+                    for (Produit item : panier) {
+                        if (item.getId() == p.getId()) {
+                            item.setQuantite(item.getQuantite() + 1); // Incrémente la quantité
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        Produit nouveauProduit = new Produit(
+                                p.getId(), p.getNom(), p.getDescription(), p.getPrix(),
+                                p.getStock(), p.getImage(), p.getCategorieId()
+                        );
+                        nouveauProduit.setQuantite(1);
+                        panier.add(nouveauProduit);
+                    }
+
+//                    updatePanierCount();
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Produit ajouté au panier !");
-                    alert.showAndWait(); // Affiche une alerte quand le produit est ajouté au panier
+                    alert.showAndWait();
                 });
+
 
                 // Ajoute la carte dans le FlowPane
                 produitsContainer.getChildren().add(card);
@@ -115,8 +133,20 @@ public class BoutiqueController {
             alert.showAndWait();
         }
     }
-    private void updatePanierCount() {
-        voirPanierBtn.setText("🛒 Panier (" + panier.size() + ")");
+//    private void updatePanierCount() {
+//        voirPanierBtn.setText("🛒 Panier (" + panier.size() + ")");
+//    }
+    private void ajouterAuPanier(Produit produit) {
+        for (Produit p : panier) {
+            if (p.getId() == produit.getId()) {
+                p.setQuantite(p.getQuantite() + 1);
+//                updatePanierCount();
+                return;
+            }
+        }
+        produit.setQuantite(1);
+        panier.add(produit);
+//        updatePanierCount();
     }
 
 
