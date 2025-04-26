@@ -23,14 +23,21 @@
             </padding>
             <!-- Titre -->
             <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" text="Gestion des Catégories"/>
+            <!-- Barre de recherche -->
+            <HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="searchField" promptText="Rechercher par nom..." style="-fx-padding: 5px; -fx-pref-width: 200px;"/>
+                <Button text="Rechercher" onAction="#rechercherCategorie" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+            </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
 
-            <!-- Ligne avec bouton à droite -->
+                <!-- Ligne avec bouton à droite -->
             <HBox alignment="TOP_RIGHT">
                 <Button onAction="#ajouterCategorie"
                         style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"
                         text="Ajouter une catégorie"/>
             </HBox>
-
+            </HBox>
             <!-- Tableau des catégories -->
             <TableView fx:id="tableView"
                        VBox.vgrow="ALWAYS"

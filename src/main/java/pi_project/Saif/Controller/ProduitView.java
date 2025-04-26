@@ -32,6 +32,8 @@ public class ProduitView {
     @FXML private TableColumn<Produit, Integer> colStock;
     @FXML private TableColumn<Produit, String> colImage;
     @FXML private TableColumn<Produit, String> colActions;
+    @FXML
+    private TextField searchField;
 
     private final ProduitService service = new ProduitService();
 
@@ -316,6 +318,16 @@ private void ajouterProduit() {
     public void refreshTable() {
         loadProduits();  // Recharger les produits
         tableView.refresh();  // Rafraîchir la table pour afficher les nouveaux éléments
+    }
+    @FXML
+    private void rechercherProduit() {
+        String motCle = searchField.getText().trim();
+
+        // Effectuer la recherche via le service
+        ObservableList<Produit> produitsRecherche = FXCollections.observableArrayList(
+                service.rechercherParMotCle(motCle)
+        );
+        tableView.setItems(produitsRecherche);  // Mettre à jour la table avec les résultats
     }
 
 

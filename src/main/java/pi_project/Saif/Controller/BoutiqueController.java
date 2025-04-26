@@ -37,7 +37,7 @@ public class BoutiqueController {
         loadCategories();
         loadProduits();
 
-        filtrerBtn.setOnAction(e -> filtrerProduits());
+        filtrerBtn.setOnAction(e -> filtrerProduitsEtCategories());
         voirPanierBtn.setOnAction(e -> ouvrirPanier());
 
 //        updatePanierCount();
@@ -47,6 +47,32 @@ public class BoutiqueController {
         List<Categorie> categories = categorieService.getAll();
         categorieCombo.getItems().add(null); // Pour "Toutes les catégories"
         categorieCombo.getItems().addAll(categories);
+        categorieCombo.setCellFactory(param -> new ListCell<Categorie>() {
+            @Override
+            protected void updateItem(Categorie categorie, boolean empty) {
+                super.updateItem(categorie, empty);
+                if (empty || categorie == null) {
+                    setText("Tous les categories");
+                } else {
+                    // Afficher seulement le nom de la catégorie
+                    setText(categorie.getNom());
+                }
+            }
+        });
+
+        // Personnaliser l'affichage de l'élément sélectionné
+        categorieCombo.setButtonCell(new ListCell<Categorie>() {
+            @Override
+            protected void updateItem(Categorie categorie, boolean empty) {
+                super.updateItem(categorie, empty);
+                if (empty || categorie == null) {
+                    setText("Tous les categories");
+                } else {
+                    // Afficher seulement le nom de la catégorie
+                    setText(categorie.getNom());
+                }
+            }
+        });
     }
 
     private void loadProduits() {
@@ -55,18 +81,36 @@ public class BoutiqueController {
         afficherProduits(allProduits);
     }
 
-    private void filtrerProduits() {
-        String recherche = searchField.getText().toLowerCase().trim();
-        Categorie selectedCategorie = categorieCombo.getValue();
+//    private void filtrerProduits() {
+//        String recherche = searchField.getText().toLowerCase().trim();
+//        Categorie selectedCategorie = categorieCombo.getValue();
+//
+//        List<Produit> filtres = allProduits.stream()
+//                .filter(p -> p.getNom().toLowerCase().contains(recherche))
+//                .filter(p -> selectedCategorie == null || p.getCategorieId() == selectedCategorie.getId())
+//                .collect(Collectors.toList());
+//
+//        afficherProduits(filtres);
+//    }
+private void filtrerProduitsEtCategories() {
+    // Récupérer la valeur de recherche depuis le champ de texte
+    String recherche = searchField.getText().toLowerCase().trim();
 
-        List<Produit> filtres = allProduits.stream()
-                .filter(p -> p.getNom().toLowerCase().contains(recherche))
-                .filter(p -> selectedCategorie == null || p.getCategorieId() == selectedCategorie.getId())
-                .collect(Collectors.toList());
+    // Récupérer la catégorie sélectionnée depuis le ComboBox
+    Categorie selectedCategorie = categorieCombo.getValue();
+    Integer categorieId = selectedCategorie != null ? selectedCategorie.getId() : null;
 
-        afficherProduits(filtres);
-    }
+    // Rechercher les produits filtrés
+    List<Produit> produitsFiltres = produitService.rechercherProduits(recherche, categorieId);
 
+    // Rechercher les catégories filtrées
+    List<Categorie> categoriesFiltres = categorieService.searchCategories(recherche);
+
+    // Afficher les produits filtrés
+    afficherProduits(produitsFiltres);
+
+
+}
     @FXML
     public void afficherProduits(List<Produit> produits) {
         produitsContainer.getChildren().clear(); // Vide le conteneur des produits avant d'ajouter de nouveaux produits

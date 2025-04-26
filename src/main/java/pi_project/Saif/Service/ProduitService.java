@@ -105,4 +105,71 @@ public class ProduitService implements Service<Produit> {
         }
         return produits;
     }
+
+    public List<Produit> rechercherParMotCle(String motCle) {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM produit WHERE nom LIKE ? OR description LIKE ? OR prix LIKE ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String recherche = "%" + motCle + "%";
+            ps.setString(1, recherche);
+            ps.setString(2, recherche);
+            ps.setString(3, recherche);  // Recherche également dans le prix en tant que texte
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                produits.add(new Produit(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getDouble("prix"),
+                        rs.getInt("stock"),
+                        rs.getString("image"),
+                        rs.getInt("categorie_id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produits;
+    }
+    // Dans ProduitService.java
+    public List<Produit> rechercherProduits(String recherche, Integer categorieId) {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM produit WHERE (nom LIKE ? OR description LIKE ? OR prix LIKE ?)";
+
+        // Si une catégorie est spécifiée, ajouter la condition de filtrage
+        if (categorieId != null) {
+            sql += " AND categorie_id = ?";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            String searchPattern = "%" + recherche + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+            ps.setString(3, searchPattern);  // Recherche également dans le prix
+
+            // Si une catégorie est spécifiée, ajoutez la condition pour l'id de la catégorie
+            if (categorieId != null) {
+                ps.setInt(4, categorieId);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                produits.add(new Produit(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description"),
+                        rs.getDouble("prix"),
+                        rs.getInt("stock"),
+                        rs.getString("image"),
+                        rs.getInt("categorie_id")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produits;
+    }
+
 }
