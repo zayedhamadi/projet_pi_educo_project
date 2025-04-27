@@ -127,12 +127,12 @@
             <version>4.12.0</version>
             <!--  Version la plus récente au moment de l'écriture  -->
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itext7-core</artifactId>
             <version>7.2.5</version>
             <type>pom</type>
-        </dependency>
+        </dependency>-->
         <!-- iText PDF -->
         <dependency>
             <groupId>com.itextpdf</groupId>
