@@ -39,6 +39,11 @@ public class MainLayoutController {
     }
 
     @FXML
+    public void  showListeleve(){loadView("/Fedi/ListeOfEleve.fxml");}
+    @FXML
+    public void showListeClasse(){loadView("/Fedi/ListeOfClasse.fxml");}
+
+    @FXML
     public void showreclamationView() {
         loadView("/louay/reclamation.fxml");
     }

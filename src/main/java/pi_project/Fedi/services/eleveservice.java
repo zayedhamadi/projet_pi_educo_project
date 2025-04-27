@@ -61,9 +61,28 @@ public class eleveservice implements idsevice<eleve> {
 
     @Override
     public void update(eleve e) {
+        // Vérifications préalables
+        if (e == null) {
+            throw new IllegalArgumentException("L'élève ne peut pas être null");
+        }
+        if (e.getClasse() == null) {
+            throw new IllegalArgumentException("La classe de l'élève ne peut pas être null");
+        }
+        if (e.getParent() == null) {
+            throw new IllegalArgumentException("Le parent de l'élève ne peut pas être null");
+        }
+
         String query = "UPDATE `eleve` SET `id_classe_id`=?, `id_parent_id`=?, `nom`=?, `prenom`=?, `date_de_naissance`=?, `moyenne`=?, `nbre_abscence`=?, `date_inscription`=?, `qr_code_data_uri`=? WHERE `id`=?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            // Vérification des IDs
+            if (e.getClasse().getId() <= 0) {
+                throw new IllegalArgumentException("ID de classe invalide");
+            }
+            if (e.getParent().getId() <= 0) {
+                throw new IllegalArgumentException("ID de parent invalide");
+            }
+
             statement.setInt(1, e.getClasse().getId());
             statement.setInt(2, e.getParent().getId());
             statement.setString(3, e.getNom());
@@ -75,11 +94,12 @@ public class eleveservice implements idsevice<eleve> {
             statement.setString(9, e.getQrCode());
             statement.setInt(10, e.getId());
 
-            if (statement.executeUpdate() == 0) {
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
                 throw new RuntimeException("Aucun élève trouvé avec l'ID: " + e.getId());
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("Erreur lors de la mise à jour de l'élève", ex);
+            throw new RuntimeException("Erreur lors de la mise à jour de l'élève: " + ex.getMessage(), ex);
         }
     }
 
@@ -122,14 +142,36 @@ public class eleveservice implements idsevice<eleve> {
         eleve e = new eleve();
         e.setId(rs.getInt("id"));
 
-        // Vous devrez implémenter classeService et parentService pour récupérer les objets complets
-        classe cl = new classe();
-        cl.setId(rs.getInt("id_classe_id"));
-        e.setClasse(cl);
+        // Charger les informations complètes de la classe
+        int classeId = rs.getInt("id_classe_id");
+        String query = "SELECT id, nom_classe FROM classe WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, classeId);
+            ResultSet rsClasse = stmt.executeQuery();
+            if (rsClasse.next()) {
+                classe cl = new classe();
+                cl.setId(rsClasse.getInt("id"));
+                cl.setNomclasse(rsClasse.getString("nom_classe"));
+                e.setClasse(cl);
+            } else {
+                System.err.println("Classe non trouvée pour l'ID: " + classeId);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Erreur lors du chargement de la classe: " + ex.getMessage());
+        }
 
-        User parent = new User();
-        parent.setId(rs.getInt("id_parent_id"));
-        e.setParent(parent);
+        // Charger les informations complètes du parent
+        int parentId = rs.getInt("id_parent_id");
+        try {
+            User parent = userImpl.getSpeceficUser(parentId);
+            if (parent != null) {
+                e.setParent(parent);
+            } else {
+                System.err.println("Parent non trouvé pour l'ID: " + parentId);
+            }
+        } catch (Exception ex) {
+            System.err.println("Erreur lors du chargement du parent: " + ex.getMessage());
+        }
 
         e.setNom(rs.getString("nom"));
         e.setPrenom(rs.getString("prenom"));
@@ -181,7 +223,7 @@ public class eleveservice implements idsevice<eleve> {
 
     public List<User> getAllParents() {
         List<User> parents = new ArrayList<>();
-        String query = "SELECT id, email FROM user WHERE roles LIKE '%Parent%'";
+        String query = "SELECT id, email, nom, prenom FROM user WHERE roles LIKE '%Parent%'";
 
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -190,6 +232,8 @@ public class eleveservice implements idsevice<eleve> {
                 User u = new User();
                 u.setId(rs.getInt("id"));
                 u.setEmail(rs.getString("email"));
+                u.setNom(rs.getString("nom"));
+                u.setPrenom(rs.getString("prenom"));
                 parents.add(u);
             }
         } catch (SQLException e) {
