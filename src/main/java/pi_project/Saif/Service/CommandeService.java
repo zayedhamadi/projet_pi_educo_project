@@ -287,4 +287,28 @@ public class CommandeService implements Service<Commande> {
         return list;
     }
 
+    public List<Commande> searchCommandes(String keyword) {
+        List<Commande> list = new ArrayList<>();
+        String sql = "SELECT * FROM commande WHERE statut LIKE ? OR mode_paiement LIKE ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + keyword + "%");
+            ps.setString(2, "%" + keyword + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Commande(
+                        rs.getInt("id"),
+                        rs.getInt("parent_id"),
+                        rs.getTimestamp("date_commande").toLocalDateTime(),
+                        rs.getDouble("montant_total"),
+                        rs.getString("statut"),
+                        rs.getString("mode_paiement")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
 }
