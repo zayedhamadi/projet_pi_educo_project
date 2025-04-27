@@ -109,7 +109,7 @@ public class LoginController {
                         }
                         case Parent -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Parent", "Vous avez accès en tant que Parent");
-                          loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+                          loadScene("/saif/NavbarParent.fxml", "Profil Parent");
                         }
                     }
                 } else {

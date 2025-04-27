@@ -27,7 +27,7 @@ public class ReservationController {
     private final inscevenementImp serviceInscription = new inscevenementImp();
 
     private evenement evenementSelectionne;
-    private List<eleve> enfantsDuParent; // à récupérer via le parent connecté
+    private List<eleve> enfantsDuParent;
 
     public void setEvenement(evenement ev, List<eleve> enfants) {
         this.evenementSelectionne = ev;
@@ -39,7 +39,7 @@ public class ReservationController {
         dateLabel.setText("Du " + ev.getDateDebut() + " au " + ev.getDateFin());
         placesLabel.setText("Places disponibles : " + ev.getNombrePlaces());
 
-        // Peupler le ComboBox avec les enfants et afficher leur nom
+
         enfantComboBox.setItems(FXCollections.observableArrayList(enfants));
     }
 
@@ -47,7 +47,7 @@ public class ReservationController {
     private void initialize() {
         errorLabel.setText("");
 
-        // Définir le CellFactory pour afficher le nom de l'enfant dans le ComboBox
+
         enfantComboBox.setCellFactory(listView -> new ListCell<eleve>() {
             @Override
             protected void updateItem(eleve item, boolean empty) {
@@ -55,12 +55,12 @@ public class ReservationController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getNom()); // Assurez-vous que getNom() existe dans votre classe eleve
+                    setText(item.getNom());
                 }
             }
         });
 
-        // Afficher le nom de l'enfant sélectionné dans la zone de texte
+
         enfantComboBox.setButtonCell(new ListCell<eleve>() {
             @Override
             protected void updateItem(eleve item, boolean empty) {
@@ -68,7 +68,7 @@ public class ReservationController {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getNom()); // Affiche le nom sélectionné
+                    setText(item.getNom());
                 }
             }
         });

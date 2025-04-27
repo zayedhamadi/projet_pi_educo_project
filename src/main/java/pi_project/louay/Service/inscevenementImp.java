@@ -24,7 +24,7 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
     public void ajouter(inscriptionevenement insc) {
         String sql = "INSERT INTO inscription_evenement (enfant_id, evenement_id, date_inscription) VALUES (?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, insc.getEnfant_id().getId()); // Assure-toi que getId() existe dans eleve
+            pst.setInt(1, insc.getEnfant_id().getId());
             pst.setInt(2, insc.getEvenement().getId());
             pst.setDate(3, java.sql.Date.valueOf(insc.getDateInscription()));
             pst.executeUpdate();
@@ -142,32 +142,32 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
                 "FROM inscription_evenement i " +
                 "JOIN eleve e ON i.enfant_id = e.id " +
                 "JOIN evenement ev ON i.evenement_id = ev.id " +
-                "WHERE e.id_parent_id = ?";  // Remplace id_parent_id pour faire référence à la colonne qui lie les parents
+                "WHERE e.id_parent_id = ?";
 
         try (PreparedStatement pst = cnx.prepareStatement(sql)) {
-            pst.setInt(1, parentId);  // Remplacer parentId par l'ID réel du parent connecté
+            pst.setInt(1, parentId);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
                 inscriptionevenement insc = new inscriptionevenement();
                 insc.setId(rs.getInt("id"));
 
-                // Créer l'objet enfant (eleve)
+
                 eleve enfant = new eleve();
                 enfant.setId(rs.getInt("enfant_id"));
                 enfant.setNom(rs.getString("nom"));
                 insc.setEnfant_id(enfant);
 
-                // Créer l'objet événement
+
                 evenement ev = new evenement();
                 ev.setId(rs.getInt("evenement_id"));
                 ev.setTitre(rs.getString("titre"));
                 insc.setEvenement(ev);
 
-                // Récupérer la date d'inscription
+
                 insc.setDateInscription(rs.getTimestamp("date_inscription").toLocalDateTime().toLocalDate());
 
-                // Ajouter à la liste
+
                 list.add(insc);
             }
         } catch (SQLException e) {
@@ -190,8 +190,23 @@ public class inscevenementImp implements Ieventservice<inscriptionevenement> {
         }
         return false;
     }
+    public int getNombreInscriptions(int evenementId) {
+        int count = 0;
+        String req = "SELECT COUNT(*) FROM inscription_evenement WHERE evenement_id = ?";
+        try (
+             PreparedStatement pst = cnx.prepareStatement(req)) {
 
+            pst.setInt(1, evenementId);
+            ResultSet rs = pst.executeQuery();
 
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors du comptage des inscriptions : " + e.getMessage());
+        }
+        return count;
+    }
 
 
 

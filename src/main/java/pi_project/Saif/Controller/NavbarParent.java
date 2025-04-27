@@ -16,6 +16,15 @@ public class NavbarParent {
     public void loadBoutiqueView() {
         loadView("/Saif/BoutiqueView.fxml");
     }
+    public void loadreclamationView() {
+        loadView("/louay/mesreclamation.fxml");
+    }
+    public void loadevenementView() {
+        loadView("/louay/eventliste.fxml");
+    }
+    public void loadmesreservationView() {
+        loadView("/louay/mesreservation.fxml");
+    }
     public void initialize() {
         loadBoutiqueView(); // charge la vue par défaut
     }
@@ -29,4 +38,7 @@ public class NavbarParent {
             e.printStackTrace();
         }
     }
+
+
+
 }

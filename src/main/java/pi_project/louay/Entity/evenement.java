@@ -20,4 +20,11 @@ public class evenement {
     private boolean inscriptionRequise;
     private Integer nombrePlaces;
     private EventType type;
+
+    public int getPlacesRestantes(int nombreInscriptions) {
+        if (nombrePlaces == null) return 0;
+        return Math.max(0, nombrePlaces - nombreInscriptions);
+    }
 }
+
+

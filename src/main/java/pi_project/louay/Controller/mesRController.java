@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import pi_project.Zayed.Utils.session;
 import pi_project.louay.Entity.reclamation;
 import pi_project.louay.Enum.Statut;
 import pi_project.louay.Service.reclamationImp;
@@ -26,8 +27,8 @@ public class mesRController implements Initializable {
     @FXML
     private TableView<reclamation> tableView;
 
-    @FXML
-    private TableColumn<reclamation, Integer> colId;
+    //@FXML
+    //private TableColumn<reclamation, Integer> colId;
 
     @FXML
     private TableColumn<reclamation, String> colTitre;
@@ -45,21 +46,21 @@ public class mesRController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Configurer les colonnes du tableau
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        //colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colStatut.setCellValueFactory(new PropertyValueFactory<>("statut"));
 
-        // Simuler un utilisateur connecté avec ID = 2
-        int userId = 2;
 
-        // Charger les réclamations de l'utilisateur
+        Integer userId = session.getUserSession();
+
+
         List<reclamation> userReclamations = reclamationService.getByUserId(userId);
         ObservableList<reclamation> data = FXCollections.observableArrayList(userReclamations);
         tableView.setItems(data);
 
-        // Gérer le clic sur le bouton "Ajouter une Réclamation"
+
         ajouterBtn.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/ajouterreclamation.fxml"));
@@ -68,9 +69,9 @@ public class mesRController implements Initializable {
                 Stage stage = new Stage();
                 stage.setTitle("Ajouter une Réclamation");
                 stage.setScene(new Scene(root));
-                stage.showAndWait(); // Bloque ici jusqu'à fermeture
+                stage.showAndWait();
 
-                // Rafraîchir après fermeture
+
 
                 List<reclamation> nouvellesDonnees = reclamationService.getByUserId(userId);
                 tableView.getItems().setAll(nouvellesDonnees);

@@ -15,7 +15,6 @@ import pi_project.louay.Service.inscevenementImp;
 import pi_project.Fedi.entites.eleve;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,31 +27,51 @@ public class ConsulterInscriptionController {
     @FXML
     private TableColumn<inscriptionevenement, LocalDate> dateInscriptionColumn;
     @FXML
-    private TableColumn<inscriptionevenement, Void> actionsColumn; // Colonne pour les actions
+    private TableColumn<inscriptionevenement, Void> actionsColumn;
 
     @FXML
     private Label titreLabel;
 
     @FXML
-    private Button retourButton;  // Bouton retour
+    private Button retourButton;
+
+    @FXML
+    private void onButtonHover() {
+        retourButton.setStyle("-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand;");
+    }
+
+    @FXML
+    private void onButtonExit() {
+        retourButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand;");
+    }
+
+
+    @FXML
+    private Label messageLabel;
+
+    @FXML
+    private Label placesRestantesLabel; // ✅ Ajout du label pour places restantes
 
     private final inscevenementImp inscriptionService = new inscevenementImp();
 
     private ObservableList<inscriptionevenement> filteredInscriptions = FXCollections.observableArrayList();
 
+    private evenement currentEvenement; // 🔥 Garde une référence à l'événement actuel
+
     public void setEvenement(evenement evt) {
+        currentEvenement = evt; // 🔥 stocker pour pouvoir l'utiliser après
         titreLabel.setText("Inscriptions pour : " + evt.getTitre());
 
+        // Remplir les colonnes du tableau
         nomEnfantColumn.setCellValueFactory(data -> {
             eleve enfant = data.getValue().getEnfant_id();
             return new javafx.beans.property.SimpleStringProperty(enfant != null ? enfant.getNom() : "N/A");
         });
         dateInscriptionColumn.setCellValueFactory(new PropertyValueFactory<>("dateInscription"));
 
-        // Ajouter les boutons d'actions pour chaque inscription
         ajouterBoutonsActions();
 
-        // Charger les inscriptions de cet événement
+        // Charger toutes les inscriptions pour cet événement
         List<inscriptionevenement> allInscriptions = inscriptionService.getAll();
         filteredInscriptions.clear();
         for (inscriptionevenement ins : allInscriptions) {
@@ -60,7 +79,10 @@ public class ConsulterInscriptionController {
                 filteredInscriptions.add(ins);
             }
         }
-        inscriptionTable.setItems(filteredInscriptions); // Ceci est crucial pour l'affichage
+        inscriptionTable.setItems(filteredInscriptions);
+
+        // ✅ Calcul et affichage du nombre de places restantes
+        updatePlacesRestantes();
     }
 
     private void ajouterBoutonsActions() {
@@ -70,9 +92,12 @@ public class ConsulterInscriptionController {
             {
                 supprimerBtn.setOnAction(e -> {
                     inscriptionevenement inscription = getTableView().getItems().get(getIndex());
-                    inscriptionService.supprimer(inscription); // Supprimer l'inscription
-                    filteredInscriptions.remove(inscription); // Retirer l'inscription de la liste observable
-                    inscriptionTable.setItems(filteredInscriptions); // Rafraîchir la table
+                    inscriptionService.supprimer(inscription);
+                    filteredInscriptions.remove(inscription);
+                    inscriptionTable.setItems(filteredInscriptions);
+
+                    // ✅ Mettre à jour le label après suppression
+                    updatePlacesRestantes();
                 });
             }
 
@@ -82,7 +107,7 @@ public class ConsulterInscriptionController {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox buttons = new HBox(5, supprimerBtn); // Ajout du bouton "Supprimer"
+                    HBox buttons = new HBox(5, supprimerBtn);
                     setGraphic(buttons);
                 }
             }
@@ -91,21 +116,17 @@ public class ConsulterInscriptionController {
 
     @FXML
     private void initialize() {
-        // Gestionnaire d'événements pour le bouton retour
         retourButton.setOnAction(event -> retournerVersEvenements());
     }
 
     private void retournerVersEvenements() {
         try {
-            // Charger la page des événements depuis le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml")); // Remplace par le bon chemin de ton fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml"));
             Parent view = loader.load();
 
-            // Récupérer le StackPane du contrôleur Evenement
             StackPane contentPane = (StackPane) retourButton.getScene().lookup("#contentPane");
-
-            // Remplacer le contenu central avec la vue des événements
             contentPane.getChildren().setAll(view);
+
             EvenementController controller = loader.getController();
             controller.refreshTable();
 
@@ -119,5 +140,21 @@ public class ConsulterInscriptionController {
         Alert alert = new Alert(type);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // ✅ Ta logique propre pour calculer les places restantes depuis la BDD
+    private void updatePlacesRestantes() {
+        if (currentEvenement != null) {
+            int nombreInscriptions = inscriptionService.getNombreInscriptions(currentEvenement.getId());
+            int placesRestantes = currentEvenement.getNombrePlaces() - nombreInscriptions;
+
+            placesRestantesLabel.setText("Nombre de places restantes : " + placesRestantes);
+
+            if (placesRestantes <= 3) {
+                placesRestantesLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+            } else {
+                placesRestantesLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            }
+        }
     }
 }
