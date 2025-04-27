@@ -17,11 +17,14 @@ import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,7 +35,7 @@ public class addUserController {
     @FXML
     private BorderPane mainForm;
     @FXML
-    private Button backToActiveUserr;
+    private Button backToActiveUserr, AnnulerAjout;
     @FXML
     private TextField nom, prenom, email, description, numTel, adresse;
     @FXML
@@ -45,8 +48,6 @@ public class addUserController {
     private ImageView imageP;
     @FXML
     private Label all;
-    @FXML
-    private Button AnnulerAjout;
 
     private File selectedFile;
 
@@ -65,7 +66,6 @@ public class addUserController {
     public void ajouterUneImage(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg"));
-
         selectedFile = fileChooser.showOpenDialog(((Node) actionEvent.getSource()).getScene().getWindow());
 
         if (selectedFile != null) {
@@ -74,26 +74,25 @@ public class addUserController {
         }
     }
 
+    private boolean doingsomecheckValidator() {
+        if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()
+                || password.getText().isEmpty() || description.getText().isEmpty()
+                || numTel.getText().isEmpty() || adresse.getText().isEmpty()
+                || dateNaissance.getValue() == null || role.getValue() == null || genre.getValue() == null
+                || selectedFile == null) {
+            Constant.showAlert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs et sélectionner une image", "Erreur d'ajout", "Erreur d'ajout");
+            all.setText("Veuillez remplir tous les champs et sélectionner une image.");
+            return false;
+        }
+        return true;
+    }
+
     @FXML
     void AjouterUser() {
         try {
-            if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()
-                    || password.getText().isEmpty() || description.getText().isEmpty()
-                    || numTel.getText().isEmpty() || adresse.getText().isEmpty()
-                    || dateNaissance.getValue() == null || role.getValue() == null || genre.getValue() == null
-                    || selectedFile == null) {
-                Constant.showAlert(Alert.AlertType.INFORMATION, "Veuillez remplir tous les champs et sélectionner une image", "Erreur d'ajout", "Erreur d'ajout");
-                all.setText("Veuillez remplir tous les champs et sélectionner une image.");
-                return;
-            }
+            if (!doingsomecheckValidator()) return;
 
-            String originalFileName = selectedFile.getName();
-            String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
-
-            Path destinationPath = Paths.get("C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads", uniqueFileName);
-            Files.copy(selectedFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
-
-            String imageName = uniqueFileName;
+            String imageName = saveImage();
 
             int num = Integer.parseInt(numTel.getText());
             Set<Role> roles = new HashSet<>();
@@ -120,6 +119,26 @@ public class addUserController {
             e.printStackTrace();
             Constant.handleException(e, e.getMessage());
         }
+    }
+
+    private String saveImage() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = new FileInputStream("config.properties");
+        props.load(in);
+        in.close();
+
+        String uploadPath = props.getProperty("upload.path");
+        String originalFileName = selectedFile.getName();
+        String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
+
+        Path destination = Paths.get(uploadPath, uniqueFileName);
+
+        if (Files.exists(destination)) {
+            Files.delete(destination);
+        }
+
+        Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+        return uniqueFileName;
     }
 
     private void resetForm() {

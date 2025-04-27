@@ -3,7 +3,7 @@ package pi_project.louay.Interface;
 import java.util.List;
 
 public interface Ievenementservice<T> {
-    void ajouter(T t);
+    int ajouter(T t);
 
     void modifier(T t);
 

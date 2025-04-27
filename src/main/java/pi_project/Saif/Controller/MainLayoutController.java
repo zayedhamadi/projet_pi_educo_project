@@ -68,6 +68,12 @@ public class MainLayoutController {
     public void ProfilAdmin() {
         this.loadView("/Zayed/ProfilAdmin.fxml");
     }
+    public void Admincommande() {
+        this.loadView("/Saif/AdminCommandeView.fxml");
+    }
+    public void codepromo() {
+        this.loadView("/Saif/code_promo.fxml");
+    }
 
     @FXML
     private void logout() {
@@ -104,5 +110,9 @@ public class MainLayoutController {
 
     public void ajouterUser() {
         this.loadView("/Zayed/addUser.fxml");
+    }
+
+    public void dashboardAdmin() {
+        this.loadView("/Zayed/StatistiqueAdmin.fxml");
     }
 }

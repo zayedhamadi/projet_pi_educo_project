@@ -9,8 +9,10 @@ public class Produit {
         private int stock;
         private String image;
         private int categorieId;
+    private int quantite = 1;
 
-        // Constructeur
+
+    // Constructeur
         public Produit(int id, String nom, String description, double prix, int stock, String image, int categorieId) {
             this.id = id;
             this.nom = nom;
@@ -78,4 +80,13 @@ public Produit(){};
         public void setCategorieId(int categorieId) {
             this.categorieId = categorieId;
         }
+    // ✅ Getter/Setter pour la quantité (non persisté en BD)
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
 }

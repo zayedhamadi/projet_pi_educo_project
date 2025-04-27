@@ -22,11 +22,13 @@ import pi_project.Farouk.Services.CoursService;
 import pi_project.Farouk.Services.MatiereService;
 import javafx.scene.control.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import pi_project.Aziz.Controller.EnseignantlyoutController;
 
@@ -137,42 +139,112 @@ public class CoursController implements Initializable {
     @FXML
     private void handleSave() {
         try {
-            // Validate inputs
-            if (nameField.getText().isEmpty()) {
+            // Validate Course Name
+            String courseName = nameField.getText().trim();
+            if (courseName.isEmpty()) {
                 statusLabel.setText("Course name is required!");
+                nameField.setStyle("-fx-border-color: red;");
+
                 return;
             }
-            if (matiereComboBox.getValue() == null) {
-                statusLabel.setText("Please select a matiere!");
+            if (courseName.matches(".*\\d.*")) {
+                statusLabel.setText("Course name must not be a number!");
+                nameField.setStyle("-fx-border-color: red;");
                 return;
             }
-            if (classComboBox.getValue() == null) {  // Changed from classIdField
-                statusLabel.setText("Please select a class!");
+            if (!Character.isUpperCase(courseName.charAt(0))) {
+                statusLabel.setText("Course name must start with a capital letter!");
+                nameField.setStyle("-fx-border-color: red;");
+
                 return;
             }
-            if (chapterNumberField.getText().isEmpty()) {
+
+            // Validate Chapter Number
+            String chapterText = chapterNumberField.getText().trim();
+            if (chapterText.isEmpty()) {
                 statusLabel.setText("Chapter number is required!");
-                return;
-            }
-            if (selectedPdfFile == null) {
-                statusLabel.setText("Please select a PDF file!");
+                chapterNumberField.setStyle("-fx-border-color: red;");
+
                 return;
             }
             int chapterNumber;
             try {
-                chapterNumber = Integer.parseInt(chapterNumberField.getText());
+                chapterNumber = Integer.parseInt(chapterText);
+
             } catch (NumberFormatException e) {
                 statusLabel.setText("Chapter number must be a valid integer!");
+                chapterNumberField.setStyle("-fx-border-color: red;");
                 return;
             }
 
-            // Copy the PDF to a desired folder (e.g., "uploads")
-            String uploadsDir = "/Farouk/uploads/";
-            File uploadsFolder = new File(uploadsDir);
-            if (!uploadsFolder.exists()) uploadsFolder.mkdirs();
+//            // Validate inputs
+//            if (nameField.getText().isEmpty()) {
+//                statusLabel.setText("Course name is required!");
+//                return;
+//            }
+//            if (matiereComboBox.getValue() == null) {
+//                statusLabel.setText("Please select a matiere!");
+//                return;
+//            }
+//            if (classComboBox.getValue() == null) {  // Changed from classIdField
+//                statusLabel.setText("Please select a class!");
+//                return;
+//            }
+//            if (chapterNumberField.getText().isEmpty()) {
+//                statusLabel.setText("Chapter number is required!");
+//                return;
+//            }
+//            if (selectedPdfFile == null) {
+//                statusLabel.setText("Please select a PDF file!");
+//                return;
+//            }
+//            int chapterNumber;
+//            try {
+//                chapterNumber = Integer.parseInt(chapterNumberField.getText());
+//            } catch (NumberFormatException e) {
+//                statusLabel.setText("Chapter number must be a valid integer!");
+//                return;
+//            }
 
+
+            // Load upload path from config.properties
+            Properties props = new Properties();
+            try (FileInputStream in = new FileInputStream("config.properties")) {
+                props.load(in);
+            } catch (IOException e) {
+                statusLabel.setText("Failed to read config file: " + e.getMessage());
+                e.printStackTrace();
+                return;
+            }
+
+            String uploadPath = props.getProperty("upload.path"); // Example: C:/xampp/htdocs/uploads
+
+            File uploadsFolder = new File(uploadPath);
+            // Create the folder if it doesn't exist
+            if (!uploadsFolder.exists()) {
+                boolean created = uploadsFolder.mkdirs();
+                if (!created) {
+                    statusLabel.setText("Failed to create upload directory!");
+                    return;
+                }
+            }
+
+
+            // Copy the PDF file
             File destinationFile = new File(uploadsFolder, selectedPdfFile.getName());
-            Files.copy(selectedPdfFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            try {
+                Files.copy(
+                        selectedPdfFile.toPath(),
+                        destinationFile.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+                System.out.println("File saved to: " + destinationFile.getAbsolutePath()); // Debug log
+            } catch (IOException e) {
+                statusLabel.setText("Failed to save file: " + e.getMessage());
+                e.printStackTrace();
+                return;
+            }
+
 
             // Create Cours object with all fields
             Cours cours = new Cours(

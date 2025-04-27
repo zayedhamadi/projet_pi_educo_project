@@ -3,44 +3,76 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.Color?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="pi_project.Saif.Controller.PanierController"
-            style="-fx-background-color: #f5f5f5;">
-    <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 10;">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
+            style="-fx-background-color: #ecf0f1;">
 
-        <!-- Header -->
-        <HBox alignment="CENTER_LEFT">
-            <Label text="Votre Panier" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Button text="Continuer vos achats"
-                    style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"
-                    onAction="#retourBoutique"/>
-        </HBox>
+    <VBox spacing="20" alignment="TOP_CENTER" maxWidth="900" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
 
-        <!-- Cart Items -->
-        <TableView fx:id="cartTable" style="-fx-background-color: transparent;">
-            <columns>
-                <TableColumn fx:id="colNom" text="Produit" prefWidth="200"/>
-                <TableColumn fx:id="colPrix" text="Prix unitaire" prefWidth="100"/>
-                <TableColumn fx:id="colQuantite" text="Quantité" prefWidth="100"/>
-                <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
-                <TableColumn fx:id="colAction" text="Action" prefWidth="100"/>
-            </columns>
-        </TableView>
+        <!-- Panier Card -->
+        <VBox spacing="20" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 30;" effect="$shadow">
 
-        <!-- Summary -->
-        <HBox alignment="CENTER_RIGHT" spacing="20">
-            <Label text="Total:" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-            <Label fx:id="totalLabel" text="0 DT" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
-        </HBox>
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="🛒 Votre Panier" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Continuer vos achats"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8 16;"
+                        onAction="#retourBoutique">
+                    <Button style="-fx-background-color: #2980b9;"/>
 
-        <!-- Checkout Button -->
-        <Button text="Passer la commande"
-                style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 200; -fx-font-size: 16px;"
-                onAction="#passerCommande"/>
+
+                </Button>
+            </HBox>
+
+            <!-- Cart Items Table -->
+            <TableView fx:id="cartTable" style="-fx-background-color: transparent; -fx-border-color: #dcdde1; -fx-border-radius: 10; -fx-background-radius: 10;">
+                <columns>
+                    <TableColumn fx:id="colNom" text="Produit" prefWidth="250"/>
+                    <TableColumn fx:id="colPrix" text="Prix unitaire" prefWidth="120"/>
+                    <TableColumn fx:id="colQuantite" text="Quantité" prefWidth="120"/>
+                    <TableColumn fx:id="colTotal" text="Total" prefWidth="120"/>
+                    <TableColumn fx:id="colAction" text="Action" prefWidth="120"/>
+                </columns>
+            </TableView>
+
+            <!-- Summary and Promo Code -->
+            <VBox spacing="20">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Code Promo :" style="-fx-font-size: 16px; -fx-text-fill: #2c3e50;"/>
+                    <TextField fx:id="codePromoField" promptText="Entrez un code promo..."
+                               style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #bdc3c7;"/>
+                    <Button fx:id="appliquerCodePromoBtn" text="Appliquer"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 6 12;">
+
+                            <Button style="-fx-background-color: #1e8449;"/>
+
+                    </Button>
+                </HBox>
+
+                <HBox alignment="CENTER_RIGHT" spacing="15">
+                    <Label text="Total:" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Label fx:id="totalLabel" text="0 DT"
+                           style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Checkout Button -->
+            <Button text="Passer la commande"
+                    style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20;"
+                    onAction="#passerCommande">
+
+                    <Button style="-fx-background-color: #d35400;"/>
+
+            </Button>
+        </VBox>
     </VBox>
+
+    <!-- Drop Shadow Effect -->
+    <fx:define>
+        <DropShadow fx:id="shadow" radius="10" color="#dcdde1"/>
+    </fx:define>
 </AnchorPane>

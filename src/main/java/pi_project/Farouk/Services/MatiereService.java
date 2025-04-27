@@ -58,6 +58,7 @@ public class MatiereService  implements  IService<Matiere>{
     }
 
     public List<Matiere> recupererTous() throws SQLException {
+
             List<Matiere> matieres = new ArrayList<>();
             String req = "SELECT * FROM matiere";
             Statement st = cnx.createStatement();

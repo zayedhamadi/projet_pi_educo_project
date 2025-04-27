@@ -4,19 +4,29 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pi_project.Aziz.Controller.AfficherQuizController"
             prefHeight="500.0" prefWidth="800.0"
             style="-fx-background-color: #ffffff; -fx-padding: 20px;">
 
-    <!-- Title -->
-    <Text text="Gestion des Quiz" layoutX="270" layoutY="20"
-          style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"/>
+    <VBox spacing="20" layoutX="20" layoutY="20">
+        <!-- Title -->
+        <Text text="Gestion des Quiz"
+              style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" />
 
-    <!-- Add Quiz Button -->
-    <Button fx:id="addButton" layoutX="20.0" layoutY="60.0" text="Ajouter un Quiz"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"/>
+        <!-- Buttons side by side -->
+        <HBox spacing="15">
+            <Button fx:id="generateQuizButton" text="Générer quiz"
+                    style="-fx-font-size: 12pt; -fx-background-color: #4a90e2; -fx-text-fill: white;"
+                    onAction="#navigateToPdfQuiz" />
+
+            <Button fx:id="addButton" text="Ajouter un Quiz"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;" />
+        </HBox>
+    </VBox>
 
     <!-- Quiz Table -->
     <TableView fx:id="quizTable" layoutX="20.0" layoutY="120.0" prefHeight="350.0" prefWidth="905.0"

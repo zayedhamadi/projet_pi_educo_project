@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import pi_project.Zayed.Utils.session;
 import pi_project.louay.Service.inscevenementImp;
 import pi_project.louay.Entity.inscriptionevenement;
 import javafx.beans.property.SimpleStringProperty;
@@ -38,24 +39,25 @@ public class mesreservation {
         reservationList = FXCollections.observableArrayList();
 
         inscevenementImp service = new inscevenementImp();
-        reservationList.addAll(service.getReservationsForParent(2)); // Remplacer par ID réel du parent connecté
+        int userId = session.getUserSession();
+        reservationList.addAll(service.getReservationsForParent(userId));
 
-        // Afficher le nom de l’événement
+
         evenementColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getEvenement().getTitre())
         );
 
-        // Afficher le nom de l’enfant
+
         enfantColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getEnfant_id().getNom())
         );
 
-        // Afficher la date d’inscription
+
         dateInscriptionColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getDateInscription().toString())
         );
 
-        // Ajouter bouton supprimer dans la colonne "actions"
+
         actionsColumn.setCellFactory(new Callback<TableColumn<inscriptionevenement, Void>, TableCell<inscriptionevenement, Void>>() {
             @Override
             public TableCell<inscriptionevenement, Void> call(final TableColumn<inscriptionevenement, Void> param) {
@@ -84,7 +86,7 @@ public class mesreservation {
 
         reservationTable.setItems(reservationList);
 
-        // Bouton retour
+
         backButton.setOnAction(event -> handleBack());
     }
 
@@ -96,6 +98,5 @@ public class mesreservation {
 
     private void handleBack() {
         System.out.println("Retour");
-        // Tu peux ajouter ici le code de navigation vers une autre page
     }
 }

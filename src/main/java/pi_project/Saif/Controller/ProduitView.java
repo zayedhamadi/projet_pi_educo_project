@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -13,12 +12,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Service.ProduitService;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 public class ProduitView {
 
@@ -32,12 +32,14 @@ public class ProduitView {
     @FXML private TableColumn<Produit, Integer> colStock;
     @FXML private TableColumn<Produit, String> colImage;
     @FXML private TableColumn<Produit, String> colActions;
+    @FXML
+    private TextField searchField;
 
     private final ProduitService service = new ProduitService();
 
     @FXML
     public void initialize() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
@@ -80,7 +82,13 @@ public class ProduitView {
                     setGraphic(null);
                 } else {
                     try {
-                        File file = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + imagePath);  // Make sure to include the full path
+//                        File file = new File("E:/version_pidev/symfony_project-/educo_platform/public/uploads/" + imagePath);  // Make sure to include the full path
+                        Properties props = new Properties();
+                        props.load(new FileInputStream("config.properties"));
+                        String uploadPath = props.getProperty("upload.path");
+
+                        File file = new File(uploadPath + "/" + imagePath);
+
                         if (file.exists()) {
                             Image image = new Image(file.toURI().toString(), 60, 60, true, true);  // Ensure the image is resized to fit 60x60
                             imageView.setImage(image);
@@ -310,6 +318,16 @@ private void ajouterProduit() {
     public void refreshTable() {
         loadProduits();  // Recharger les produits
         tableView.refresh();  // Rafraîchir la table pour afficher les nouveaux éléments
+    }
+    @FXML
+    private void rechercherProduit() {
+        String motCle = searchField.getText().trim();
+
+        // Effectuer la recherche via le service
+        ObservableList<Produit> produitsRecherche = FXCollections.observableArrayList(
+                service.rechercherParMotCle(motCle)
+        );
+        tableView.setItems(produitsRecherche);  // Mettre à jour la table avec les résultats
     }
 
 

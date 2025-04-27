@@ -44,6 +44,9 @@
 
         <ComboBox fx:id="typeComboBox" promptText="Type d'événement"
                   style="-fx-background-radius: 5; -fx-padding: 8;" />
+        <TextField fx:id="timerField" promptText="Durée du timer en minutes"
+                   style="-fx-background-radius: 5; -fx-padding: 8;" />
+
 
         <HBox spacing="15" alignment="CENTER_RIGHT">
             <Button fx:id="retourButton" text="Retour"

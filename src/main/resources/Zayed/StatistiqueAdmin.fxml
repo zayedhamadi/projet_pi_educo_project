@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Zayed.Controller.StatistiqueAdmin"
+            prefWidth="800" prefHeight="600">
+
+    <Label fx:id="totalUsersLabel" layoutX="20" layoutY="20" text="Total utilisateurs :"
+    >
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+
+    <PieChart fx:id="genrePieChart" layoutX="20" layoutY="60" prefWidth="240" prefHeight="240"/>
+
+    <PieChart fx:id="etatComptePieChart" layoutX="280" layoutY="60" prefWidth="240" prefHeight="240"/>
+
+    <PieChart fx:id="rolePieChart" layoutX="540" layoutY="60" prefWidth="240" prefHeight="240"/>
+
+</AnchorPane>

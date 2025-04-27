@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Saif.Controller.CodePromoController">
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="10"/>
+            </padding>
+
+            <Label text="Gestion des Codes Promo" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <TableView fx:id="table" style="-fx-border-color: lightgray; -fx-border-radius: 5;">
+                <columns>
+                    <TableColumn fx:id="codeCol" text="Code" prefWidth="120"/>
+                    <TableColumn fx:id="remiseCol" text="Remise (%)" prefWidth="100"/>
+                    <TableColumn fx:id="dateDebutCol" text="Date Début" prefWidth="140"/>
+                    <TableColumn fx:id="dateFinCol" text="Date Fin" prefWidth="140"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="15" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <TextField fx:id="codeField" promptText="Code promo" prefWidth="150"/>
+            <TextField fx:id="remiseField" promptText="Remise (ex: 0.2)" prefWidth="150"/>
+            <DatePicker fx:id="dateDebutPicker" promptText="Date début" prefWidth="150"/>
+            <DatePicker fx:id="dateFinPicker" promptText="Date fin" prefWidth="150"/>
+            <Button fx:id="ajouterBtn" text="Ajouter" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button fx:id="supprimerBtn" text="Supprimer" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

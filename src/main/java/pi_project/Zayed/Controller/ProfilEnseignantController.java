@@ -1,15 +1,10 @@
 package pi_project.Zayed.Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.AuthenticationImpl;
@@ -19,13 +14,18 @@ import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.Zayed.Utils.session;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
+import java.util.Properties;
 
 public class ProfilEnseignantController {
     private final UserImpl userService = new UserImpl();
     AuthenticationImpl authentication = new AuthenticationImpl();
+    private User user;
+    private boolean editMode = false;
+    private String newImagePath;
     @FXML
     private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte;
     @FXML
@@ -33,14 +33,11 @@ public class ProfilEnseignantController {
     @FXML
     private PasswordField password;
     @FXML
-    private Button editProfileButton, saveProfileButton, logoutButton, changeImageButton;
+    private Button editProfileButton, saveProfileButton, changeImageButton;
     @FXML
     private DatePicker dateNaissance;
-    private User user;
-    private boolean editMode = false;
     @FXML
     private ImageView profileImage;
-    private String newImagePath;
 
     @FXML
     public void initialize() {
@@ -62,7 +59,7 @@ public class ProfilEnseignantController {
             }
         } else {
             Constant.showAlert(Alert.AlertType.WARNING, "Session expirée", "Veuillez vous reconnecter", "");
-            redirectToLogin();
+
         }
     }
 
@@ -94,26 +91,25 @@ public class ProfilEnseignantController {
         profileImage.setImage(Objects.requireNonNullElseGet(image, () -> new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")))));
     }
 
-    public Image loadImageFromPath(String path) {
-        if (path == null || path.isEmpty()) {
-            return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
-        }
-
+    private Image loadImageFromPath(String path) {
         try {
-            String imageName = path.startsWith("uploads/")
-                    ? path.substring("uploads/".length())
-                    : path;
+            if (path != null && !path.isEmpty()) {
+                Properties props = new Properties();
+                props.load(new FileInputStream("config.properties"));
+                String uploadPath = props.getProperty("upload.path");
 
-            String fullPath = "C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\" + imageName;
-            File file = new File(fullPath);
-
-            if (file.exists()) {
-                return new Image(file.toURI().toString());
+                String fullPath = uploadPath + "/" + path;
+                File file = new File(fullPath);
+                if (file.exists()) {
+                    return new Image(file.toURI().toString());
+                } else {
+                    System.out.println("Image non trouvée à : " + fullPath);
+                }
             }
         } catch (Exception e) {
             System.out.println("Erreur de chargement de l'image: " + e.getMessage());
         }
-        return new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/default-profile.png")));
+        return null;
     }
 
 
@@ -121,8 +117,6 @@ public class ProfilEnseignantController {
         editProfileButton.setOnAction(event -> toggleEditMode());
         saveProfileButton.setOnAction(event -> saveProfileChanges());
         changeImageButton.setOnAction(event -> changeProfileImage());
-
-        logoutButton.setOnAction(event -> logout());
     }
 
     private void toggleEditMode() {
@@ -171,23 +165,23 @@ public class ProfilEnseignantController {
         File selectedFile = fileChooser.showOpenDialog(profileImage.getScene().getWindow());
         if (selectedFile != null) {
             try {
-                String destDir = "C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\";
-                File destFolder = new File(destDir);
+                Properties props = new Properties();
+                props.load(new FileInputStream("config.properties"));
+                String uploadPath = props.getProperty("upload.path");
+
+                File destFolder = new File(uploadPath);
                 if (!destFolder.exists()) {
                     destFolder.mkdirs();
                 }
 
-                String originalFileName = selectedFile.getName();
-                String destPath = destDir + originalFileName;
-
-                File destinationFile = new File(destPath);
+                String originalFileName = selectedFile.getName().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+                File destinationFile = new File(uploadPath, originalFileName);
                 int counter = 1;
                 while (destinationFile.exists()) {
                     String baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
                     String extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
                     originalFileName = baseName + "_" + counter + extension;
-                    destPath = destDir + originalFileName;
-                    destinationFile = new File(destPath);
+                    destinationFile = new File(uploadPath, originalFileName);
                     counter++;
                 }
 
@@ -197,7 +191,6 @@ public class ProfilEnseignantController {
 
                 profileImage.setImage(new Image(destinationFile.toURI().toString()));
 
-                // Stocker uniquement le nom du fichier (sans "uploads/")
                 newImagePath = originalFileName;
 
             } catch (Exception e) {
@@ -206,16 +199,19 @@ public class ProfilEnseignantController {
         }
     }
 
+
     private void saveProfileChanges() {
         try {
             if (nom.getText().isEmpty() || prenom.getText().isEmpty() || email.getText().isEmpty()) {
                 Constant.showAlert(Alert.AlertType.WARNING, "Champs obligatoires", "Veuillez remplir tous les champs obligatoires", "");
                 return;
             }
+
             if (!password.getText().isEmpty() && !password.getText().equals("********")) {
                 String hashedPwd = PasswordUtils.cryptPw(password.getText());
                 user.setPassword(hashedPwd);
             }
+
             user.setNom(nom.getText());
             user.setPrenom(prenom.getText());
             user.setEmail(email.getText());
@@ -233,13 +229,18 @@ public class ProfilEnseignantController {
 
             if (newImagePath != null) {
                 if (user.getImage() != null && !user.getImage().isEmpty()) {
-                    String oldImageName = user.getImage().startsWith("uploads/")
-                            ? user.getImage().substring("uploads/".length())
-                            : user.getImage();
+                    try {
+                        Properties props = new Properties();
+                        props.load(new FileInputStream("config.properties"));
+                        String uploadPath = props.getProperty("upload.path");
 
-                    File oldImage = new File("C:\\Users\\21690\\Desktop\\projet_pi\\symfony_project-\\educo_platform\\public\\uploads\\" + oldImageName);
-                    if (oldImage.exists()) {
-                        oldImage.delete();
+                        String oldImageName = user.getImage();
+                        File oldImage = new File(uploadPath, oldImageName);
+                        if (oldImage.exists()) {
+                            oldImage.delete();
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erreur lors de la suppression de l'ancienne image: " + e.getMessage());
                     }
                 }
                 user.setImage(newImagePath);
@@ -257,52 +258,6 @@ public class ProfilEnseignantController {
         } catch (Exception e) {
             e.printStackTrace();
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil", e.getMessage());
-        }
-    }
-
-    private void redirectToLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/login.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
-        }
-    }
-
-    private void logout() {
-        authentication.logout();
-        redirectToLogin();
-    }
-
-    @FXML
-    public void gestionquiz() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquiz.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void gestionquestion() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquestion.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
         }
     }
 }

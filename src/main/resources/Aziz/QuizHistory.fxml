@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.QuizHistoryController"
+      spacing="20" style="-fx-padding: 20; -fx-background-color: #f5f7fa;">
+
+    <Label text="Quiz History" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Student:" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+        <Label fx:id="studentNameLabel" style="-fx-font-size: 16px; -fx-text-fill: #2980b9;"/>
+    </HBox>
+
+    <Separator style="-fx-padding: 0 0 10 0;"/>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: transparent;">
+        <VBox fx:id="quizCardsContainer" spacing="15"/>
+    </ScrollPane>
+
+    <Button text="Back to Dashboard" onAction="#handleBack"
+            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 20;"/>
+</VBox>

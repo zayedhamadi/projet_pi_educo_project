@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Farouk.Controller.ChatController"
+      prefHeight="400.0" prefWidth="600.0"
+      stylesheets="@Css/chat.css"
+      spacing="15"
+      style="-fx-background-color: #f5f7fa;" >
+
+    <!-- Header -->
+    <Label text="Ollama Chat" styleClass="header" />
+
+    <!-- Chat Area -->
+    <TextArea fx:id="chatArea" styleClass="chat-area"
+              editable="false" wrapText="true"
+              VBox.vgrow="ALWAYS"/>
+    <!-- Add this above the input container -->
+    <Label fx:id="statusLabel" styleClass="status-label" text="Ready"/>
+
+    <!-- File Upload Button -->
+    <Button text="Upload PDF" styleClass="upload-button"
+            onMouseClicked="#handleUploadPdf" />
+
+
+    <!-- Input Container -->
+    <HBox styleClass="input-container" spacing="10">
+        <TextField fx:id="inputField" styleClass="message-input"
+                   HBox.hgrow="ALWAYS"
+                   promptText="Type your message here..."/>
+        <Button text="Send" styleClass="send-button"
+                onAction="#handleSend" />
+    </HBox>
+</VBox>

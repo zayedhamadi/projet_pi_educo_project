@@ -198,4 +198,18 @@ public class AfficherQuizController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+    private void navigateToPdfQuiz() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/Aziz/pdf_quiz.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("PDF Quiz Generator");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Navigation Error", "Could not load PDF Quiz page.");
+        }
+    }
 }

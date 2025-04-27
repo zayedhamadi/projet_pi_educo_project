@@ -74,6 +74,7 @@ public class LoginController {
             StackPane.setAlignment(eyeImage, Pos.CENTER_LEFT);
         }
     }
+
     @FXML
     private void login() {
         String userEmail = email.getText().trim();
@@ -100,16 +101,19 @@ public class LoginController {
                     switch (userRole) {
                         case Admin -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Admin", "Vous avez accès en tant qu'Admin");
-                           loadScene("/Saif/MainLayout.fxml", "Profil Admin");
+                            loadScene("/Saif/MainLayout.fxml", "Profil Admin");
                         }
                         case Enseignant -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Enseignant", "Vous avez accès en tant qu'Enseignant");
-                            loadScene("/Zayed/ProfilEnseignant.fxml", "Profil Enseignant");
+//                            loadScene("/Zayed/ProfilEnseignant.fxml", "Profil Enseignant");
+                            loadScene("/Aziz/enseignanlayout.fxml", "Profil Enseignant");
 
                         }
                         case Parent -> {
                             Constant.showAlert(Alert.AlertType.INFORMATION, "Connexion réussie", "Bienvenue Parent", "Vous avez accès en tant que Parent");
-                          loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+                            //loadScene("/Zayed/ProfilParent.fxml", "Profil Parent");
+                            loadScene("/Saif/NavbarParent.fxml", "Profil Parent");
+
                         }
                     }
                 } else {
@@ -131,8 +135,8 @@ public class LoginController {
             stage.setTitle(title);
             stage.show();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.println("Erreur lors du chargement de la vue : " + fxmlPath);
-            e.printStackTrace();
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger la vue", e.getMessage());
         }
     }
@@ -140,7 +144,8 @@ public class LoginController {
     @FXML
     public void goingToForgetPwPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/forgetPw.fxml"));
+            //    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/forgetPw.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/ChoixForgetPw.fxml"));
             Parent root = loader.load();
 
 

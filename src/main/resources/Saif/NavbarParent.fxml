@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.*?>
-
 <?import java.net.URL?>
 <BorderPane fx:id="navparent" xmlns:fx="http://javafx.com/fxml"
             fx:controller="pi_project.Saif.Controller.NavbarParent"
-             prefWidth="1000" prefHeight="600">
+            prefWidth="1000" prefHeight="600">
     <stylesheets>
         <URL value="@styles.css"/>
     </stylesheets>
@@ -15,17 +14,25 @@
 
 
             <Button text="🏠 Boutique" fx:id="btnBoutique" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
-            <Button text="🏠 Boutique" fx:id="btnBoutiquee" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
-            <Button text="🏠 Boutique" fx:id="btnBoutiqure" onAction="#loadBoutiqueView" styleClass="navbar-button"/>
+            <Button text="Suivre commande" fx:id="btnsuivrecmd" onAction="#loadsuivrecommandeView" styleClass="navbar-button"/>
+
+            <Button text="mes reclamation" fx:id="btnreclamation" onAction="#loadreclamationView" styleClass="navbar-button"/>
+            <Button text="evenement" fx:id="btnevenement" onAction="#loadevenementView" styleClass="navbar-button"/>
+            <Button text="mesreservation" fx:id="btnmesreservation" onAction="#loadmesreservationView" styleClass="navbar-button"/>
+            <Button text="Quiz" fx:id="btnquiz" onAction="#loadQuizView" styleClass="navbar-button"/>
+            <Button text="mes quiz" fx:id="btnquizz" onAction="#loadQuizhistoyView" styleClass="navbar-button"/>
+            <Button text="profile" onAction="#loadProfileUser" styleClass="navbar-button"/>
+            <Button text=" se deconnecter " onAction="#logout" styleClass="navbar-button"/>
+
+
 
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <!-- Tu peux ajouter d'autres boutons ici -->
         </HBox>
     </top>
 
     <center>
-        <StackPane fx:id="navbarparent" style="-fx-background-color: #f4f4f4;" />
+        <StackPane fx:id="navbarparent" style="-fx-background-color: #f4f4f4;"/>
     </center>
 </BorderPane>
