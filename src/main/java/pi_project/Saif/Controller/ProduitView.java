@@ -32,12 +32,14 @@ public class ProduitView {
     @FXML private TableColumn<Produit, Integer> colStock;
     @FXML private TableColumn<Produit, String> colImage;
     @FXML private TableColumn<Produit, String> colActions;
+    @FXML
+    private TextField searchField;
 
     private final ProduitService service = new ProduitService();
 
     @FXML
     public void initialize() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
@@ -316,6 +318,16 @@ private void ajouterProduit() {
     public void refreshTable() {
         loadProduits();  // Recharger les produits
         tableView.refresh();  // Rafraîchir la table pour afficher les nouveaux éléments
+    }
+    @FXML
+    private void rechercherProduit() {
+        String motCle = searchField.getText().trim();
+
+        // Effectuer la recherche via le service
+        ObservableList<Produit> produitsRecherche = FXCollections.observableArrayList(
+                service.rechercherParMotCle(motCle)
+        );
+        tableView.setItems(produitsRecherche);  // Mettre à jour la table avec les résultats
     }
 
 

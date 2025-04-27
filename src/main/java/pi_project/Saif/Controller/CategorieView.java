@@ -16,6 +16,8 @@ import pi_project.Saif.Entity.Categorie;
 import pi_project.Saif.Service.CategorieService;
 import javafx.util.Callback;
 
+import java.util.List;
+
 public class CategorieView {
 
     @FXML
@@ -32,13 +34,14 @@ public class CategorieView {
 
     @FXML
     private TableColumn<Categorie, String> colActions;  // Ajout de la colonne Actions
-
+    @FXML
+    private TextField searchField;
     private CategorieService service = new CategorieService();
 
     @FXML
     public void initialize() {
         // Initialiser les colonnes
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -83,6 +86,9 @@ public class CategorieView {
                     }
                 };
             }
+        });
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            loadCategories();
         });
 
         // Charger les catégories dans la table
@@ -236,6 +242,24 @@ private void ajouterCategorie() {
         showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible d'ouvrir la page d'ajout");
     }
 }
+    @FXML
+    private void rechercherCategorie() {
+        String query = searchField.getText().toLowerCase();  // Récupérer la recherche en minuscule pour ignorer la casse
+
+        // Appeler le service pour rechercher les catégories filtrées
+        List<Categorie> filteredCategories = service.searchCategories(query);
+
+        // Convertir les résultats en ObservableList pour pouvoir les afficher dans le TableView
+        ObservableList<Categorie> observableCategories = FXCollections.observableArrayList(filteredCategories);
+
+        // Mettre à jour la table avec les catégories filtrées
+        tableView.setItems(observableCategories);
+
+        // Réinitialiser la pagination si la recherche ne retourne pas de résultats
+        if (filteredCategories.isEmpty()) {
+            showAlert(Alert.AlertType.INFORMATION, "Aucun résultat", "Aucune catégorie ne correspond à votre recherche");
+        }
+    }
 
     // Affichage d'une alerte
     private void showAlert(Alert.AlertType type, String title, String msg) {

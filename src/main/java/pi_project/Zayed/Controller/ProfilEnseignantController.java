@@ -1,15 +1,10 @@
 package pi_project.Zayed.Controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Service.AuthenticationImpl;
@@ -28,6 +23,9 @@ import java.util.Properties;
 public class ProfilEnseignantController {
     private final UserImpl userService = new UserImpl();
     AuthenticationImpl authentication = new AuthenticationImpl();
+    private User user;
+    private boolean editMode = false;
+    private String newImagePath;
     @FXML
     private TextField nom, prenom, email, numTel, adresse, genre, roles, etatCompte;
     @FXML
@@ -35,14 +33,11 @@ public class ProfilEnseignantController {
     @FXML
     private PasswordField password;
     @FXML
-    private Button editProfileButton, saveProfileButton, logoutButton, changeImageButton;
+    private Button editProfileButton, saveProfileButton, changeImageButton;
     @FXML
     private DatePicker dateNaissance;
-    private User user;
-    private boolean editMode = false;
     @FXML
     private ImageView profileImage;
-    private String newImagePath;
 
     @FXML
     public void initialize() {
@@ -64,7 +59,7 @@ public class ProfilEnseignantController {
             }
         } else {
             Constant.showAlert(Alert.AlertType.WARNING, "Session expirée", "Veuillez vous reconnecter", "");
-            redirectToLogin();
+
         }
     }
 
@@ -122,8 +117,6 @@ public class ProfilEnseignantController {
         editProfileButton.setOnAction(event -> toggleEditMode());
         saveProfileButton.setOnAction(event -> saveProfileChanges());
         changeImageButton.setOnAction(event -> changeProfileImage());
-
-        logoutButton.setOnAction(event -> logout());
     }
 
     private void toggleEditMode() {
@@ -172,7 +165,6 @@ public class ProfilEnseignantController {
         File selectedFile = fileChooser.showOpenDialog(profileImage.getScene().getWindow());
         if (selectedFile != null) {
             try {
-                // Lire le chemin d'upload depuis config.properties
                 Properties props = new Properties();
                 props.load(new FileInputStream("config.properties"));
                 String uploadPath = props.getProperty("upload.path");
@@ -182,11 +174,8 @@ public class ProfilEnseignantController {
                     destFolder.mkdirs();
                 }
 
-                // Nettoyage du nom de fichier pour éviter les problèmes
                 String originalFileName = selectedFile.getName().replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
                 File destinationFile = new File(uploadPath, originalFileName);
-
-                // Éviter les doublons en ajoutant un compteur
                 int counter = 1;
                 while (destinationFile.exists()) {
                     String baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
@@ -196,15 +185,12 @@ public class ProfilEnseignantController {
                     counter++;
                 }
 
-                // Copier l'image
                 Files.copy(selectedFile.toPath(),
                         destinationFile.toPath(),
                         StandardCopyOption.REPLACE_EXISTING);
 
-                // Charger l'image dans l'interface
                 profileImage.setImage(new Image(destinationFile.toURI().toString()));
 
-                // Stocker uniquement le nom du fichier pour l'enregistrer dans la base
                 newImagePath = originalFileName;
 
             } catch (Exception e) {
@@ -242,7 +228,6 @@ public class ProfilEnseignantController {
             user.setDescription(description.getText());
 
             if (newImagePath != null) {
-                // Supprimer l'ancienne image si elle existe
                 if (user.getImage() != null && !user.getImage().isEmpty()) {
                     try {
                         Properties props = new Properties();
@@ -273,53 +258,6 @@ public class ProfilEnseignantController {
         } catch (Exception e) {
             e.printStackTrace();
             Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Échec de la mise à jour du profil", e.getMessage());
-        }
-    }
-
-
-    private void redirectToLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/login.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
-        }
-    }
-
-    private void logout() {
-        authentication.logout();
-        redirectToLogin();
-    }
-
-    @FXML
-    public void gestionquiz() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquiz.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void gestionquestion() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/afficherquestion.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
         }
     }
 }

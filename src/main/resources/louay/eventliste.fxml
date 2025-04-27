@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -7,33 +8,47 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             fx:controller="pi_project.louay.Controller.eventlisteController"
             style="-fx-background-color: #f4f6f9;">
+    <VBox spacing="20"
+          style="-fx-background-color: white; -fx-background-radius: 10;"
+          AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
 
-    <VBox alignment="TOP_CENTER" spacing="20"
-          prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-          AnchorPane.topAnchor="20.0" AnchorPane.bottomAnchor="20.0"
-          style="-fx-padding: 30;">
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 0 0 10 0;">
 
-        <!-- Titre -->
-        <Label text="Liste des événements"
-               style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+            <Region HBox.hgrow="ALWAYS"/>
+            <!--Button fx:id="refreshButton" text="🔄 Actualiser"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
+        </HBox>
 
-        <!-- Tableau des événements -->
-        <TableView fx:id="eventTable"
-                   editable="false"
-                   prefHeight="450.0" prefWidth="780.0"
-                   style="-fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 5);">
+        <!-- Search and Filter Section -->
+        <HBox spacing="15" alignment="CENTER_LEFT"
+              style="-fx-background-color: #ecf0f1; -fx-background-radius: 5;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <TextField fx:id="searchField" promptText="Rechercher un événement..."
+                       style="-fx-background-radius: 5; -fx-pref-width: 300;"/>
+            <ComboBox fx:id="typeCombo" promptText="Tous types"
+                      style="-fx-background-radius: 5; -fx-pref-width: 200;"/>
+           <!-- <Button fx:id="filterButton" text="Filtrer"
+                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
+        </HBox>
 
-            <columns>
-                <TableColumn fx:id="titreColumn" text="Titre" prefWidth="100" />
-                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="150" />
-                <TableColumn fx:id="dateDebutColumn" text="Date Début" prefWidth="100" />
-                <TableColumn fx:id="dateFinColumn" text="Date Fin" prefWidth="100" />
-                <TableColumn fx:id="lieuColumn" text="Lieu" prefWidth="100" />
-                <TableColumn fx:id="inscriptionColumn" text="Inscription Requise" prefWidth="100" />
-                <TableColumn fx:id="nombrePlacesColumn" text="Nombre de Places" prefWidth="120" />
-                <TableColumn fx:id="typeColumn" text="Type d'événement" prefWidth="130" />
-                <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100" />
-            </columns>
-        </TableView>
+        <!-- Scrollable Events Grid -->
+        <ScrollPane VBox.vgrow="ALWAYS"
+                    fitToWidth="true"
+                    vbarPolicy="ALWAYS"
+                    style="-fx-background: transparent; -fx-background-color: transparent;">
+            <FlowPane fx:id="eventContainer"
+                      hgap="20" vgap="20" alignment="TOP_CENTER"
+                      prefWidth="10000">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+            </FlowPane>
+        </ScrollPane>
     </VBox>
 </AnchorPane>

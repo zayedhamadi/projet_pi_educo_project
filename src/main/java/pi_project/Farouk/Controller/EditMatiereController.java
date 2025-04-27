@@ -106,30 +106,75 @@ public class EditMatiereController {
             showAlert("Database Error", "Error updating subject: " + e.getMessage());
         }
     }
-
     private boolean validateInput() {
+        // Reset styles
+        nomField.setStyle(null);
+        coeffField.setStyle(null);
+
         if (enseignantCombo.getValue() == null) {
             showAlert("Input Error", "Please select a teacher");
             return false;
         }
-        if (nomField.getText().isEmpty()) {
+
+        String subjectName = nomField.getText().trim();
+        if (subjectName.isEmpty()) {
             showAlert("Input Error", "Subject name is required");
+            nomField.setStyle("-fx-border-color: red;");
             return false;
         }
-        if (coeffField.getText().isEmpty()) {
+
+        if (!subjectName.matches("[A-Z][a-zA-Z0-9]*")) {
+            showAlert("Input Error", "Subject name must start with a capital letter and contain only letters and numbers");
+            nomField.setStyle("-fx-border-color: red;");
+            return false;
+        }
+
+        String coeffText = coeffField.getText().trim();
+        if (coeffText.isEmpty()) {
             showAlert("Input Error", "Coefficient is required");
+            coeffField.setStyle("-fx-border-color: red;");
             return false;
         }
 
         try {
-            Double.parseDouble(coeffField.getText());
+            int coeff = Integer.parseInt(coeffText);
+            if (coeff < 1 || coeff > 8) {
+                showAlert("Input Error", "Coefficient must be a number between 1 and 8");
+                coeffField.setStyle("-fx-border-color: red;");
+                return false;
+            }
         } catch (NumberFormatException e) {
-            showAlert("Input Error", "Please enter a valid coefficient");
+            showAlert("Input Error", "Coefficient must be a valid number");
+            coeffField.setStyle("-fx-border-color: red;");
             return false;
         }
 
         return true;
     }
+
+//    private boolean validateInput() {
+//        if (enseignantCombo.getValue() == null) {
+//            showAlert("Input Error", "Please select a teacher");
+//            return false;
+//        }
+//        if (nomField.getText().isEmpty()) {
+//            showAlert("Input Error", "Subject name is required");
+//            return false;
+//        }
+//        if (coeffField.getText().isEmpty()) {
+//            showAlert("Input Error", "Coefficient is required");
+//            return false;
+//        }
+//
+//        try {
+//            Double.parseDouble(coeffField.getText());
+//        } catch (NumberFormatException e) {
+//            showAlert("Input Error", "Please enter a valid coefficient");
+//            return false;
+//        }
+//
+//        return true;
+//    }
 
     @FXML
     private void handleCancel(ActionEvent event) {

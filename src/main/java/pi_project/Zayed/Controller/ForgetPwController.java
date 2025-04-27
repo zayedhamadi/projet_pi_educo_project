@@ -31,7 +31,7 @@ public class ForgetPwController {
     @FXML
     public void goingTologinPage() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/ChoixForgetPw.fxml"));
             Parent root = loader.load();
 
 

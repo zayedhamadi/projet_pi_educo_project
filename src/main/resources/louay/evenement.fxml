@@ -2,45 +2,53 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            fx:controller="pi_project.louay.Controller.EvenementController"
-            style="-fx-background-color: #f0f4f8;">
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding: 20;">
+<BorderPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #ecf0f1;"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.louay.Controller.EvenementController">
+
+    <!-- Contenu principal -->
+    <center>
+        <VBox spacing="20.0" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+            </padding>
 
             <!-- Titre -->
-            <Label text="📅 Liste des Événements"
-                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1e88e5;" />
+            <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"
+                  text="📅 Gestion des Événements"/>
+
+            <!-- Bouton Ajouter à droite -->
+            <HBox alignment="TOP_RIGHT">
+                <Button fx:id="ajouterBtn"
+                        style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 20px; -fx-border-radius: 5px;"
+                        text="➕ Créer un événement"/>
+            </HBox>
 
             <!-- Tableau des événements -->
             <TableView fx:id="eventTable"
-                       editable="false"
-                       prefHeight="398.0"
-                       prefWidth="699.0"
-                       style="-fx-background-radius: 10; -fx-border-color: #ddd; -fx-border-radius: 10;">
+                       VBox.vgrow="ALWAYS"
+                       style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
                 <columns>
-                    <TableColumn fx:id="titreColumn" text="Titre" />
-                    <TableColumn fx:id="descriptionColumn" text="Description" />
-                    <TableColumn fx:id="dateDebutColumn" text="Date Début" />
-                    <TableColumn fx:id="dateFinColumn" text="Date Fin" />
-                    <TableColumn fx:id="lieuColumn" text="Lieu" />
-                    <TableColumn fx:id="inscriptionColumn" text="Inscription Requise" />
-                    <TableColumn fx:id="nombrePlacesColumn" text="Nombre de Places" />
-                    <TableColumn fx:id="typeColumn" text="Type d'événement" />
-                    <TableColumn fx:id="actionsColumn" text="Actions" />
+                    <TableColumn fx:id="titreColumn" text="Titre"/>
+                    <TableColumn fx:id="descriptionColumn" text="Description"/>
+                    <TableColumn fx:id="dateDebutColumn" text="Date Début"/>
+                    <TableColumn fx:id="dateFinColumn" text="Date Fin"/>
+                    <TableColumn fx:id="lieuColumn" text="Lieu"/>
+                    <TableColumn fx:id="inscriptionColumn" text="Inscription"/>
+                    <TableColumn fx:id="nombrePlacesColumn" text="Places"/>
+                    <TableColumn fx:id="typeColumn" text="Type"/>
+                    <TableColumn fx:id="actionsColumn" text="Actions"/>
                 </columns>
             </TableView>
 
-            <!-- Bouton Ajouter -->
-            <HBox alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="722.0">
-                <children>
-                    <Button fx:id="ajouterBtn"
-                            text="➕ Créer un événement"
-                            style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 6; -fx-padding: 8 16;" />
-                </children>
-            </HBox>
+            <!-- Pagination -->
+            <Pagination fx:id="pagination"
+                        style="-fx-page-information-visible: true;"
+                        maxPageIndicatorCount="5"/>
         </VBox>
-    </children>
-</AnchorPane>
+    </center>
+</BorderPane>

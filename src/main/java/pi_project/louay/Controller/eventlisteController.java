@@ -1,26 +1,15 @@
 package pi_project.louay.Controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.scene.control.TableCell;
-
-import pi_project.Fedi.services.eleveservice;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Enum.EventType;
 import pi_project.louay.Service.evenementImp;
-import pi_project.Fedi.entites.eleve;
-//import pi_project.Fedi.services.eleveservice;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,121 +18,83 @@ import java.util.ResourceBundle;
 
 public class eventlisteController implements Initializable {
 
-
-
     @FXML
-    private TableView<evenement> eventTable;
-
+    private FlowPane eventContainer;
     @FXML
-    private TableColumn<evenement, String> titreColumn;
-
+    private TextField searchField;
     @FXML
-    private TableColumn<evenement, String> descriptionColumn;
-
-    @FXML
-    private TableColumn<evenement, String> dateDebutColumn;
-
-    @FXML
-    private TableColumn<evenement, String> dateFinColumn;
-
-    @FXML
-    private TableColumn<evenement, String> lieuColumn;
-
-    @FXML
-    private TableColumn<evenement, Boolean> inscriptionColumn;
-
-    @FXML
-    private TableColumn<evenement, Integer> nombrePlacesColumn;
-
-    @FXML
-    private TableColumn<evenement, EventType> typeColumn;
-
-    @FXML
-    private TableColumn<evenement, Void> actionsColumn;
+    private ComboBox<String> typeCombo;
 
     private final evenementImp evenementService = new evenementImp();
-    private final eleveservice eleveService = new eleveservice();
-
-    private int idParent=2; // ID du parent connecté
-
-    public void setIdParent(int idParent) {
-        this.idParent = idParent;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Configuration des colonnes
-        titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        dateDebutColumn.setCellValueFactory(new PropertyValueFactory<>("dateDebut"));
-        dateFinColumn.setCellValueFactory(new PropertyValueFactory<>("dateFin"));
-        lieuColumn.setCellValueFactory(new PropertyValueFactory<>("lieu"));
-        inscriptionColumn.setCellValueFactory(new PropertyValueFactory<>("inscriptionRequise"));
-        nombrePlacesColumn.setCellValueFactory(new PropertyValueFactory<>("nombrePlaces"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        // Initialisation du ComboBox avec les types d'événements
+        typeCombo.getItems().add("Tous types");
+        for (EventType type : EventType.values()) {
+            typeCombo.getItems().add(type.getLabel());
+        }
 
-        // Ajouter le bouton "Réserver" si nécessaire
-        ajouterBoutonReserver();
-
-        // Charger les événements
-        afficherEvenements();
+        afficherEvenements(); // Affiche tous les événements au départ
+        setupActions(); // Configuration des actions de filtrage
     }
 
     private void afficherEvenements() {
         List<evenement> allEvenements = evenementService.getAll();
-        ObservableList<evenement> evenementData = FXCollections.observableArrayList(allEvenements);
-        eventTable.setItems(evenementData);
+        eventContainer.getChildren().clear();
+
+        for (evenement evt : allEvenements) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/CardEvenement.fxml"));
+                Parent card = loader.load();
+
+                CardEvenementController controller = loader.getController();
+                controller.setData(evt);
+
+                eventContainer.getChildren().add(card);
+
+            } catch (IOException e) {
+                System.err.println("Erreur lors du chargement de la carte événement : " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void ajouterBoutonReserver() {
-        actionsColumn.setCellFactory(col -> new TableCell<>() {
-            private final Button reserverBtn = new Button("Réserver");
+    private void setupActions() {
+        // Ajout d'un écouteur pour le champ de recherche
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filterEvents());
 
-            {
-                reserverBtn.setOnAction(e -> {
-                    evenement evt = getTableView().getItems().get(getIndex());
-                    reserverEvenement(evt);
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    evenement evt = getTableView().getItems().get(getIndex());
-                    HBox buttons = new HBox(5);
-
-                    if (evt.isInscriptionRequise()) {
-                        buttons.getChildren().add(reserverBtn);
-                    }
-
-                    setGraphic(buttons);
-                }
-            }
-        });
+        // Ajout d'un écouteur pour le ComboBox (type d'événement)
+        typeCombo.valueProperty().addListener((observable, oldValue, newValue) -> filterEvents());
     }
 
-    private void reserverEvenement(evenement evt) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/reserverEvenement.fxml"));
-            Parent root = loader.load();
+    // Fonction de filtrage
+    private void filterEvents() {
+        String searchText = searchField.getText().toLowerCase().trim();
+        String selectedType = typeCombo.getValue();
 
-            ReservationController controller = loader.getController();
+        // Filtrage des événements selon le texte de recherche et le type sélectionné
+        List<evenement> filteredEvents = evenementService.getAll().stream()
+                .filter(evt -> (searchText.isEmpty() || evt.getTitre().toLowerCase().contains(searchText)))
+                .filter(evt -> (selectedType == null || selectedType.equals("Tous types") || evt.getType().getLabel().equalsIgnoreCase(selectedType)))
+                .toList();
 
-            // 🔥 Récupérer les enfants du parent connecté
-            List<eleve> enfants = eleveService.getEnfantsParParent(idParent);
+        eventContainer.getChildren().clear();
 
-            // 👇 Appel correct avec les deux paramètres attendus
-            controller.setEvenement(evt, enfants);
+        for (evenement evt : filteredEvents) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/CardEvenement.fxml"));
+                Parent card = loader.load();
 
-            Stage stage = new Stage();
-            stage.setTitle("Réserver : " + evt.getTitre());
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
+                CardEvenementController controller = loader.getController();
+                controller.setData(evt);
+
+                eventContainer.getChildren().add(card);
+
+            } catch (IOException e) {
+                System.err.println("Erreur lors du chargement de la carte filtrée : " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

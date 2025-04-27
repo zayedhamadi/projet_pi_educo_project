@@ -1,0 +1,51 @@
+/* General BorderPane Styling */
+.root {
+    -fx-background-color: #f9f9f9;
+    -fx-padding: 20;
+}
+
+/* Header Styling */
+.calendar-header {
+    -fx-background-color: #4CAF50;
+    -fx-padding: 15;
+}
+
+.calendar-month-label {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Weekday Names */
+.calendar-weekdays Label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-text-fill: #555;
+}
+
+/* Calendar Grid (Days) */
+.calendar-grid {
+    -fx-padding: 10;
+}
+
+.calendar-grid StackPane {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-pref-width: 80;
+    -fx-pref-height: 80;
+    -fx-alignment: top-left;
+}
+
+/* Highlight today */
+.calendar-grid .today {
+    -fx-border-color: #2196F3;
+    -fx-border-width: 2;
+}
+
+/* Exam Text Styling */
+.exam-text {
+    -fx-font-size: 10px;
+    -fx-text-fill: #e91e63;
+}

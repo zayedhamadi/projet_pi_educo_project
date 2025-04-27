@@ -21,11 +21,24 @@
             <!-- Titre -->
             <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" text="Gestion des Produits"/>
 
-            <!-- Ligne avec bouton à droite -->
-            <HBox alignment="TOP_RIGHT">
-                <Button onAction="#ajouterProduit"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"
-                        text="Ajouter un produit"/>
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <!-- Champ de recherche et bouton rechercher -->
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <TextField fx:id="searchField" promptText="Rechercher..." />
+                    <Button onAction="#rechercherProduit"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"
+                            text="Rechercher" />
+                </HBox>
+
+                <!-- Espace vide pour séparer les éléments -->
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Bouton Ajouter un produit aligné à droite -->
+                <HBox alignment="CENTER_RIGHT">
+                    <Button onAction="#ajouterProduit"
+                            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px; -fx-padding: 10px 20px;"
+                            text="Ajouter un produit"/>
+                </HBox>
             </HBox>
 
             <!-- Tableau des produits -->
@@ -33,7 +46,7 @@
                        VBox.vgrow="ALWAYS"
                        style="-fx-border-color: #ccc; -fx-border-radius: 8px;">
                 <columns>
-                    <TableColumn fx:id="colId" text="ID"/>
+<!--                    <TableColumn fx:id="colId" text="ID"/>-->
                     <TableColumn fx:id="colNom" text="Nom"/>
                     <TableColumn fx:id="colDescription" text="Description"/>
                     <TableColumn fx:id="colPrix" text="Prix"/>

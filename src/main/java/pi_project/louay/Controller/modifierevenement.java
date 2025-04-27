@@ -8,9 +8,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.time.LocalDate;
+
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Enum.EventType;
 import pi_project.louay.Service.evenementImp;
+import pi_project.louay.Utils.timer;
 
 public class modifierevenement {
 
@@ -36,7 +38,10 @@ public class modifierevenement {
     private TextField nombrePlacesField;
 
     @FXML
-    private ComboBox<String> typeComboBox;
+    private ComboBox<EventType> typeComboBox;
+
+    @FXML
+    private TextField timerField;
 
     @FXML
     private Button retourButton;
@@ -48,6 +53,8 @@ public class modifierevenement {
 
     private final evenementImp evenementService = new evenementImp();
 
+    private final timer timerManager = new timer();
+
     public void setEvenement(evenement e) {
         this.evenementAModifier = e;
         remplirChamps(e);
@@ -55,23 +62,20 @@ public class modifierevenement {
 
     @FXML
     private void initialize() {
-        // Charger les types d'événements dans le ComboBox
-        for (EventType type : EventType.values()) {
-            typeComboBox.getItems().add(type.name());
-        }
+        typeComboBox.getItems().setAll(EventType.values());
 
-        // Gérer les actions des boutons
         modifierButton.setOnAction(e -> modifierEvenement());
         retourButton.setOnAction(e -> retournerVersEvenements());
 
-        // Désactiver le champ de nombre de places par défaut
         nombrePlacesField.setDisable(true);
+        timerField.setDisable(true);
 
-        // Activer/désactiver selon la checkbox
         inscriptionRequiseCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> {
             nombrePlacesField.setDisable(!newVal);
+            timerField.setDisable(!newVal);
             if (!newVal) {
                 nombrePlacesField.clear();
+                timerField.clear();
             }
         });
     }
@@ -84,8 +88,10 @@ public class modifierevenement {
         lieuField.setText(e.getLieu());
         inscriptionRequiseCheckBox.setSelected(e.isInscriptionRequise());
         nombrePlacesField.setText(String.valueOf(e.getNombrePlaces()));
-        nombrePlacesField.setDisable(!e.isInscriptionRequise()); // 🔥 Ajout important pour activer/désactiver le champ
-        typeComboBox.setValue(e.getType().name());
+        nombrePlacesField.setDisable(!e.isInscriptionRequise());
+        typeComboBox.setValue(e.getType());
+        timerField.setText(""); // Remplace si besoin par la vraie valeur du timer
+        timerField.setDisable(!e.isInscriptionRequise());
     }
 
     private void modifierEvenement() {
@@ -96,15 +102,14 @@ public class modifierevenement {
         LocalDate dateFin = dateFinPicker.getValue();
         boolean inscriptionRequise = inscriptionRequiseCheckBox.isSelected();
         String placesText = nombrePlacesField.getText().trim();
-        String type = typeComboBox.getValue();
+        EventType type = typeComboBox.getValue();
+        String timerText = timerField.getText().trim();
 
-        // Vérification des champs obligatoires
         if (titre.isEmpty() || description.isEmpty() || lieu.isEmpty() || dateDebut == null || dateFin == null || type == null) {
             showAlert(Alert.AlertType.ERROR, "Veuillez remplir tous les champs obligatoires.");
             return;
         }
 
-        // Longueur minimale du titre et lieu (4 caractères)
         if (titre.length() < 4) {
             showAlert(Alert.AlertType.ERROR, "Le titre doit contenir au moins 4 caractères.");
             return;
@@ -115,19 +120,16 @@ public class modifierevenement {
             return;
         }
 
-        // Longueur minimale de la description (10 caractères)
         if (description.length() < 10) {
             showAlert(Alert.AlertType.ERROR, "La description doit contenir au moins 10 caractères.");
             return;
         }
 
-        // Vérification que la date de fin est après la date de début
         if (dateFin.isBefore(dateDebut)) {
             showAlert(Alert.AlertType.ERROR, "La date de fin doit être postérieure à la date de début.");
             return;
         }
 
-        // Vérification du nombre de places (positif si inscription requise)
         int nombrePlaces = 0;
         if (inscriptionRequise) {
             try {
@@ -142,8 +144,21 @@ public class modifierevenement {
             }
         }
 
+        int dureeTimer = 0;
+        if (inscriptionRequise && !timerText.isEmpty()) {
+            try {
+                dureeTimer = Integer.parseInt(timerText);
+                if (dureeTimer <= 0) {
+                    showAlert(Alert.AlertType.ERROR, "La durée du timer doit être un entier positif.");
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                showAlert(Alert.AlertType.ERROR, "La durée du timer doit être un entier valide.");
+                return;
+            }
+        }
+
         try {
-            // Mettre à jour l'événement
             evenementAModifier.setTitre(titre);
             evenementAModifier.setDescription(description);
             evenementAModifier.setDateDebut(dateDebut);
@@ -151,9 +166,13 @@ public class modifierevenement {
             evenementAModifier.setLieu(lieu);
             evenementAModifier.setInscriptionRequise(inscriptionRequise);
             evenementAModifier.setNombrePlaces(nombrePlaces);
-            evenementAModifier.setType(EventType.valueOf(type));
+            evenementAModifier.setType(type);
 
             evenementService.modifier(evenementAModifier);
+
+            if (inscriptionRequise && dureeTimer > 0) {
+                timerManager.addTimer(evenementAModifier.getId(), dureeTimer * 60); // en secondes
+            }
 
             showAlert(Alert.AlertType.INFORMATION, "Événement modifié avec succès !");
             retournerVersEvenements();
@@ -172,18 +191,12 @@ public class modifierevenement {
 
     private void retournerVersEvenements() {
         try {
-            // Charger la page des événements depuis le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml")); // Remplace par le bon chemin de ton fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/evenement.fxml"));
             Parent view = loader.load();
-
-            // Récupérer le StackPane du contrôleur Evenement
             StackPane contentPane = (StackPane) retourButton.getScene().lookup("#contentPane");
-
-            // Remplacer le contenu central avec la vue des événements
             contentPane.getChildren().setAll(view);
             EvenementController controller = loader.getController();
             controller.refreshTable();
-
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Erreur lors de la navigation vers la page des événements.");

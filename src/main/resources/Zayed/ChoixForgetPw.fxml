@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<BorderPane fx:id="contentPane" prefHeight="500.0" prefWidth="700.0" styleClass="border-pane"
+            stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.ChoixForgetPw">
+
+    <right>
+        <AnchorPane prefHeight="496.0" prefWidth="378.0" styleClass="right-pane">
+
+            <VBox layoutX="40.0" layoutY="100.0" spacing="20.0" alignment="CENTER">
+                <Label text="Choisissez une méthode" styleClass="title-label">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+
+                <Button text="Par Email" prefWidth="200.0" onAction="#onEmailClicked"/>
+                <Button text="Par SMS" prefWidth="200.0" onAction="#onSMSClicked"/>
+
+                <Button text="Retour a la page login " prefWidth="200.0" onAction="#onLoginClicked"/>
+            </VBox>
+
+        </AnchorPane>
+    </right>
+
+    <left>
+        <AnchorPane prefHeight="500.0" prefWidth="350.0" styleClass="left-pane">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="75.0" layoutY="100.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@images/educo.jpg"/>
+            </ImageView>
+            <Text layoutX="56.0" layoutY="346.0" styleClass="motto-text" text="Former les esprits, bâtir l'avenir">
+                <font>
+                    <Font size="11.0"/>
+                </font>
+            </Text>
+        </AnchorPane>
+    </left>
+</BorderPane>

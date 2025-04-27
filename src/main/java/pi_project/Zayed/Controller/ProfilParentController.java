@@ -65,7 +65,7 @@ public class ProfilParentController {
             }
         } else {
             Constant.showAlert(Alert.AlertType.WARNING, "Session expirée", "Veuillez vous reconnecter", "");
-            redirectToLogin();
+            //redirectToLogin();
         }
     }
 
@@ -123,7 +123,7 @@ public class ProfilParentController {
         editProfileButton.setOnAction(event -> toggleEditMode());
         saveProfileButton.setOnAction(event -> saveProfileChanges());
         changeImageButton.setOnAction(event -> changeProfileImage());
-        logoutButton.setOnAction(event -> logout());
+      //  logoutButton.setOnAction(event -> logout());
     }
 
     private void toggleEditMode() {
@@ -274,22 +274,22 @@ public class ProfilParentController {
     }
 
 
+//
+//    private void redirectToLogin() {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/login.fxml"));
+//            Parent root = loader.load();
+//
+//            Stage stage = (Stage) logoutButton.getScene().getWindow();
+//            stage.setScene(new Scene(root));
+//            stage.setTitle("Connexion");
+//        } catch (Exception e) {
+//            System.out.println("Error redirecting to login: " + e.getMessage());
+//        }
+//    }
 
-    private void redirectToLogin() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Zayed/login.fxml"));
-            Parent root = loader.load();
-
-            Stage stage = (Stage) logoutButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Connexion");
-        } catch (Exception e) {
-            System.out.println("Error redirecting to login: " + e.getMessage());
-        }
-    }
-
-    private void logout() {
-        authentication.logout();
-        redirectToLogin();
-    }
+//    private void logout() {
+//        authentication.logout();
+//        redirectToLogin();
+//    }
 }
