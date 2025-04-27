@@ -16,10 +16,23 @@
     <center>
         <VBox spacing="20" style="-fx-padding: 30;">
 
-            <!-- Search Bar -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <TextField fx:id="searchField" promptText="Rechercher par mot-clé" style="-fx-pref-width: 300px; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8;" />
-                <Button onAction="#handleSearch" text="Rechercher" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 20; -fx-background-radius: 8px;" />
+            <!-- Search and Filter Bar -->
+            <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10;">
+
+                <TextField fx:id="searchField" promptText="Mot-clé..." style="-fx-pref-width: 300px; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px;" />
+
+                <ComboBox fx:id="statusFilter" promptText="Statut" style="-fx-pref-width: 150px; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px;" />
+
+                <!-- Recherche Button -->
+                <Button onAction="#handleSearch" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px 20px;">
+                    Rechercher
+                </Button>
+
+                <!-- Sort Button -->
+                <Button onAction="#handleSort" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 8px; -fx-padding: 8px 20px;">
+                    Trier
+                </Button>
+
             </HBox>
 
             <!-- TableView -->
