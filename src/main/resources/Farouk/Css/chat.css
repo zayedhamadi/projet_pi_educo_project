@@ -1,0 +1,150 @@
+/* Base Styles */
+.root {
+    -fx-font-family: 'Segoe UI', Arial, sans-serif;
+    -fx-padding: 15;
+}
+
+/* Header */
+.header {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-alignment: center;
+    -fx-padding: 0 0 10 0;
+}
+
+/* Chat Area */
+.chat-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dfe6e9;
+    -fx-border-radius: 5;
+    -fx-padding: 15;
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 5, 0, 0, 1);
+    -fx-text-fill: #2c3e50;
+}
+
+.chat-area .content {
+    -fx-background-color: white;
+}
+
+/* Status Label */
+.status-label {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 12px;
+    -fx-padding: 5 0;
+}
+
+/* Input Container */
+.input-container {
+    -fx-padding: 10 0 10 0;
+}
+
+/* Message Input */
+.message-input {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 20;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+    -fx-focus-color: transparent;
+    -fx-border-width: 2;
+}
+
+/* Message Input on Focus */
+.message-input:focused {
+    -fx-border-color: #3498db;
+}
+
+/* Send Button */
+.send-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+
+.send-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.send-button:pressed {
+    -fx-background-color: #1a5276;
+}
+
+/* File Upload Button */
+.upload-button {
+    -fx-background-color: #16a085;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-font-size: 14px;
+    -fx-cursor: hand;
+}
+
+.upload-button:hover {
+    -fx-background-color: #1abc9c;
+}
+
+.upload-button:pressed {
+    -fx-background-color: #1a7d66;
+}
+
+/* Dark Mode Variant */
+.root.dark {
+    -fx-background-color: #2d3436;
+    -fx-text-fill: #ecf0f1;
+}
+
+.dark .chat-area {
+    -fx-background-color: #34495e;
+    -fx-text-fill: #ecf0f1;
+    -fx-border-color: #2c3e50;
+}
+
+.dark .message-input {
+    -fx-background-color: #2c3e50;
+    -fx-text-fill: white;
+    -fx-border-color: #34495e;
+}
+
+.dark .send-button {
+    -fx-background-color: #2980b9;
+}
+
+.dark .send-button:hover {
+    -fx-background-color: #1f6399;
+}
+
+.dark .send-button:pressed {
+    -fx-background-color: #174c76;
+}
+
+/* Chat Messages */
+.chat-area .text {
+    -fx-fill: #2c3e50;
+}
+
+.chat-area .text.user {
+    -fx-fill: #3498db;
+    -fx-font-weight: bold;
+}
+
+.chat-area .text.ai {
+    -fx-fill: #2c3e50;
+}
+
+.chat-area .text.typing {
+    -fx-fill: #95a5a6;
+    -fx-font-style: italic;
+}
+
+/* Message Timestamps */
+.chat-area .text.timestamp {
+    -fx-fill: #95a5a6;
+    -fx-font-size: 11px;
+}
