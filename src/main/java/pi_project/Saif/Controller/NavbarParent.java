@@ -25,6 +25,12 @@ public class NavbarParent {
     public void loadmesreservationView() {
         loadView("/louay/mesreservation.fxml");
     }
+    public void loadQuizView() {
+        loadView("/Aziz/StudentQuizView.fxml");
+    }
+    public void loadQuizhistoyView() {
+        loadView("/Aziz/QuizHistory.fxml");
+    }
     public void initialize() {
         loadBoutiqueView(); // charge la vue par défaut
     }

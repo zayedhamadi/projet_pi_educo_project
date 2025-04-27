@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.QuizQuestionsController" spacing="10" style="-fx-padding: 20;">
+
+    <!-- Timer Display at the top -->
+    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 0 0 10 0;">
+        <Label text="Time remaining:" style="-fx-font-size: 14pt;"/>
+        <Label fx:id="timerLabel" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"
+               styleClass="timer-display"/>
+    </HBox>
+
+    <Label fx:id="quizTitle" style="-fx-font-size: 18pt; -fx-font-weight: bold;"/>
+
+    <ScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background: transparent;">
+        <VBox fx:id="questionsContainer" spacing="15"/>
+    </ScrollPane>
+
+    <Button fx:id="submitButton" text="Submit Quiz" onAction="#handleSubmit"
+            style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14pt; -fx-padding: 8 20;"/>
+</VBox>

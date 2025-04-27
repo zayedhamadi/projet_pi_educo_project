@@ -7,6 +7,7 @@ public class Quiz {
     private String nom;
     private Date dateAjout;
     private String description;
+    private int timeLimit;
 
 
     // Foreign keys for Classe, Matiere, and Cours
@@ -23,13 +24,15 @@ public class Quiz {
     public Quiz() {}
 
     // Constructeur complet
-    public Quiz(int id, String nom, Date dateAjout, int classeId, int matiereId, int coursId) {
+    public Quiz(int id, String nom, Date dateAjout, int classeId, int matiereId, int coursId, int timeLimit) {
         this.id = id;
         this.nom = nom;
         this.dateAjout = dateAjout;
         this.classeId = classeId;
         this.matiereId = matiereId;
         this.coursId = coursId;
+        this.timeLimit = timeLimit;
+
     }
 
     // Getters et Setters
@@ -98,7 +101,13 @@ public class Quiz {
     public String getCoursName() { return coursName; }
 
     public void setCoursNom(String coursNom) { this.coursName = coursNom; }
+    public int getTimeLimit() {
+        return timeLimit;
+    }
 
+    public void setTimeLimit(int timeLimit) {
+        this.timeLimit = timeLimit;
+    }
     @Override
     public String toString() {
         return "Quiz{" +

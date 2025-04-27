@@ -155,5 +155,26 @@ public class QuestionService implements Service<Question> {
         }
         return null;
     }
+    // In QuestionService.java
+    public List<Question> getQuestionsForQuiz(int quizId) throws SQLException {
+        List<Question> questions = new ArrayList<>();
+        String sql = "SELECT * FROM question WHERE quiz_id = ?";
+
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Question question = new Question();
+                question.setId(rs.getInt("id"));
+                question.setTexte(rs.getString("texte"));
+                question.setOptions(convertJsonToList(rs.getString("options")));
+                question.setReponse(rs.getString("reponse"));
+                question.setQuizId(quizId);
+                questions.add(question);
+            }
+        }
+        return questions;
+    }
 }
 
