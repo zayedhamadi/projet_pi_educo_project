@@ -310,5 +310,18 @@ public class CommandeService implements Service<Commande> {
         return list;
     }
 
+    public void diminuerQuantiteProduit(int produitId, int quantiteAchetee) {
+        try (
+             PreparedStatement stmt = connection.prepareStatement(
+                     "UPDATE produit SET stock = stock - ? WHERE id = ?")) {
+
+            stmt.setInt(1, quantiteAchetee);
+            stmt.setInt(2, produitId);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

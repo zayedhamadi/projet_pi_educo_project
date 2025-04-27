@@ -36,12 +36,18 @@ public class AdminCommandeController {
 
     @FXML
     private void initialize() {
+        tableCommande.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 //        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 //        parentIdColumn.setCellValueFactory(new PropertyValueFactory<>("parentId"));
         dateCommandeColumn.setCellValueFactory(new PropertyValueFactory<>("dateCommande"));
         montantTotalColumn.setCellValueFactory(new PropertyValueFactory<>("montantTotal"));
         statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
 
+        dateCommandeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
+        montantTotalColumn.setMaxWidth(1f * Integer.MAX_VALUE * 32);
+        statutColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+        actionColumn.setMaxWidth(1f * Integer.MAX_VALUE * 33);
         // Setup actions for the "Consulter" button in the table
         actionColumn.setCellFactory(param -> new TableCell<Commande, Void>() {
             private final Button consulterButton = new Button("Consulter");

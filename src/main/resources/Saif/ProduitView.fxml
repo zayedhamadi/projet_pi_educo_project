@@ -19,7 +19,10 @@
             </padding>
 
             <!-- Titre -->
-            <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" text="Gestion des Produits"/>
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 2);">
+                <Label text="Gestion des  Produits" style="-fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" />
+            </HBox>
+<!--            <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;" text="Gestion des Produits"/>-->
 
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <!-- Champ de recherche et bouton rechercher -->
