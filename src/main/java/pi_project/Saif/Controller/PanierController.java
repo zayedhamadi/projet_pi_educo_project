@@ -68,7 +68,7 @@ public class PanierController {
                 LocalDate today = LocalDate.now();
                 if (!today.isBefore(promo.getDateDebut()) && !today.isAfter(promo.getDateFin())) {
                     remisePourcent = promo.getRemisePourcent();
-                    showAlert("Code promo appliqué : -" + (int)(remisePourcent * 100) + "%");
+                    showSuccessAlert("Code promo appliqué : -" + (int)(remisePourcent * 100) + "%");
                 } else {
                     remisePourcent = 0.0;
                     showAlert("Code promo expiré ou non encore actif.");
@@ -229,6 +229,12 @@ public class PanierController {
 
     private void showAlert( String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showSuccessAlert( String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(message);
         alert.showAndWait();
     }

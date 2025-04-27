@@ -119,5 +119,24 @@ public class CategorieService implements Service<Categorie> {
         }
         return null; // Retourne null si la catégorie n'est pas trouvée
     }
+    public List<Categorie> searchCategories(String searchQuery) {
+        List<Categorie> list = new ArrayList<>();
+        String sql = "SELECT * FROM categorie WHERE nom LIKE ? OR description LIKE ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, "%" + searchQuery + "%");
+            ps.setString(2, "%" + searchQuery + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Categorie(
+                        rs.getInt("id"),
+                        rs.getString("nom"),
+                        rs.getString("description")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 }
