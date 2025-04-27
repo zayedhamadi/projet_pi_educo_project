@@ -21,7 +21,9 @@ import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -192,21 +194,39 @@ public class listActifUserController {
         return box;
     }
 
-    private Image loadImageFromPath(String path) {
-        if (path == null || path.isEmpty()) return getDefaultImage();
+//    private Image loadImageFromPath(String path) {
+//        if (path == null || path.isEmpty()) return getDefaultImage();
+//
+//        try {
+//            String fullPath = "C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads/" + path;
+//            File file = new File(fullPath);
+//            if (file.exists()) {
+//                return new Image(file.toURI().toString());
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+//        }
+//
+//        return getDefaultImage();
+//    }
+private Image loadImageFromPath(String path) {
+    if (path == null || path.isEmpty()) return getDefaultImage();
 
-        try {
-            String fullPath = "C:/Users/21690/Desktop/projet_pi/symfony_project-/educo_platform/public/uploads/" + path;
-            File file = new File(fullPath);
-            if (file.exists()) {
-                return new Image(file.toURI().toString());
-            }
-        } catch (Exception e) {
-            System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
+    try {
+        Properties props = new Properties();
+        props.load(new FileInputStream("config.properties"));
+        String uploadPath = props.getProperty("upload.path");
+
+        File file = new File(uploadPath + File.separator + path);
+        if (file.exists()) {
+            return new Image(file.toURI().toString());
         }
-
-        return getDefaultImage();
+    } catch (Exception e) {
+        System.out.println("Erreur lors du chargement de l'image : " + e.getMessage());
     }
+
+    return getDefaultImage();
+}
 
     private Image getDefaultImage() {
         return new Image("file:src/main/resources/Zayed/images/default-user.png");

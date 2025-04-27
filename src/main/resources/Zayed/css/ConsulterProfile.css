@@ -13,6 +13,23 @@
     -fx-pref-width: 200px;
 }
 
+/* Pour styliser les ComboBox et ListView */
+.info-field, .info-textarea, .combo-box, .list-view {
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+}
+
+.list-view {
+    -fx-border-color: #ccc;
+    -fx-border-radius: 4px;
+}
+
+/* Pour les éléments sélectionnés dans la ListView */
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
+}
+
 .sidebar-title {
     -fx-font-size: 16px;
     -fx-text-fill: white;
@@ -87,11 +104,11 @@
     -fx-background-color: white;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 0);
 }
 
 .profile-image {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
 }
 
 /* Sections d'information */
@@ -160,6 +177,7 @@
 #CesserProfileButton {
     -fx-background-color: #e74c3c;
 }
+
 /* Dans le fichier profilUser.css */
 .action-button {
     -fx-background-color: #4CAF50;
@@ -190,6 +208,7 @@
     -fx-font-size: 14px;
     -fx-wrap-text: true;
 }
+
 .content-container {
     -fx-padding: 20px;
 }

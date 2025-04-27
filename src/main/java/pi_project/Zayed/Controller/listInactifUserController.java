@@ -1,128 +1,217 @@
 package pi_project.Zayed.Controller;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import pi_project.Zayed.Entity.Cesser;
 import pi_project.Zayed.Entity.User;
+import pi_project.Zayed.Service.CesserImpl;
 import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.Constant;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class listInactifUserController {
-    Constant constant = new Constant();
-    @FXML
-    private BorderPane mainPane;
-    @FXML
-    private TableView<User> listUser;
-    @FXML
-    private TableColumn<User, Image> image;
-    @FXML
-    private TableColumn<User, String> nom, prenom, email, role;
-    @FXML
-    private Pagination pagination;
-    @FXML
-    private TextField search;
 
-    private ObservableList<User> userObservableList;
-    private ObservableList<User> filteredList;
+    private final CesserImpl cesserService = new CesserImpl();
+    private final UserImpl userService = new UserImpl();
+    private final Constant constant = new Constant();
+    private final int itemsPerPage = 10;
+    @FXML
+    private TableView<Cesser> cessationTable;
+    @FXML
+    private TableColumn<Cesser, String> nomCol;
+    @FXML
+    private TableColumn<Cesser, String> prenomCol;
+    @FXML
+    private TableColumn<Cesser, String> dateCessationCol;
+    @FXML
+    private TableColumn<Cesser, String> motifCol;
+    @FXML
+    private TableColumn<Cesser, Void> actionCol;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private Button prevPageBtn;
+    @FXML
+    private Button nextPageBtn;
+    @FXML
+    private Label pageInfoLabel;
+    private ObservableList<Cesser> originalData;
+    private FilteredList<Cesser> filteredData;
+    private int currentPage = 1;
+    private int totalPages = 1;
 
     @FXML
     public void initialize() {
         setupTableColumns();
-        loadUsers();
-        setupSearchFilter();
+        loadCesserData();
+        setupPagination();
     }
 
     private void setupTableColumns() {
-        nom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        prenom.setCellValueFactory(new PropertyValueFactory<>("prenom"));
-        email.setCellValueFactory(new PropertyValueFactory<>("email"));
-
-        role.setCellValueFactory(cellData -> {
-            String roles = cellData.getValue().getRoles().stream()
-                    .map(Enum::name)
-                    .collect(Collectors.joining(", "));
-            return new SimpleObjectProperty<>(roles);
+        nomCol.setCellValueFactory(cellData -> {
+            User user = userService.getSpeceficUser(cellData.getValue().getIdUserId());
+            return new javafx.beans.property.SimpleStringProperty(user != null ? user.getNom() : "N/A");
         });
 
-        image.setCellValueFactory(cellData -> {
-            String path = cellData.getValue().getImage();
-            return new SimpleObjectProperty<>(constant.loadImageFromPath(path));
+        prenomCol.setCellValueFactory(cellData -> {
+            User user = userService.getSpeceficUser(cellData.getValue().getIdUserId());
+            return new javafx.beans.property.SimpleStringProperty(user != null ? user.getPrenom() : "N/A");
         });
 
-        image.setCellFactory(column -> new TableCell<User, Image>() {
-            private final ImageView imageView = new ImageView();
+        dateCessationCol.setCellValueFactory(cellData -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return new javafx.beans.property.SimpleStringProperty(
+                    cellData.getValue().getDateMotif().format(formatter));
+        });
+
+        motifCol.setCellValueFactory(new PropertyValueFactory<>("motif"));
+
+        actionCol.setCellFactory(param -> new TableCell<>() {
+            private final Button reactivateBtn = new Button("Réactiver");
+
+            {
+                reactivateBtn.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
+                reactivateBtn.setOnAction(event -> {
+                    Cesser cesser = getTableView().getItems().get(getIndex());
+                    handleReactivateAccount(cesser);
+                });
+            }
 
             @Override
-            protected void updateItem(Image img, boolean empty) {
-                super.updateItem(img, empty);
-                if (empty || img == null) {
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
                     setGraphic(null);
                 } else {
-                    imageView.setImage(img);
-                    imageView.setFitWidth(50);
-                    imageView.setFitHeight(50);
-                    imageView.setPreserveRatio(true);
-                    setGraphic(imageView);
+                    setGraphic(reactivateBtn);
                 }
             }
         });
     }
 
-    private void setupSearchFilter() {
-        search.textProperty().addListener((obs, oldVal, newVal) -> filterUser(newVal));
-    }
-
-    private void loadUsers() {
-        UserImpl userImpl = new UserImpl();
+    private void loadCesserData() {
         try {
-            List<User> users = userImpl.getInactifUser();
-            userObservableList = FXCollections.observableList(users);
-            filteredList = FXCollections.observableArrayList(users);
+            List<Cesser> cesserList = cesserService.getAllCesser();
+            originalData = FXCollections.observableArrayList(cesserList);
+            filteredData = new FilteredList<>(originalData, p -> true);
+
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(cesser -> {
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    User user = userService.getSpeceficUser(cesser.getIdUserId());
+                    String nom = user != null ? user.getNom().toLowerCase() : "";
+                    String prenom = user != null ? user.getPrenom().toLowerCase() : "";
+                    String motif = cesser.getMotif().toLowerCase();
+
+                    return nom.contains(lowerCaseFilter) ||
+                            prenom.contains(lowerCaseFilter) ||
+                            motif.contains(lowerCaseFilter);
+                });
+                currentPage = 1;
+                updatePagination();
+            });
             updatePagination();
+
         } catch (Exception e) {
-            e.printStackTrace();
-            Constant.showAlert(Alert.AlertType.ERROR, "Erreur", "Impossible de charger les utilisateurs", e.getMessage());
+            System.out.println(e.getMessage());
+            Constant.showAlert(Alert.AlertType.ERROR, "Erreur",
+                    "Impossible de charger les données de cessation", e.getMessage());
         }
     }
 
-    private void filterUser(String query) {
-        String searchText = query == null ? "" : query.trim().toLowerCase();
-
-        Predicate<User> match = user ->
-                user.getNom().toLowerCase().contains(searchText) ||
-                        user.getPrenom().toLowerCase().contains(searchText) ||
-                        user.getEmail().toLowerCase().contains(searchText) ||
-                        user.getRoles().toString().toLowerCase().contains(searchText);
-
-        filteredList.setAll(userObservableList.filtered(match));
+    private void setupPagination() {
         updatePagination();
     }
 
     private void updatePagination() {
-        int totalPage = (int) Math.ceil((double) filteredList.size() / constant.nombreDePage);
-        pagination.setPageCount(Math.max(totalPage, 1));
-        pagination.setCurrentPageIndex(0);
-        pagination.setPageFactory(this::createPage);
+        if (filteredData == null) return;
+
+        int totalItems = filteredData.size();
+        totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        if (totalPages == 0) {
+            totalPages = 1;
+        }
+
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+        if (currentPage < 1) {
+            currentPage = 1;
+        }
+
+        pageInfoLabel.setText("Page " + currentPage + "/" + totalPages);
+
+        prevPageBtn.setDisable(currentPage <= 1);
+        nextPageBtn.setDisable(currentPage >= totalPages);
+
+        int fromIndex = (currentPage - 1) * itemsPerPage;
+        int toIndex = Math.min(fromIndex + itemsPerPage, filteredData.size());
+
+        ObservableList<Cesser> currentPageData = FXCollections.observableArrayList(
+                filteredData.subList(fromIndex, toIndex)
+        );
+
+        cessationTable.setItems(currentPageData);
     }
 
-    private VBox createPage(int index) {
-        int from = index * constant.nombreDePage;
-        int to = Math.min(from + constant.nombreDePage, filteredList.size());
-        listUser.setItems(FXCollections.observableArrayList(filteredList.subList(from, to)));
+    @FXML
+    private void previousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            updatePagination();
+        }
+    }
 
-        VBox box = new VBox();
-        box.getChildren().add(listUser);
-        return box;
+    @FXML
+    private void nextPage() {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updatePagination();
+        }
+    }
+
+    @FXML
+    private void handleSearch() {
+        System.out.println("handle search");
+    }
+
+    @FXML
+    private void handleReset() {
+        searchField.clear();
+        currentPage = 1;
+        updatePagination();
+    }
+
+    private void handleReactivateAccount(Cesser cesser) {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Confirmation de réactivation");
+        confirmation.setHeaderText("Réactiver le compte utilisateur");
+        confirmation.setContentText("Êtes-vous sûr de vouloir réactiver ce compte ?");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                User reactivatedUser = cesserService.ActiverUserCesser(cesser.getIdUserId());
+                cesserService.SupprimerCessation(cesser.getIdUserId());
+                loadCesserData();
+                Constant.showAlert(Alert.AlertType.INFORMATION, "Succès",
+                        "Compte réactivé", "Le compte a été réactivé avec succès.");
+            } catch (Exception e) {
+                Constant.showAlert(Alert.AlertType.ERROR, "Erreur",
+                        "Échec de la réactivation", e.getMessage());
+            }
+        }
     }
 }

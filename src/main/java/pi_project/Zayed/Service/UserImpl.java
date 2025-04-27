@@ -12,7 +12,10 @@ import pi_project.Zayed.Interface.UserService;
 import pi_project.Zayed.Utils.Mail;
 import pi_project.Zayed.Utils.PasswordUtils;
 import pi_project.db.DataSource;
-
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import javax.validation.ConstraintViolation;
 import javax.mail.MessagingException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,9 +29,11 @@ public class UserImpl implements UserService<User> {
     private final Connection cnx;
     private final Gson gson = new Gson();
     Mail mail = new Mail();
-
+    private final Validator validator;
     public UserImpl() {
         cnx = DataSource.getInstance().getConn();
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        this.validator = factory.getValidator();
     }
 
     public static void showAlert(Alert.AlertType alertType, String message, String headerText, String title) {
@@ -37,8 +42,20 @@ public class UserImpl implements UserService<User> {
         alert.setTitle(title);
         alert.show();
     }
+    public void validateUser(User user) {
+        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            for (ConstraintViolation<User> violation : violations) {
+                sb.append(violation.getPropertyPath()).append(" : ").append(violation.getMessage()).append("\n");
+            }
+            showAlert(Alert.AlertType.ERROR, sb.toString(), "il faut respecter les contraintes de validation ", null);
+            throw new IllegalArgumentException("Erreur de validation : \n" + sb);
+        }
+    }
     @Override
     public void addUser(User user) {
+        validateUser(user);
         String hashedPwd = PasswordUtils.cryptPw(user.getPassword());
         user.setEtat_compte(EtatCompte.active);
 
@@ -70,8 +87,8 @@ public class UserImpl implements UserService<User> {
 
     @Override
     public User updateUser(User user) {
+        this.validateUser(user);
         try (PreparedStatement pst = cnx.prepareStatement(this.updateUserrr)) {
-            // Ne pas re-hasher le mot de passe s'il est déjà hashé
             String hashedPwd = user.getPassword();
 
             PasswordUtils.checkPw(user.getPassword(), hashedPwd);

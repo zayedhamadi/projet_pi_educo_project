@@ -4,7 +4,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
-
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pi_project.Zayed.Controller.ConsulterUserProfileController"
@@ -18,7 +17,7 @@
         </HBox>
     </top>
 
-    <!-- Contenu principal - maintenant dans un ScrollPane pour gérer le contenu long -->
+    <!-- Contenu principal -->
     <center>
         <ScrollPane fitToWidth="true">
             <VBox spacing="20" alignment="TOP_CENTER" styleClass="content-container"
@@ -54,7 +53,8 @@
                         <TextField fx:id="email" editable="false" styleClass="info-field" GridPane.rowIndex="2"
                                    GridPane.columnIndex="1" prefWidth="450"/>
 
-                        <Label text="Téléphone :" styleClass="info-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label text="Téléphone :" styleClass="info-label" GridPane.rowIndex="3"
+                               GridPane.columnIndex="0"/>
                         <TextField fx:id="numTel" editable="false" styleClass="info-field" GridPane.rowIndex="3"
                                    GridPane.columnIndex="1" prefWidth="450"/>
 
@@ -68,8 +68,8 @@
                                     GridPane.columnIndex="1" prefWidth="450"/>
 
                         <Label text="Genre :" styleClass="info-label" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                        <TextField fx:id="genre" editable="false" styleClass="info-field" GridPane.rowIndex="6"
-                                   GridPane.columnIndex="1" prefWidth="450"/>
+                        <ComboBox fx:id="genreCombo" editable="false" styleClass="info-field" GridPane.rowIndex="6"
+                                  GridPane.columnIndex="1" prefWidth="450"/>
                     </GridPane>
                 </VBox>
 
@@ -84,15 +84,16 @@
                         </columnConstraints>
 
                         <Label text="Rôle :" styleClass="info-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <TextField fx:id="roles" editable="false" styleClass="info-field" GridPane.rowIndex="0"
-                                   GridPane.columnIndex="1" prefWidth="450"/>
+                        <ComboBox fx:id="rolesCombo" editable="false" styleClass="info-field" GridPane.rowIndex="0"
+                                  GridPane.columnIndex="1" prefWidth="450"/>
 
                         <Label text="État du compte :" styleClass="info-label" GridPane.rowIndex="1"
                                GridPane.columnIndex="0"/>
                         <TextField fx:id="etatCompte" editable="false" styleClass="info-field" GridPane.rowIndex="1"
                                    GridPane.columnIndex="1" prefWidth="450"/>
 
-                        <Label text="Description :" styleClass="info-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <Label text="Description :" styleClass="info-label" GridPane.rowIndex="2"
+                               GridPane.columnIndex="0"/>
                         <TextArea fx:id="description" editable="false" styleClass="info-textarea"
                                   GridPane.rowIndex="2" GridPane.columnIndex="1"
                                   prefWidth="450" prefHeight="100" wrapText="true"/>
@@ -102,7 +103,9 @@
                 <HBox spacing="15" alignment="CENTER" styleClass="button-bar">
                     <Button text="Cesser cet utilisateur" fx:id="CesserProfileButton"
                             styleClass="action-button" prefWidth="200" onAction="#handleCesserUser"/>
-                    <Button text="Retour à la liste" fx:id="retourButton"
+                    <Button text="modifier les donnee de cet utilisateur" fx:id="UpdateProfileButton"
+                            styleClass="action-button" prefWidth="200" onAction="#handleUpdateUser"/>
+                    <Button text="Retour à la liste"
                             styleClass="action-button" prefWidth="200" onAction="#handleRetour"/>
                 </HBox>
             </VBox>

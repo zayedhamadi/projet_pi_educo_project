@@ -63,6 +63,7 @@ public class ListeOfEleve implements Initializable {
         nomLabel.getStyleClass().add("eleve-card-title");
 
         Label classeLabel = new Label("Classe: " + (e.getClasse() != null ? e.getClasse().getNomclasse() : "N/A"));
+        System.out.println(e.getClasse().getNomclasse());
         Label moyenneLabel = new Label("Moyenne: " + e.getMoyenne());
 
         classeLabel.getStyleClass().add("eleve-card-info");
@@ -121,6 +122,20 @@ public class ListeOfEleve implements Initializable {
         alert.setHeaderText("Erreur");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    private void handleAjouterEleve() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/AjouterEleve.fxml"));
+            Parent listeView = loader.load();
+
+            Scene currentScene = rootPane.getScene();
+            currentScene.setRoot(listeView);
+        } catch (Exception e) {
+            System.out.println(("Erreur lors du retour à la liste"));
+            e.printStackTrace();
+        }
     }
 
     @FXML

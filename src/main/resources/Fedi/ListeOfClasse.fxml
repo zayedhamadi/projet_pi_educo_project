@@ -31,7 +31,7 @@
     <bottom>
         <HBox styleClass="button-box" spacing="20" alignment="CENTER">
             <Button text="Ajouter une classe" onAction="#handleAjouterClasse" styleClass="action-button"/>
-            <Button text="Créer un élève" onAction="#handleAjouterEleve" styleClass="action-button"/>
+
             <Button text="Exporter PDF" styleClass="export-button"/>
         </HBox>
     </bottom>

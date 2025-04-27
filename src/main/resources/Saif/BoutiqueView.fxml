@@ -18,7 +18,9 @@
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 0 0 10 0;">
             <Label text="E-Shop" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="voirPanierBtn" text="🛒 Panier (0)"
+<!--            <Button fx:id="voirPanierBtn" text="🛒 Panier (0)"-->
+<!--                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
+            <Button fx:id="voirPanierBtn" text="🛒 Panier "
                     style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
         </HBox>
 
@@ -35,6 +37,7 @@
             <Button fx:id="filtrerBtn" text="Filtrer"
                     style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
         </HBox>
+
 
         <!-- Scrollable Products Grid -->
         <ScrollPane VBox.vgrow="ALWAYS"

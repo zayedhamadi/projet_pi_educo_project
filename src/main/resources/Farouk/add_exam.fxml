@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Farouk.Controller.AddExamController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <ComboBox fx:id="classComboBox" promptText="Select Class"/>
+    <TextField fx:id="subjectField" promptText="Enter Subject"/>
+    <DatePicker fx:id="startDatePicker" promptText="Select Start Date"/>
+    <DatePicker fx:id="endDatePicker" promptText="Select End Date"/>
+    <TextField fx:id="locationField" promptText="Enter Location"/>
+
+    <HBox>
+        <Button text="Save Exam" onAction="#handleSaveExam"/>
+    </HBox>
+</VBox>

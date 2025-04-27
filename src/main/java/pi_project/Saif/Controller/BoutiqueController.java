@@ -37,16 +37,42 @@ public class BoutiqueController {
         loadCategories();
         loadProduits();
 
-        filtrerBtn.setOnAction(e -> filtrerProduits());
+        filtrerBtn.setOnAction(e -> filtrerProduitsEtCategories());
         voirPanierBtn.setOnAction(e -> ouvrirPanier());
 
-        updatePanierCount();
+//        updatePanierCount();
     }
 
     private void loadCategories() {
         List<Categorie> categories = categorieService.getAll();
         categorieCombo.getItems().add(null); // Pour "Toutes les catégories"
         categorieCombo.getItems().addAll(categories);
+        categorieCombo.setCellFactory(param -> new ListCell<Categorie>() {
+            @Override
+            protected void updateItem(Categorie categorie, boolean empty) {
+                super.updateItem(categorie, empty);
+                if (empty || categorie == null) {
+                    setText("Tous les categories");
+                } else {
+                    // Afficher seulement le nom de la catégorie
+                    setText(categorie.getNom());
+                }
+            }
+        });
+
+        // Personnaliser l'affichage de l'élément sélectionné
+        categorieCombo.setButtonCell(new ListCell<Categorie>() {
+            @Override
+            protected void updateItem(Categorie categorie, boolean empty) {
+                super.updateItem(categorie, empty);
+                if (empty || categorie == null) {
+                    setText("Tous les categories");
+                } else {
+                    // Afficher seulement le nom de la catégorie
+                    setText(categorie.getNom());
+                }
+            }
+        });
     }
 
     private void loadProduits() {
@@ -55,18 +81,36 @@ public class BoutiqueController {
         afficherProduits(allProduits);
     }
 
-    private void filtrerProduits() {
-        String recherche = searchField.getText().toLowerCase().trim();
-        Categorie selectedCategorie = categorieCombo.getValue();
+//    private void filtrerProduits() {
+//        String recherche = searchField.getText().toLowerCase().trim();
+//        Categorie selectedCategorie = categorieCombo.getValue();
+//
+//        List<Produit> filtres = allProduits.stream()
+//                .filter(p -> p.getNom().toLowerCase().contains(recherche))
+//                .filter(p -> selectedCategorie == null || p.getCategorieId() == selectedCategorie.getId())
+//                .collect(Collectors.toList());
+//
+//        afficherProduits(filtres);
+//    }
+private void filtrerProduitsEtCategories() {
+    // Récupérer la valeur de recherche depuis le champ de texte
+    String recherche = searchField.getText().toLowerCase().trim();
 
-        List<Produit> filtres = allProduits.stream()
-                .filter(p -> p.getNom().toLowerCase().contains(recherche))
-//                .filter(p -> selectedCategorie == null || p.getCategorie().getId() == selectedCategorie.getId())
-                .collect(Collectors.toList());
+    // Récupérer la catégorie sélectionnée depuis le ComboBox
+    Categorie selectedCategorie = categorieCombo.getValue();
+    Integer categorieId = selectedCategorie != null ? selectedCategorie.getId() : null;
 
-        afficherProduits(filtres);
-    }
+    // Rechercher les produits filtrés
+    List<Produit> produitsFiltres = produitService.rechercherProduits(recherche, categorieId);
 
+    // Rechercher les catégories filtrées
+    List<Categorie> categoriesFiltres = categorieService.searchCategories(recherche);
+
+    // Afficher les produits filtrés
+    afficherProduits(produitsFiltres);
+
+
+}
     @FXML
     public void afficherProduits(List<Produit> produits) {
         produitsContainer.getChildren().clear(); // Vide le conteneur des produits avant d'ajouter de nouveaux produits
@@ -81,11 +125,29 @@ public class BoutiqueController {
 
                 // Assigne les données du produit à la carte
                 controller.setData(p, () -> {
-                    panier.add(p); // Ajoute le produit au panier
-                    updatePanierCount(); // Met à jour le nombre d'articles dans le panier
+                    boolean found = false;
+                    for (Produit item : panier) {
+                        if (item.getId() == p.getId()) {
+                            item.setQuantite(item.getQuantite() + 1); // Incrémente la quantité
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        Produit nouveauProduit = new Produit(
+                                p.getId(), p.getNom(), p.getDescription(), p.getPrix(),
+                                p.getStock(), p.getImage(), p.getCategorieId()
+                        );
+                        nouveauProduit.setQuantite(1);
+                        panier.add(nouveauProduit);
+                    }
+
+//                    updatePanierCount();
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Produit ajouté au panier !");
-                    alert.showAndWait(); // Affiche une alerte quand le produit est ajouté au panier
+                    alert.showAndWait();
                 });
+
 
                 // Ajoute la carte dans le FlowPane
                 produitsContainer.getChildren().add(card);
@@ -115,8 +177,20 @@ public class BoutiqueController {
             alert.showAndWait();
         }
     }
-    private void updatePanierCount() {
-        voirPanierBtn.setText("🛒 Panier (" + panier.size() + ")");
+//    private void updatePanierCount() {
+//        voirPanierBtn.setText("🛒 Panier (" + panier.size() + ")");
+//    }
+    private void ajouterAuPanier(Produit produit) {
+        for (Produit p : panier) {
+            if (p.getId() == produit.getId()) {
+                p.setQuantite(p.getQuantite() + 1);
+//                updatePanierCount();
+                return;
+            }
+        }
+        produit.setQuantite(1);
+        panier.add(produit);
+//        updatePanierCount();
     }
 
 

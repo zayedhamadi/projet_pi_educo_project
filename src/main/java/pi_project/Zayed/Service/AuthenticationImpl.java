@@ -1,14 +1,10 @@
 package pi_project.Zayed.Service;
 
-
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Role;
 import pi_project.Zayed.Interface.AuthenticationService;
-import pi_project.Zayed.Utils.Constant;
-import pi_project.Zayed.Utils.Mail;
-import pi_project.Zayed.Utils.PasswordUtils;
-import pi_project.Zayed.Utils.session;
+import pi_project.Zayed.Utils.*;
 import pi_project.db.DataSource;
 
 import javax.mail.MessagingException;
@@ -19,29 +15,34 @@ import java.sql.SQLException;
 import java.util.Set;
 
 public class AuthenticationImpl implements AuthenticationService {
-    private static final String forgetPwd = "UPDATE user SET password = ? WHERE email = ? ";
-    private static final String loginUser = "SELECT * FROM user WHERE email = ? AND etat_compte = 'Active'";
-    private final Connection cnx;
-    Mail mail = new Mail();
+
+
+    private static final String updatePwdByNumTel = "UPDATE user SET password = ? WHERE num_tel = ?";
+    private static final String updatePwdByEmail = "UPDATE user SET password = ? WHERE email = ?";
+    private static final String loginAuthentification = "SELECT * FROM user WHERE email = ? AND etat_compte = 'Active'";
+    private static final String findUserByEmail = "SELECT * FROM user WHERE email = ?";
+    private static final String findUserByNumTel = "SELECT * FROM user WHERE num_tel = ?";
+    private final Connection connection;
+    private final Mail mailService;
+    private final SMS smsService;
 
     public AuthenticationImpl() {
-        this.cnx = DataSource.getInstance().getConn();
+        this.connection = DataSource.getInstance().getConn();
+        this.mailService = new Mail();
+        this.smsService = new SMS();
     }
 
-
     public Role getUserRole(String email) {
-        try (PreparedStatement pst = cnx.prepareStatement(loginUser)) {
+        try (PreparedStatement pst = connection.prepareStatement(loginAuthentification)) {
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 Set<Role> roles = Constant.extractRolesFromJson(rs.getString("roles"));
-
-                roles.retainAll(Set.of(Role.Admin, Role.Enseignant, Role.Parent));
-
-                if (!roles.isEmpty()) {
-                    return roles.iterator().next();
-                }
+                return roles.stream()
+                        .filter(this::isValidRole)
+                        .findFirst()
+                        .orElse(null);
             }
         } catch (SQLException e) {
             Constant.handleException(e, "Erreur lors de la récupération du rôle");
@@ -49,58 +50,71 @@ public class AuthenticationImpl implements AuthenticationService {
         return null;
     }
 
+    private boolean isAccountInactive(User user) {
+        return user != null && user.getEtat_compte() == EtatCompte.inactive;
+    }
+
+    private boolean checkEmailValid(String email) {
+        return email != null && !email.isEmpty();
+    }
+
+    private boolean checkNumTelValid(String numTel) {
+        return numTel != null && numTel.length() == 8;
+    }
+
+    private boolean isPasswordValid(String inputPassword, String storedPassword) {
+        return storedPassword != null && PasswordUtils.checkPw(inputPassword, storedPassword);
+    }
+
+    private boolean isValidRole(Role role) {
+        return role == Role.Admin || role == Role.Enseignant || role == Role.Parent;
+    }
+
     @Override
     public boolean login(User user) {
-        if (user.getEtat_compte() == EtatCompte.inactive) {
+        if (isAccountInactive(user)) {
             System.out.println("Ce compte est inactif et ne peut pas se connecter");
             return false;
         }
 
-        try (PreparedStatement pst = cnx.prepareStatement(loginUser)) {
+        try (PreparedStatement pst = connection.prepareStatement(loginAuthentification)) {
             pst.setString(1, user.getEmail());
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
 
-                if (storedPassword == null || !PasswordUtils.checkPw(user.getPassword(), storedPassword)) {
+                if (!isPasswordValid(user.getPassword(), storedPassword)) {
                     System.out.println("Email ou mot de passe incorrect !");
                     return false;
                 }
 
-                Set<Role> roles = Constant.extractRolesFromJson(rs.getString("roles"));
-                roles.retainAll(Set.of(Role.Admin, Role.Enseignant, Role.Parent));
-
-                if (roles.isEmpty()) {
+                Role userRole = getUserRole(user.getEmail());
+                if (userRole == null) {
                     System.out.println("Aucun rôle valide trouvé pour cet utilisateur !");
                     return false;
                 }
 
-                Role userRole = roles.iterator().next();
-                System.out.println("Role : " + userRole);
-
-                int idSession = rs.getInt("id");
-                session.setUserSession(idSession);
-                System.out.println("idSession " + idSession);
+                System.out.println("Rôle : " + userRole);
+                session.setUserSession(rs.getInt("id"));
 
                 switch (userRole) {
-                    case Admin -> System.out.println("Je suis Admin");
-                    case Enseignant -> System.out.println("Je suis Enseignant");
-                    case Parent -> System.out.println("Je suis Parent");
+                    case Admin -> System.out.println("Connexion en tant qu'administrateur");
+                    case Enseignant -> System.out.println("Connexion en tant qu'enseignant");
+                    case Parent -> System.out.println("Connexion en tant que parent");
                 }
 
                 return true;
-            } else {
-                System.out.println("Utilisateur non trouvé !");
-                return false;
             }
+
+            System.out.println("Utilisateur non trouvé !");
+            return false;
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             Constant.handleException(e, "Erreur lors de la connexion");
             return false;
         }
     }
-
 
     @Override
     public void logout() {
@@ -108,24 +122,101 @@ public class AuthenticationImpl implements AuthenticationService {
         System.out.println("Utilisateur déconnecté.");
     }
 
+    @Override
+    public boolean findUserByEmail(String email) {
+        if (!checkEmailValid(email)) {
+            System.out.println("Email est invalide");
+            return false;
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(findUserByEmail)) {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Constant.handleException(e, "Erreur lors de la recherche par email");
+            return false;
+        }
+    }
 
     @Override
     public void forgetPassword(String email) {
-        String newPassword = Constant.generateRandomPassword();
-        String encryptedPassword = PasswordUtils.cryptPw(newPassword);
+        if (!checkEmailValid(email)) {
+            System.out.println("Email est invalide");
+            return;
+        }
 
-        try (PreparedStatement pst = cnx.prepareStatement(forgetPwd)) {
-            pst.setString(1, encryptedPassword);
-            pst.setString(2, email);
-
-            if (pst.executeUpdate() > 0) {
-                System.out.println("Mot de passe réinitialisé pour : " + email);
-                mail.sendForgetPasswordMail(email, newPassword);
-            } else {
+        try {
+            if (!findUserByEmail(email)) {
                 System.out.println("Aucun utilisateur trouvé avec cet email : " + email);
+                return;
+            }
+
+            String newPassword = Constant.generateRandomPassword();
+            String encryptedPassword = PasswordUtils.cryptPw(newPassword);
+
+            try (PreparedStatement pst = connection.prepareStatement(updatePwdByEmail)) {
+                pst.setString(1, encryptedPassword);
+                pst.setString(2, email);
+
+                int rowsUpdated = pst.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Mot de passe réinitialisé pour : " + email);
+                    mailService.sendForgetPasswordMail(email, newPassword);
+                } else {
+                    System.out.println("Échec de la mise à jour du mot de passe pour : " + email);
+                }
             }
         } catch (SQLException | MessagingException e) {
             Constant.handleException(e, "Erreur lors de la réinitialisation du mot de passe");
+        }
+    }
+
+    public boolean findUserByNumTel(String numTel) {
+        if (!(this.checkNumTelValid(numTel))) {
+            System.out.println("Numéro de téléphone invalide");
+            return false;
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(findUserByNumTel)) {
+            ps.setString(1, numTel);
+            ResultSet rs = ps.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            Constant.handleException(e, "Erreur lors de la recherche par numéro de téléphone");
+            return false;
+        }
+    }
+
+
+    public void forgetPasswordByNumTel(String numTel) {
+        if (!(this.checkNumTelValid(numTel))) {
+            System.out.println("Numéro de téléphone invalide");
+            return;
+        }
+
+        try {
+            if (!findUserByNumTel(numTel)) {
+                System.out.println("Aucun utilisateur trouvé avec ce numéro : " + numTel);
+                return;
+            }
+
+
+            String cryptPw = PasswordUtils.cryptPw(Constant.generateRandomPassword());
+            try (PreparedStatement pst = connection.prepareStatement(updatePwdByNumTel)) {
+                pst.setString(1, cryptPw);
+                pst.setString(2, numTel);
+
+                int rowsUpdated = pst.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Mot de passe réinitialisé pour le numéro : " + numTel);
+                    smsService.envoyerSms(numTel, "Votre nouveau mot de passe est : " + cryptPw);
+                } else {
+                    System.out.println("Échec de la mise à jour du mot de passe pour : " + numTel);
+                }
+            }
+        } catch (SQLException e) {
+            Constant.handleException(e, "Erreur lors de la réinitialisation du mot de passe par téléphone");
         }
     }
 }

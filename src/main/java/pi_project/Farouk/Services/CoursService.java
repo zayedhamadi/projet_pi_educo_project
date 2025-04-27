@@ -5,6 +5,8 @@ import pi_project.Farouk.Models.Cours;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import pi_project.Farouk.utils.MyDatabase;
 
@@ -102,6 +104,97 @@ public class CoursService implements IService<Cours> {
         }
 
         return coursList;
+    }
+    // Enhanced method to get courses grouped by subject and filtered by class
+    public Map<String, List<Cours>> getCoursesByMatiereAndClass(String className) throws SQLException {
+        // First get the class ID
+        int classId = getClassIdByName(className);
+
+        // Get all courses for this class with subject names
+        String sql = """
+            SELECT c.id, c.name, c.chapter_number, c.pdf_filename, 
+                   m.id as matiere_id, m.nom as matiere_name
+            FROM cours c
+            JOIN matiere m ON c.id_matiere_id = m.id
+            WHERE c.classe_id = ?
+            ORDER BY m.nom, c.chapter_number
+            """;
+
+        List<Cours> courses = new ArrayList<>();
+        Map<String, List<Cours>> coursesByMatiere = new TreeMap<>();
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, classId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Cours cours = new Cours(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("matiere_id"),
+                        classId,
+                        rs.getInt("chapter_number"),
+                        rs.getString("pdf_filename")
+                );
+
+                String matiereName = rs.getString("matiere_name");
+                coursesByMatiere.computeIfAbsent(matiereName, k -> new ArrayList<>()).add(cours);
+            }
+        }
+
+        return coursesByMatiere;
+    }
+
+    // Helper method to get class ID by name
+    private int getClassIdByName(String className) throws SQLException {
+        String sql = "SELECT id FROM classe WHERE nom_classe = ?";
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setString(1, className);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+            throw new SQLException("Class not found: " + className);
+        }
+    }
+
+    // Method to get all available class names
+    public List<String> getAllClassNames() throws SQLException {
+        List<String> classNames = new ArrayList<>();
+        String sql = "SELECT nom_classe FROM classe ORDER BY nom_classe";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                classNames.add(rs.getString("nom_classe"));
+            }
+        }
+        return classNames;
+    }
+
+    // Method to get courses for a specific class
+    public List<Cours> getCoursesByClass(String className) throws SQLException {
+        int classId = getClassIdByName(className);
+        String sql = "SELECT * FROM cours WHERE classe_id = ? ORDER BY id_matiere_id, chapter_number";
+
+        List<Cours> courses = new ArrayList<>();
+        try (PreparedStatement stmt = cnx.prepareStatement(sql)) {
+            stmt.setInt(1, classId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Cours cours = new Cours(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("id_matiere_id"),
+                        rs.getInt("classe_id"),
+                        rs.getInt("chapter_number"),
+                        rs.getString("pdf_filename")
+                );
+                courses.add(cours);
+            }
+        }
+        return courses;
     }
 
 

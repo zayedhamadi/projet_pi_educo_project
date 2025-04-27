@@ -1,5 +1,6 @@
 package pi_project.Zayed.Service;
 
+import pi_project.Zayed.Entity.Cesser;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Genre;
@@ -14,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CesserImpl implements CesserService {
     private final Connection cnx;
@@ -23,34 +26,66 @@ public class CesserImpl implements CesserService {
         cnx = DataSource.getInstance().getConn();
     }
 
+
+    public int getCesserCount() {
+        String query = "SELECT COUNT(*) FROM cessation";
+        try (PreparedStatement pst = cnx.prepareStatement(query);
+             ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
     @Override
     public void cesserUser(int id, String motif) {
-        String insertCesser = "INSERT INTO cesser (idUserId, motif, dateMotif) VALUES (?, ?, ?)";
+        if (motif == null || motif.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le motif de cessation ne peut pas être vide");
+        }
+
+        String insertCesser = "INSERT INTO cessation (id_user_id, motif, date_motif) VALUES (?, ?, ?)";
         String updateEtatUser = "UPDATE user SET etat_compte = ? WHERE id = ?";
 
-        try (PreparedStatement insertStmt = cnx.prepareStatement(insertCesser);
-             PreparedStatement updateStmt = cnx.prepareStatement(updateEtatUser)) {
+        try {
+            cnx.setAutoCommit(false);
 
-            insertStmt.setInt(1, id);
-            insertStmt.setString(2, motif);
-            insertStmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
-            insertStmt.executeUpdate();
+            try (PreparedStatement insertStmt = cnx.prepareStatement(insertCesser);
+                 PreparedStatement updateStmt = cnx.prepareStatement(updateEtatUser)) {
 
-            updateStmt.setString(1, EtatCompte.inactive.name());
-            updateStmt.setInt(2, id);
-            updateStmt.executeUpdate();
+                insertStmt.setInt(1, id);
+                insertStmt.setString(2, motif);
+                insertStmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+                insertStmt.executeUpdate();
 
+                updateStmt.setString(1, EtatCompte.inactive.name());
+                updateStmt.setInt(2, id);
+                int rowsUpdated = updateStmt.executeUpdate();
 
-            UserImpl user1 = new UserImpl();
-            User user = user1.getSpeceficUser(id);
-            if (user != null) {
-                mail.sendMailDeCessation(user.getEmail(), motif);
+                if (rowsUpdated == 0) {
+                    throw new SQLException("Échec de la mise à jour de l'utilisateur, ID non trouvé: " + id);
+                }
+
+                cnx.commit();
+
+                UserImpl userService = new UserImpl();
+                User user = userService.getSpeceficUser(id);
+                if (user != null) {
+                    mail.sendMailDeCessation(user.getEmail(), motif);
+                }
+
+                System.out.println("L'utilisateur avec ID " + id + " a été cessé avec succès. Motif: " + motif);
+            } catch (SQLException | MessagingException e) {
+                cnx.rollback();
+                throw new RuntimeException("Erreur lors de la cessation de l'utilisateur", e);
+            } finally {
+                cnx.setAutoCommit(true);
             }
-
-            System.out.println("L'utilisateur avec ID " + id + " a été cessé avec succès.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Erreur lors de la cessation de l'utilisateur.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur de gestion de transaction", e);
         }
     }
 
@@ -71,8 +106,6 @@ public class CesserImpl implements CesserService {
                 ResultSet rs = selectStmt.executeQuery();
                 if (rs.next()) {
                     User user = new User();
-                    mail.sendMailReactivation(user.getEmail() );
-
                     user.setId(rs.getInt("id"));
                     user.setNom(rs.getString("nom"));
                     user.setPrenom(rs.getString("prenom"));
@@ -86,28 +119,47 @@ public class CesserImpl implements CesserService {
                     user.setDate_naissance(rs.getDate("date_naissance").toLocalDate());
                     user.setImage(rs.getString("image"));
                     user.setGenre(Genre.valueOf(rs.getString("genre")));
-
+                    mail.sendMailReactivation(user.getEmail());
                     return user;
                 }
-
             } else {
                 System.out.println("Aucune ligne affectée, l'utilisateur pourrait déjà être actif.");
             }
-
-        } catch (SQLException e) {
+        } catch (SQLException | MessagingException e) {
             e.printStackTrace();
             System.out.println("Erreur lors de l'activation du compte.");
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
         }
-
         return null;
     }
 
 
+    public List<Cesser> getAllCesser() {
+        List<Cesser> cesserList = new ArrayList<>();
+        String query = "SELECT * FROM cessation ORDER BY date_motif DESC";
+
+        try (PreparedStatement stmt = cnx.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Cesser cesser = new Cesser();
+                cesser.setId(rs.getInt("id"));
+                cesser.setIdUserId(rs.getInt("id_user_id"));
+                cesser.setMotif(rs.getString("motif"));
+                cesser.setDateMotif(rs.getDate("date_motif").toLocalDate());
+
+                cesserList.add(cesser);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException("Erreur lors de la récupération des cessations", e);
+        }
+
+        return cesserList;
+    }
+
     @Override
     public void SupprimerCessation(int id) {
-        String delete = "DELETE FROM cesser WHERE idUserId = ?";
+        String delete = "DELETE FROM cessation WHERE id_user_id = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(delete)) {
             preparedStatement.setInt(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
@@ -121,6 +173,4 @@ public class CesserImpl implements CesserService {
             System.out.println("Erreur lors de la suppression de la cessation.");
         }
     }
-
 }
-
