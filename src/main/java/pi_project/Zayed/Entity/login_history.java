@@ -5,16 +5,14 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-
-@Getter
 @Setter
-@ToString
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Cesser {
+public class login_history {
     int id;
-     int idUserId;
-     String motif;
-     LocalDate dateMotif= LocalDate.now();
+    String mail;
+    LocalDate login_time;
 }

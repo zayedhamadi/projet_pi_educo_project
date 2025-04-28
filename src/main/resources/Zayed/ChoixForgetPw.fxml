@@ -9,40 +9,79 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<BorderPane fx:id="contentPane" prefHeight="500.0" prefWidth="700.0" styleClass="border-pane"
-            stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<?import javafx.scene.shape.Rectangle?>
+
+<BorderPane fx:id="contentPane" prefHeight="500.0" prefWidth="800.0" styleClass="border-pane"
+            stylesheets="@css/choix.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="pi_project.Zayed.Controller.ChoixForgetPw">
 
-    <right>
-        <AnchorPane prefHeight="496.0" prefWidth="378.0" styleClass="right-pane">
-
-            <VBox layoutX="40.0" layoutY="100.0" spacing="20.0" alignment="CENTER">
-                <Label text="Choisissez une méthode" styleClass="title-label">
-                    <font>
-                        <Font size="18.0"/>
-                    </font>
-                </Label>
-
-                <Button text="Par Email" prefWidth="200.0" onAction="#onEmailClicked"/>
-                <Button text="Par SMS" prefWidth="200.0" onAction="#onSMSClicked"/>
-
-                <Button text="Retour a la page login " prefWidth="200.0" onAction="#onLoginClicked"/>
-            </VBox>
-
-        </AnchorPane>
-    </right>
-
     <left>
-        <AnchorPane prefHeight="500.0" prefWidth="350.0" styleClass="left-pane">
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="75.0" layoutY="100.0" pickOnBounds="true"
-                       preserveRatio="true">
+        <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="left-pane">
+            <!-- Fond avec couleur de base -->
+            <Rectangle width="400" height="500" styleClass="left-rectangle"/>
+
+            <!-- Logo centré avec ombre portée -->
+            <ImageView fitHeight="180.0" fitWidth="180.0" layoutX="110.0" layoutY="120.0" pickOnBounds="true"
+                       preserveRatio="true" styleClass="logo-image">
                 <Image url="@images/educo.jpg"/>
             </ImageView>
-            <Text layoutX="56.0" layoutY="346.0" styleClass="motto-text" text="Former les esprits, bâtir l'avenir">
+
+            <!-- Texte avec meilleure typographie -->
+            <Text layoutX="60.0" layoutY="380.0" styleClass="motto-text"
+                  text="Former les esprits, bâtir l'avenir">
                 <font>
-                    <Font size="11.0"/>
+                    <Font name="Arial" size="16.0"/>
+                </font>
+            </Text>
+
+            <!-- Version responsive -->
+            <Text layoutX="150.0" layoutY="480.0" styleClass="version-text"
+                  text="Version 1.0 © 2024">
+                <font>
+                    <Font name="Arial" size="10.0"/>
                 </font>
             </Text>
         </AnchorPane>
     </left>
+
+    <right>
+        <AnchorPane prefHeight="500.0" prefWidth="400.0" styleClass="right-pane">
+            <VBox layoutX="100.0" layoutY="150.0" spacing="25.0" alignment="CENTER" prefWidth="200.0">
+                <!-- Titre avec icône -->
+                <Label text="Réinitialisation :" styleClass="title-label">
+                    <font>
+                        <Font name="System Bold" size="20.0"/>
+                    </font>
+                </Label>
+
+                <!-- Sous-titre -->
+                <Label text="Choisissez votre méthode :" styleClass="subtitle-label">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+
+                <!-- Boutons avec icônes et styles -->
+                <Button text="    Par Email" prefWidth="250.0" onAction="#onEmailClicked" styleClass="email-button">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                            <Image url="@images/email-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <Button text="    Par SMS" prefWidth="250.0" onAction="#onSMSClicked" styleClass="sms-button">
+                    <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0">
+                            <Image url="@images/sms-icon.png"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+
+                <!-- Bouton retour discret -->
+                <Button text="Retour à la connexion" prefWidth="250.0" onAction="#onLoginClicked"
+                        styleClass="back-button"/>
+            </VBox>
+        </AnchorPane>
+    </right>
 </BorderPane>

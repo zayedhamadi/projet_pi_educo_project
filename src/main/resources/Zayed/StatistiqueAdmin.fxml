@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="@css/stats.css"
             fx:controller="pi_project.Zayed.Controller.StatistiqueAdmin"
             prefWidth="800" prefHeight="600">
 

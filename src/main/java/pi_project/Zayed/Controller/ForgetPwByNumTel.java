@@ -48,22 +48,21 @@ public class ForgetPwByNumTel {
     public void forgetPasswordBynumTel() {
         try {
             String num = this.numTel.getText();
-            if (
-                    num.isEmpty()
-                            ||
-                            (!(num.length() == 8))
-            ) {
+            if (num.isEmpty() || (!(num.length() == 8))) {
                 showWarning();
                 return;
             }
 
-
             AuthenticationImpl authentication = new AuthenticationImpl();
+            if (!authentication.findUserByNumTel(num)) {
+                Platform.runLater(() -> Constant.showAlert(Alert.AlertType.WARNING, "Numéro inconnu", "Ce numéro n'appartient à aucun utilisateur", "Échec"));
+                return;
+            }
+
             authentication.forgetPasswordByNumTel(num);
 
-
-            LOGGER.info("Mot de passe oublié - numtel  envoyé à : " + num);
-            Platform.runLater(() -> Constant.showAlert(Alert.AlertType.INFORMATION, "Succès", "Veuillez consulter votre message de sms pour votre nouveau mot de passe", "Email envoyé."));
+            LOGGER.info("Mot de passe oublié - numtel envoyé à : " + num);
+            Platform.runLater(() -> Constant.showAlert(Alert.AlertType.INFORMATION, "Succès", "Veuillez consulter votre message de sms pour votre nouveau mot de passe", "SMS envoyé."));
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Erreur lors de la récupération du mot de passe", e);
             Constant.showAlert(Alert.AlertType.ERROR, "Échec", "Une erreur est survenue. Veuillez réessayer.", "Erreur");
