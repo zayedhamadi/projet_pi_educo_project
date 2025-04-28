@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
@@ -13,6 +14,7 @@ import pi_project.louay.Service.evenementImp;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,6 +22,9 @@ public class eventlisteController implements Initializable {
 
     @FXML
     private FlowPane eventContainer;
+    @FXML
+    private Button weekButton;
+
     @FXML
     private TextField searchField;
     @FXML
@@ -59,6 +64,32 @@ public class eventlisteController implements Initializable {
             }
         }
     }
+    private void afficherEvenementsSemaine() {
+        LocalDate today = LocalDate.now();
+        LocalDate startOfWeek = today.with(java.time.DayOfWeek.MONDAY);
+        LocalDate endOfWeek = today.with(java.time.DayOfWeek.SUNDAY);
+
+        List<evenement> eventsThisWeek = evenementService.getEvenementsCetteSemaine(startOfWeek, endOfWeek);
+
+        eventContainer.getChildren().clear();
+
+        for (evenement evt : eventsThisWeek) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/CardEvenement.fxml"));
+                Parent card = loader.load();
+
+                CardEvenementController controller = loader.getController();
+                controller.setData(evt);
+
+                eventContainer.getChildren().add(card);
+
+            } catch (IOException e) {
+                System.err.println("Erreur lors du chargement de la carte événement : " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private void setupActions() {
         // Ajout d'un écouteur pour le champ de recherche
@@ -66,6 +97,8 @@ public class eventlisteController implements Initializable {
 
         // Ajout d'un écouteur pour le ComboBox (type d'événement)
         typeCombo.valueProperty().addListener((observable, oldValue, newValue) -> filterEvents());
+        weekButton.setOnAction(event -> afficherEvenementsSemaine());
+
     }
 
     // Fonction de filtrage

@@ -20,6 +20,28 @@
             <!-- Titre -->
             <Text text="Gestion des Réclamations"
                   style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #343A40;"/>
+            <HBox spacing="15.0" alignment="CENTER_LEFT">
+                <!-- Filtre -->
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
+                    <Label text="Filtrer par statut:"
+                           style="-fx-font-size: 16px; -fx-font-weight: 500;"/>
+                    <ComboBox fx:id="statutFilterComboBox" promptText="Tous les statuts" prefWidth="200.0"/>
+                </HBox>
+
+                <!-- Espacement -->
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Boutons d'action -->
+                <HBox spacing="15.0" alignment="CENTER_RIGHT">
+                    <Button fx:id="modifierBtn"
+                            text="Modifier"
+                            style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8px 15px;" />
+                    <Button fx:id="supprimerBtn"
+                            text="Supprimer"
+                            style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 8px 15px;" />
+                </HBox>
+            </HBox>
+
 
             <!-- TableView des réclamations -->
             <TableView fx:id="tableView"
@@ -35,15 +57,7 @@
                 </columnResizePolicy>
             </TableView>
 
-            <!-- Boutons d'action -->
-            <HBox alignment="TOP_RIGHT" spacing="10.0">
-                <Button fx:id="modifierBtn"
-                        text="Modifier"
-                        style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8;" />
-                <Button fx:id="supprimerBtn"
-                        text="Supprimer"
-                        style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8;" />
-            </HBox>
+
 
             <!-- Pagination -->
             <Pagination fx:id="pagination" pageCount="1" maxPageIndicatorCount="10"/>

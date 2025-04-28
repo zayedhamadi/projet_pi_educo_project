@@ -21,8 +21,24 @@
             <Text style="-fx-font-size: 24px; -fx-font-weight: 600; -fx-text-fill: #333;"
                   text="📅 Gestion des Événements"/>
 
-            <!-- Bouton Ajouter à droite -->
-            <HBox alignment="TOP_RIGHT">
+            <!-- Section de recherche et bouton Ajouter sur la même ligne -->
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: #ecf0f1; -fx-background-radius: 5;">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <!-- Champ de recherche -->
+                <TextField fx:id="searchField" promptText="Rechercher un événement..."
+                           style="-fx-background-radius: 5; -fx-pref-width: 300;"/>
+                <!-- ComboBox pour filtrer par catégorie -->
+                <!-- ComboBox pour filtrer par statut -->
+                <ComboBox fx:id="typeFilterCombo" promptText="Filtrer par statut"
+                          style="-fx-background-radius: 5; -fx-pref-width: 200;"/>
+                <!-- Bouton de recherche -->
+                <!--<Button fx:id="searchBtn" text="🔍 Rechercher"
+                        style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
+
+                <!-- Bouton Ajouter à droite de la section de recherche -->
+                <Region HBox.hgrow="ALWAYS"/> <!-- Permet de pousser le bouton Ajouter à droite -->
                 <Button fx:id="ajouterBtn"
                         style="-fx-background-color: #43a047; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 20px; -fx-border-radius: 5px;"
                         text="➕ Créer un événement"/>
@@ -43,6 +59,9 @@
                     <TableColumn fx:id="typeColumn" text="Type"/>
                     <TableColumn fx:id="actionsColumn" text="Actions"/>
                 </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
             </TableView>
 
             <!-- Pagination -->

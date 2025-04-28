@@ -36,6 +36,9 @@
                 <TableColumn fx:id="dateInscriptionColumn" prefWidth="220" text="Date d'inscription" />
                 <TableColumn fx:id="actionsColumn" prefWidth="140" text="Actions" />
             </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
         </TableView>
 
         <!-- Message vide -->

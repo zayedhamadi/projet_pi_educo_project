@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Enum.EventType;
 import pi_project.louay.Service.evenementImp;
@@ -17,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EvenementController {
 
@@ -46,6 +46,10 @@ public class EvenementController {
     private StackPane contentPane;
     @FXML
     private Pagination pagination;
+    @FXML
+    private TextField searchField;
+    @FXML
+    private ComboBox<String> typeFilterCombo;  // ComboBox pour le filtrage par type d'événement
 
     private final evenementImp evenementService = new evenementImp();
     private static final int ROWS_PER_PAGE = 10;
@@ -62,6 +66,7 @@ public class EvenementController {
         inscriptionColumn.setCellValueFactory(new PropertyValueFactory<>("inscriptionRequise"));
         nombrePlacesColumn.setCellValueFactory(new PropertyValueFactory<>("nombrePlaces"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
         inscriptionColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Boolean item, boolean empty) {
@@ -74,17 +79,20 @@ public class EvenementController {
             }
         });
 
-
-
         ajouterBoutonsActions();
-
 
         loadEvents();
 
-
         pagination.setPageFactory(this::createPage);
 
+        // Initialisation du filtre par type d'événement
+        typeFilterCombo.getItems().add("Tous types");  // Ajoute "Tous types" en premier
+        for (EventType eventType : EventType.values()) {
+            typeFilterCombo.getItems().add(eventType.getLabel());  // Ajoute les autres types
+        }
+        typeFilterCombo.setValue("Tous types");  // Par défaut, afficher "Tous types"
 
+        // Gestion du bouton "Ajouter"
         ajouterBtn.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/ajouterevenement.fxml"));
@@ -97,6 +105,17 @@ public class EvenementController {
                 e.printStackTrace();
             }
         });
+
+        // Gestion de la recherche par titre
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilter());
+
+        // Gestion du filtre par type d'événement
+        typeFilterCombo.valueProperty().addListener((observable, oldValue, newValue) -> applyFilter());
+    }
+
+    private void applyFilter() {
+        pagination.setCurrentPageIndex(0); // Revenir à la première page
+        pagination.setPageFactory(this::createPage); // Mettre à jour la page avec les filtres appliqués
     }
 
     public void loadEvents() {
@@ -106,15 +125,26 @@ public class EvenementController {
     }
 
     private VBox createPage(int pageIndex) {
+        String searchText = searchField.getText().toLowerCase();
+        String selectedType = typeFilterCombo.getValue();  // Obtenir le type d'événement sélectionné
+
+        List<evenement> filteredEvents = allEvents.stream()
+                .filter(event -> event.getTitre().toLowerCase().contains(searchText))
+                .filter(event -> selectedType.equals("Tous types") || event.getType().getLabel().equals(selectedType))  // Filtrer par type
+                .collect(Collectors.toList());
+
+        // Calculer les indices pour la pagination
         int fromIndex = pageIndex * ROWS_PER_PAGE;
-        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, allEvents.size());
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, filteredEvents.size());
 
         ObservableList<evenement> pageData = FXCollections.observableArrayList(
-                allEvents.subList(fromIndex, toIndex)
+                filteredEvents.subList(fromIndex, toIndex)
         );
-        eventTable.setItems(pageData);
 
-        return new VBox(eventTable);
+        eventTable.setItems(pageData);
+        ajouterBoutonsActions();
+
+        return new VBox(eventTable);  // Retourner la vue avec la table mise à jour
     }
 
     private void ajouterBoutonsActions() {
@@ -186,11 +216,7 @@ public class EvenementController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/consulter_insc_event.fxml"));
             Parent view = loader.load();
-
-
             StackPane contentPane = (StackPane) eventTable.getScene().lookup("#contentPane");
-
-
             contentPane.getChildren().setAll(view);
 
             ConsulterInscriptionController controller = loader.getController();
