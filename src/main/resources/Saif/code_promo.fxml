@@ -15,14 +15,17 @@
                 <Insets top="20" left="20" right="20" bottom="10"/>
             </padding>
 
-            <Label text="Gestion des Codes Promo" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+<!--            <Label text="Gestion des Codes Promo" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>-->
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #34495e; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 2);">
+                <Label text="Gestion des Codes Promo" style="-fx-font-family: 'Segoe UI', sans-serif; -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" />
+            </HBox>
 
             <TableView fx:id="table" style="-fx-border-color: lightgray; -fx-border-radius: 5;">
                 <columns>
-                    <TableColumn fx:id="codeCol" text="Code" prefWidth="120"/>
-                    <TableColumn fx:id="remiseCol" text="Remise (%)" prefWidth="100"/>
-                    <TableColumn fx:id="dateDebutCol" text="Date Début" prefWidth="140"/>
-                    <TableColumn fx:id="dateFinCol" text="Date Fin" prefWidth="140"/>
+                    <TableColumn fx:id="codeCol" text="Code"/>
+                    <TableColumn fx:id="remiseCol" text="Remise (%)" />
+                    <TableColumn fx:id="dateDebutCol" text="Date Début" />
+                    <TableColumn fx:id="dateFinCol" text="Date Fin" />
                 </columns>
             </TableView>
         </VBox>

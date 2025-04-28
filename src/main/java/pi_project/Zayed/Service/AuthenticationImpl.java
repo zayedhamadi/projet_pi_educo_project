@@ -22,6 +22,7 @@ public class AuthenticationImpl implements AuthenticationService {
     private static final String loginAuthentification = "SELECT * FROM user WHERE email = ? AND etat_compte = 'Active'";
     private static final String findUserByEmail = "SELECT * FROM user WHERE email = ?";
     private static final String findUserByNumTel = "SELECT * FROM user WHERE num_tel = ?";
+    private static final String query = "SELECT nom, prenom FROM user WHERE num_tel = ?";
     private final Connection connection;
     private final Mail mailService;
     private final SMS smsService;
@@ -201,8 +202,10 @@ public class AuthenticationImpl implements AuthenticationService {
                 return;
             }
 
+            User user = getUserByNumTel(numTel);
+            String newPwd = Constant.generateRandomPassword();
+            String cryptPw = PasswordUtils.cryptPw(newPwd);
 
-            String cryptPw = PasswordUtils.cryptPw(Constant.generateRandomPassword());
             try (PreparedStatement pst = connection.prepareStatement(updatePwdByNumTel)) {
                 pst.setString(1, cryptPw);
                 pst.setString(2, numTel);
@@ -210,7 +213,18 @@ public class AuthenticationImpl implements AuthenticationService {
                 int rowsUpdated = pst.executeUpdate();
                 if (rowsUpdated > 0) {
                     System.out.println("Mot de passe réinitialisé pour le numéro : " + numTel);
-                    smsService.envoyerSms(numTel, "Votre nouveau mot de passe est : " + cryptPw);
+
+                    assert user != null;
+                    String message = "Cher utilisateur " + user.getNom() + " " + user.getPrenom() + ",\n" +
+                            "Suite à votre demande, voici votre nouveau mot de passe : " + newPwd + "\n" +
+                            "Pour des raisons de sécurité, nous vous conseillons de :\n" +
+                            "1. Vous connecter rapidement\n" +
+                            "2. Modifier ce mot de passe\n" +
+                            "3. Ne pas le partager\n\n" +
+                            "Cordialement,\n" +
+                            "L'équipe EducoPlateform";
+
+                    smsService.envoyerSms(numTel, message);
                 } else {
                     System.out.println("Échec de la mise à jour du mot de passe pour : " + numTel);
                 }
@@ -218,5 +232,20 @@ public class AuthenticationImpl implements AuthenticationService {
         } catch (SQLException e) {
             Constant.handleException(e, "Erreur lors de la réinitialisation du mot de passe par téléphone");
         }
+    }
+
+    private User getUserByNumTel(String numTel) throws SQLException {
+
+        try (PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setString(1, numTel);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                return user;
+            }
+        }
+        return null;
     }
 }

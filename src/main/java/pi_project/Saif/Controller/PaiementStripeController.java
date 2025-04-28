@@ -16,6 +16,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import pi_project.Saif.Entity.Produit;
 import pi_project.Saif.Service.CommandeService;
 import pi_project.Zayed.Entity.User;
+import pi_project.Zayed.Service.UserImpl;
 import pi_project.Zayed.Utils.session;
 
 import java.awt.*;
@@ -88,23 +89,7 @@ public void setRemisePourcent(double remise) {
                     .setSuccessUrl("https://example.com/success")
                     .setCancelUrl("https://example.com/cancel");
 
-            // Add line items
-//            for (Produit produit : produits) {
-//                paramsBuilder.addLineItem(
-//                        SessionCreateParams.LineItem.builder()
-//                                .setQuantity((long) produit.getQuantite())
-//                                .setPriceData(
-//                                        SessionCreateParams.LineItem.PriceData.builder()
-//                                                .setCurrency("eur")
-//                                                .setUnitAmount((long) (produit.getPrix() * 100))
-//                                                .setProductData(
-//                                                        SessionCreateParams.LineItem.PriceData.ProductData.builder()
-//                                                                .setName(produit.getNom())
-//                                                                .build())
-//                                                .build())
-//                                .build());
-//            }
-// Appliquer la remise à chaque produit dans le panier
+
             for (Produit produit : produits) {
                 double prixAvecRemise = produit.getPrix() * (1 - remisePourcent);
 
@@ -209,16 +194,33 @@ public void setRemisePourcent(double remise) {
     private int createOrderInDatabase() throws Exception {
 //        int userId = 1; // Replace with actual user ID
         Integer userId = session.getUserSession();
-
-        return commandeService.passerCommande(
+        int commandeId = commandeService.passerCommande(
                 userId,
                 produits,
-                "Payée", // Directly set as paid
+                "Payée",
                 LocalDateTime.now(),
                 total,
                 "Carte"
         );
+        updateProductQuantities();
+
+        return commandeId;
+//        return commandeService.passerCommande(
+//                userId,
+//                produits,
+//                "Payée", // Directly set as paid
+//                LocalDateTime.now(),
+//                total,
+//                "Carte"
+//        );
+
+
     }
+    private void updateProductQuantities() {
+        for (Produit produit : produits) {
+            // Ici tu dois appeler ton service pour diminuer la quantité
+            commandeService.diminuerQuantiteProduit(produit.getId(), produit.getQuantite());
+        }}
 
     private void openBrowser(String url) {
         try {
@@ -247,186 +249,6 @@ public void setRemisePourcent(double remise) {
         alert.showAndWait();
     }
 
-
-
-//    private void generateReceipt(int commandeId, double total) {
-//        PDDocument document = new PDDocument();
-//        PDPage page = new PDPage(PDRectangle.A4);
-//        document.addPage(page);
-//
-//        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-//            // Configuration initiale
-//            float margin = 50;
-//            float yPosition = page.getMediaBox().getHeight() - margin;
-//            float leading = 20;
-//            float smallLeading = 15;
-//
-////             Logo (optionnel - à remplacer par votre propre logo)
-////            String logoPath = "src/main/resources/Zayed/images/educo.jpg";
-////            PDImageXObject pdImage = PDImageXObject.createFromFile(logoPath, document);
-//
-//            // Dessiner l'image (x, y, largeur, hauteur)
-////            contentStream.drawImage(pdImage, margin, yPosition - 70, 150, 60);
-//
-//            // En-tête de la facture
-//            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 18);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(margin, yPosition);
-//            contentStream.showText("FACTURE");
-//            contentStream.endText();
-//            yPosition -= leading * 2;
-//
-//            // Informations de la société
-//            contentStream.setFont(PDType1Font.HELVETICA, 10);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(margin, yPosition);
-//            contentStream.showText("Educo School");
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Adresse: 123 Rue des Entrepreneurs");
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Tél: +216 12 345 678");
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Email: contact@educo.com");
-//            contentStream.endText();
-//
-//            // Informations du client
-//            float clientX = page.getMediaBox().getWidth() / 2;
-//            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(clientX, yPosition);
-//            contentStream.showText("Client:");
-//            contentStream.endText();
-//
-//            contentStream.setFont(PDType1Font.HELVETICA, 10);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(clientX, yPosition - smallLeading);
-//
-//            contentStream.showText("Nom: " +user.getNom() ); // Méthode à implémenter
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Adresse: " + user.getAdresse()); // Méthode à implémenter
-//            contentStream.endText();
-//            yPosition -= leading * 3;
-//
-//            // Détails de la facture
-//            contentStream.setFont(PDType1Font.HELVETICA, 10);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(margin, yPosition);
-//            contentStream.showText("Facture N°: " + commandeId);
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Date: " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-//            contentStream.endText();
-//            yPosition -= leading * 2;
-//
-//            // Ligne de séparation
-//            contentStream.moveTo(margin, yPosition);
-//            contentStream.lineTo(page.getMediaBox().getWidth() - margin, yPosition);
-//            contentStream.stroke();
-//            yPosition -= leading;
-//
-//            // En-tête du tableau des produits
-//            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(margin, yPosition);
-//            contentStream.showText("Désignation");
-//            contentStream.newLineAtOffset(200, 0);
-//            contentStream.showText("Qté");
-//            contentStream.newLineAtOffset(50, 0);
-//            contentStream.showText("Prix U.");
-//            contentStream.newLineAtOffset(80, 0);
-//            contentStream.showText("Total");
-//            contentStream.endText();
-//            yPosition -= smallLeading;
-//
-//            // Ligne de séparation
-//            contentStream.moveTo(margin, yPosition);
-//            contentStream.lineTo(page.getMediaBox().getWidth() - margin, yPosition);
-//            contentStream.stroke();
-//            yPosition -= smallLeading;
-//
-//            // Détails des produits
-//            contentStream.setFont(PDType1Font.HELVETICA, 10);
-//            for (Produit produit : produits) {
-//                contentStream.beginText();
-//                contentStream.newLineAtOffset(margin, yPosition);
-//                contentStream.showText(produit.getNom());
-//                contentStream.newLineAtOffset(200, 0);
-//                contentStream.showText(String.valueOf(produit.getQuantite()));
-//                contentStream.newLineAtOffset(50, 0);
-//                contentStream.showText(String.format("%.2f DT", produit.getPrix()));
-//                contentStream.newLineAtOffset(80, 0);
-//                contentStream.showText(String.format("%.2f DT", produit.getPrix() * produit.getQuantite()));
-//                contentStream.endText();
-//                yPosition -= leading;
-//            }
-//
-//            // Ligne de séparation
-//            contentStream.moveTo(margin, yPosition);
-//            contentStream.lineTo(page.getMediaBox().getWidth() - margin, yPosition);
-//            contentStream.stroke();
-//            yPosition -= leading;
-//
-//            // Total
-//            contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(page.getMediaBox().getWidth() - margin - 100, yPosition);
-//            contentStream.showText("TOTAL:");
-//            contentStream.newLineAtOffset(50, 0);
-//            contentStream.showText(String.format("%.2f DT", total));
-//            contentStream.endText();
-//            yPosition -= leading * 2;
-//
-//            // Mentions légales
-//            contentStream.setFont(PDType1Font.HELVETICA_OBLIQUE, 8);
-//            contentStream.beginText();
-//            contentStream.newLineAtOffset(margin, yPosition);
-//            contentStream.showText("TVA non applicable, article 293 B du CGI");
-//            contentStream.newLineAtOffset(0, -smallLeading);
-//            contentStream.showText("Paiement à réception de la facture");
-//            contentStream.endText();
-//
-//        } catch (IOException e) {
-//            showAlert("Erreur", "Erreur lors de la génération du PDF: " + e.getMessage());
-//            return;
-//        }
-//
-//        // Sauvegarde du fichier
-//        try {
-//            // Créer un sélecteur de fichier
-//            JFileChooser fileChooser = new JFileChooser();
-//            fileChooser.setDialogTitle("Enregistrer la facture");
-//
-//            // Définir le nom de fichier par défaut
-//            String defaultFileName = "Facture_" + commandeId + "_" +
-//                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + ".pdf";
-//            fileChooser.setSelectedFile(new File(defaultFileName));
-//
-//            // Filtrer pour n'afficher que les PDF
-//            fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers PDF (*.pdf)", "pdf"));
-//
-//            // Afficher la boîte de dialogue d'enregistrement
-//            int userChoice = fileChooser.showSaveDialog(null);
-//
-//            if (userChoice == JFileChooser.APPROVE_OPTION) {
-//                File fileToSave = fileChooser.getSelectedFile();
-//
-//                // S'assurer que l'extension est .pdf
-//                if (!fileToSave.getName().toLowerCase().endsWith(".pdf")) {
-//                    fileToSave = new File(fileToSave.getPath() + ".pdf");
-//                }
-//
-//                document.save(fileToSave);
-//                document.close();
-//
-//                openReceipt(fileToSave.getAbsolutePath());
-//                showSuccessAlert("Facture générée",
-//                        "La facture a été sauvegardée sous:\n" + fileToSave.getAbsolutePath());
-//            } else {
-//                showAlert("Annulé", "L'enregistrement de la facture a été annulé.");
-//            }
-//        } catch (IOException e) {
-//            showAlert("Erreur", "Erreur lors de la sauvegarde du PDF:\n" + e.getMessage());
-//        }
-//    }
 
     private void generateReceipt(int commandeId, double total) {
         PDDocument document = new PDDocument();
@@ -468,13 +290,16 @@ public void setRemisePourcent(double remise) {
             contentStream.newLineAtOffset(clientX, yPosition);
             contentStream.showText("Client:");
             contentStream.endText();
+            UserImpl userService = new UserImpl();
 
+            Integer userId = session.getUserSession();
+            User parent = userService.getSpeceficUser(userId);
             contentStream.setFont(PDType1Font.HELVETICA, 10);
             contentStream.beginText();
             contentStream.newLineAtOffset(clientX, yPosition - smallLeading);
-            contentStream.showText("Nom: " + user.getNom());
+            contentStream.showText("Nom: " + parent.getNom()+parent.getPrenom());
             contentStream.newLineAtOffset(0, -smallLeading);
-            contentStream.showText("Adresse: " + user.getAdresse());
+            contentStream.showText("Adresse: " + parent.getAdresse());
             contentStream.endText();
             yPosition -= leading * 3;
 
@@ -556,13 +381,13 @@ public void setRemisePourcent(double remise) {
             yPosition -= leading * 2;
 
             // Legal Notes
-            contentStream.setFont(PDType1Font.HELVETICA_OBLIQUE, 8);
-            contentStream.beginText();
-            contentStream.newLineAtOffset(margin, yPosition);
-            contentStream.showText("TVA non applicable, article 293 B du CGI");
-            contentStream.newLineAtOffset(0, -smallLeading);
-            contentStream.showText("Paiement à réception de la facture");
-            contentStream.endText();
+//            contentStream.setFont(PDType1Font.HELVETICA_OBLIQUE, 8);
+//            contentStream.beginText();
+//            contentStream.newLineAtOffset(margin, yPosition);
+//            contentStream.showText("TVA non applicable, article 293 B du CGI");
+//            contentStream.newLineAtOffset(0, -smallLeading);
+//            contentStream.showText("Paiement à réception de la facture");
+//            contentStream.endText();
 
         } catch (IOException e) {
             showAlert("Erreur", "Erreur lors de la génération du PDF: " + e.getMessage());

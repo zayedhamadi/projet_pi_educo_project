@@ -1,6 +1,7 @@
 package pi_project.Zayed.Entity;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
@@ -10,10 +11,10 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cesser {
-    private int id;
-    private int idUserId;
-    private String motif;
-    private LocalDate dateMotif= LocalDate.now();
+    int id;
+     int idUserId;
+     String motif;
+     LocalDate dateMotif= LocalDate.now();
 }

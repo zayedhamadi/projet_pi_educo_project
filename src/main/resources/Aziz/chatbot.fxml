@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.SmartQuizRecommenderController"
+      spacing="10" style="-fx-background-color: #f5f5f5;">
+
+    <padding>
+        <Insets top="15.0" right="15.0" bottom="15.0" left="15.0"/>
+    </padding>
+
+    <!-- Header -->
+    <Label text="Quiz Recommendation Assistant"
+           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2a5885;"/>
+
+    <!-- Chat Area -->
+    <TextArea fx:id="chatArea"
+              editable="false"
+              wrapText="true"
+              style="-fx-font-family: 'Segoe UI'; -fx-font-size: 14px;"
+              prefHeight="400">
+        <padding>
+            <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
+        </padding>
+    </TextArea>
+
+    <!-- Input Section -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="userInputField"
+                   promptText="Type your subject or 'list' for all quizzes..."
+                   style="-fx-font-size: 14px;"
+                   prefWidth="350"
+                   onAction="#handleSend"/>
+
+        <Button fx:id="sendButton"
+                text="Send"
+                style="-fx-font-size: 14px; -fx-background-color: #4a90e2; -fx-text-fill: white;"
+                onAction="#handleSend"/>
+    </HBox>
+
+    <!-- Status Bar -->
+    <Label text="Tip: Ask for quizzes by subject (e.g. 'math') or type 'list' to see all"
+           style="-fx-font-size: 12px; -fx-font-style: italic; -fx-text-fill: #666;"/>
+
+</VBox>

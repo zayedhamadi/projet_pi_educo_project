@@ -12,9 +12,11 @@ import pi_project.Saif.Entity.Commande;
 import pi_project.Saif.Service.CommandeService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminCommandeController {
+    @FXML private ComboBox<String> statusFilter; // Nouveau ComboBox
 
     @FXML private TableView<Commande> tableCommande;
 //    @FXML private TableColumn<Commande, Integer> idColumn;
@@ -29,6 +31,7 @@ public class AdminCommandeController {
     private CommandeService commandeService;
 
     @FXML private TextField searchField;  // Champ de recherche
+    private List<Commande> filteredCommandes = new ArrayList<>(); // Variable pour stocker les résultats filtrés
 
     public AdminCommandeController() {
         this.commandeService = new CommandeService();
@@ -36,20 +39,24 @@ public class AdminCommandeController {
 
     @FXML
     private void initialize() {
-//        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-//        parentIdColumn.setCellValueFactory(new PropertyValueFactory<>("parentId"));
+        tableCommande.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         dateCommandeColumn.setCellValueFactory(new PropertyValueFactory<>("dateCommande"));
         montantTotalColumn.setCellValueFactory(new PropertyValueFactory<>("montantTotal"));
         statutColumn.setCellValueFactory(new PropertyValueFactory<>("statut"));
 
-        // Setup actions for the "Consulter" button in the table
+        dateCommandeColumn.setMaxWidth(1f * Integer.MAX_VALUE * 20);
+        montantTotalColumn.setMaxWidth(1f * Integer.MAX_VALUE * 32);
+        statutColumn.setMaxWidth(1f * Integer.MAX_VALUE * 15);
+        actionColumn.setMaxWidth(1f * Integer.MAX_VALUE * 33);
+
         actionColumn.setCellFactory(param -> new TableCell<Commande, Void>() {
             private final Button consulterButton = new Button("Consulter");
 
             {
                 consulterButton.setOnAction(event -> {
                     Commande selectedCommande = getTableView().getItems().get(getIndex());
-                    openCommandeDetailsWindow(selectedCommande);  // Open the new window to show details
+                    openCommandeDetailsWindow(selectedCommande);
                 });
             }
 
@@ -60,6 +67,9 @@ public class AdminCommandeController {
             }
         });
 
+        // Remplir le ComboBox avec les statuts
+        statusFilter.getItems().addAll("Tous", "Payée", "Prête");
+        statusFilter.setValue("Tous");
         refreshTable();
     }
     private void openCommandeDetailsWindow(Commande commande) {
@@ -82,17 +92,66 @@ public class AdminCommandeController {
             e.printStackTrace();
         }
     }
+
+
+//    @FXML
+//    private void handleSearch() {
+//        String keyword = searchField.getText().trim();
+//        if (keyword.isEmpty()) {
+//            refreshTable();  // Si aucun mot-clé n'est fourni, recharger toutes les commandes
+//        } else {
+//            List<Commande> commandes = commandeService.searchCommandes(keyword);
+//            tableCommande.getItems().clear();
+//            tableCommande.getItems().addAll(commandes);
+//        }
+//    }
+
     @FXML
     private void handleSearch() {
-        String keyword = searchField.getText().trim();
-        if (keyword.isEmpty()) {
-            refreshTable();  // Si aucun mot-clé n'est fourni, recharger toutes les commandes
-        } else {
-            List<Commande> commandes = commandeService.searchCommandes(keyword);
-            tableCommande.getItems().clear();
-            tableCommande.getItems().addAll(commandes);
+        String keyword = searchField.getText().trim().toLowerCase();
+        String selectedStatus = statusFilter.getValue();
+
+        List<Commande> commandes = commandeService.getAll(); // Charger toutes les commandes
+
+        // Filtrage par mot-clé
+        if (!keyword.isEmpty()) {
+            commandes.removeIf(c ->
+                    !(c.getDateCommande().toString().toLowerCase().contains(keyword)
+                            || String.valueOf(c.getMontantTotal()).contains(keyword)
+                            || c.getStatut().toLowerCase().contains(keyword))
+            );
         }
+
+        // Filtrage par statut
+        if (selectedStatus != null && !selectedStatus.equals("Tous")) {
+            commandes.removeIf(c -> !c.getStatut().equalsIgnoreCase(selectedStatus));
+        }
+
+        // Stocker les résultats filtrés ou toutes les commandes dans filteredCommandes
+        filteredCommandes = new ArrayList<>(commandes);
+
+        // Mettre à jour la table avec les résultats filtrés
+        tableCommande.getItems().clear();
+        tableCommande.getItems().addAll(filteredCommandes);
     }
+
+    @FXML
+    private void handleSort() {
+        // Si la recherche a été effectuée, on trie les résultats filtrés
+        if (filteredCommandes != null && !filteredCommandes.isEmpty()) {
+            filteredCommandes.sort((c1, c2) -> c1.getDateCommande().compareTo(c2.getDateCommande()));
+        } else {
+            // Sinon, on trie toutes les commandes
+            List<Commande> commandes = commandeService.getAll();
+            commandes.sort((c1, c2) -> c1.getDateCommande().compareTo(c2.getDateCommande()));
+            filteredCommandes = commandes;
+        }
+
+        // Mettre à jour la table avec les commandes triées
+        tableCommande.getItems().clear();
+        tableCommande.getItems().addAll(filteredCommandes);
+    }
+
     private void refreshTable() {
         List<Commande> commandes = commandeService.getAll();
         tableCommande.getItems().clear();

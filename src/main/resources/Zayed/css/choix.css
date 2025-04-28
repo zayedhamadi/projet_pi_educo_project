@@ -1,0 +1,73 @@
+/* Couleur de fond principale */
+.border-pane {
+    -fx-background-color: #ffffff;
+}
+
+/* Panneau gauche */
+.left-pane {
+    -fx-background-color: linear-gradient(to bottom, #2c3e50, #3498db);
+}
+
+.left-rectangle {
+    -fx-fill: linear-gradient(to bottom, #2c3e50, #3498db);
+}
+
+.logo-image {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
+.motto-text {
+    -fx-fill: white;
+    -fx-font-style: italic;
+}
+
+.version-text {
+    -fx-fill: rgba(255,255,255,0.7);
+}
+
+/* Panneau droit */
+.right-pane {
+    -fx-background-color: #f9f9f9;
+}
+
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+.subtitle-label {
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Boutons */
+.email-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+.sms-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+.back-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #7f8c8d;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+}
+
+.email-button:hover, .sms-button:hover {
+    -fx-opacity: 0.9;
+    -fx-cursor: hand;
+}
+
+.back-button:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-cursor: hand;
+}

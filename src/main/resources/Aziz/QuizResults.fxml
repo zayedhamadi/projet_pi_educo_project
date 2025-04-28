@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.QuizResultsController"
+      spacing="20" style="-fx-padding: 30; -fx-alignment: center;">
+
+    <Label text="Quiz Results" style="-fx-font-size: 24pt; -fx-font-weight: bold;"/>
+
+    <GridPane hgap="20" vgap="15">
+        <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" minWidth="100"/>
+            <ColumnConstraints halignment="LEFT" minWidth="200"/>
+        </columnConstraints>
+
+        <Label text="Student:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="studentNameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"
+               style="-fx-font-weight: bold;"/>
+
+        <Label text="Quiz:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="quizTitleLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"
+               style="-fx-font-weight: bold;"/>
+
+        <Label text="Score:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="scoreLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"
+               style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #2ecc71;"/>
+
+        <Label text="Percentage:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="percentageLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"
+               style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+    </GridPane>
+
+    <Label fx:id="feedbackLabel" style="-fx-font-size: 14pt; -fx-text-fill: #3498db; -fx-wrap-text: true;"
+           maxWidth="400" textAlignment="CENTER"/>
+
+</VBox>

@@ -43,6 +43,12 @@ public class NavbarParent {
     public void loadmesreservationView() {
         loadView("/louay/mesreservation.fxml");
     }
+    public void loadQuizView() {
+        loadView("/Aziz/StudentQuizView.fxml");
+    }
+    public void loadQuizhistoyView() {
+        loadView("/Aziz/QuizHistory.fxml");
+    }
 
 
     private void loadView(String fxmlPath) {

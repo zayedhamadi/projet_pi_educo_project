@@ -23,10 +23,15 @@
         </ScrollPane>
     </center>
 
+    <right>
+        <VBox fx:id="notificationContainer" />
+    </right>
+
     <bottom>
         <HBox styleClass="button-box" spacing="20" alignment="CENTER">
            <!-- <Button text="Retour" onAction="#handleBack" styleClass="export-button"/>-->
             <Button text="Créer un élève" onAction="#handleAjouterEleve" styleClass="action-button"/>
+            <Button text="Exporter Excel" onAction="#handleExportExcel" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
         </HBox>
     </bottom>
 

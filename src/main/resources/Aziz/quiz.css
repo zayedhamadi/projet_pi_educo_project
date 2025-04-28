@@ -1,0 +1,66 @@
+/* Question Item Container */
+.question-item {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-spacing: 10;
+}
+
+/* Question Text */
+.question-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-wrap-text: true;
+}
+
+/* Options Container */
+.options-container {
+    -fx-padding: 5 0 0 15;
+    -fx-spacing: 8;
+}
+
+/* Radio Buttons */
+.radio-button {
+    -fx-font-size: 14px;
+    -fx-text-fill: #34495e;
+    -fx-cursor: hand;
+}
+
+.radio-button .radio {
+    -fx-background-color: white;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 3;
+}
+
+.radio-button:selected .radio {
+    -fx-background-color: white;
+    -fx-border-color: #3498db;
+}
+
+.radio-button .dot {
+    -fx-background-radius: 7;
+    -fx-padding: 6;
+    -fx-background-color: transparent;
+}
+
+.radio-button:selected .dot {
+    -fx-background-color: #3498db;
+}
+
+/* Hover Effects */
+.radio-button:hover .radio {
+    -fx-border-color: #3498db;
+}
+
+/* Focus Effects */
+.radio-button:focused .radio {
+    -fx-border-color: #2980b9;
+    -fx-border-width: 2;
+}

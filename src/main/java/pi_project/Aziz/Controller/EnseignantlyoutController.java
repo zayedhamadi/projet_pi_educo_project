@@ -29,8 +29,18 @@ public class EnseignantlyoutController {
         loadView("/Aziz/afficherquiz.fxml");
     }
 
+    @FXML
+
+    public void showCoursView() {
+        loadView("/Farouk/cours_list.fxml") ;
+    }
+    @FXML
+
     public void showquestion() {
         loadView("/Aziz/afficherquestion.fxml");
+    }
+    public void showquizstats() {
+        loadView("/Aziz/EnsegnatQuizStats.fxml");
     }
     public void loadreclamationView() {
         loadView("/louay/mesreclamation.fxml");
@@ -68,7 +78,5 @@ public class EnseignantlyoutController {
         }
     }
 
-    public void showCoursView() {
-        loadView("/Farouk/cours_list.fxml");
-    }
+
 }

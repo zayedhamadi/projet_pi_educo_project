@@ -1,7 +1,6 @@
 package pi_project.Zayed.Controller;
 
 
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +61,10 @@ public class ForgetPwController {
             }
 
             AuthenticationImpl authentication = new AuthenticationImpl();
+            if (!authentication.findUserByEmail(mail)) {
+                showWarning("Email inconnu", "Cet email n'appartient à aucun utilisateur.");
+                return;
+            }
             authentication.forgetPassword(mail);
 
 

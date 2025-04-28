@@ -10,9 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import pi_project.Aziz.Controller.EnseignantlyoutController;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.entites.eleve;
 import pi_project.Fedi.services.eleveservice;
+import pi_project.Fedi.services.EmailService;
+import pi_project.Saif.Controller.MainLayoutController;
 import pi_project.Zayed.Entity.User;
 import pi_project.db.DataSource;
 
@@ -48,6 +51,7 @@ public class AjouterEleve {
     @FXML private VBox formContainer;
 
     private final eleveservice eleveService = new eleveservice();
+    private final EmailService emailService = new EmailService();
     private List<classe> toutesLesClasses;
     private List<User> tousLesParents;
 
@@ -92,14 +96,18 @@ public class AjouterEleve {
     @FXML
     private void handleListEleves(ActionEvent event) {
         try {
-            // Charger la nouvelle vue
-            Parent root = FXMLLoader.load(getClass().getResource("/Fedi/ListeOfEleve.fxml"));
 
+            // Load the main layout
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/MainLayout.fxml"));
+            Parent root = loader.load();
+
+            // Get controller and show cours list
+            MainLayoutController mainController = loader.getController();
+            mainController.showListeleve();
             // Obtenir la scène actuelle
             Scene scene = ((Node) event.getSource()).getScene();
 
-            // Remplacer le contenu de la scène
-            scene.setRoot(root);
+          scene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
             // Vous pourriez aussi afficher un message d'erreur à l'utilisateur
@@ -122,9 +130,58 @@ public class AjouterEleve {
         try {
             eleve nouvelEleve = createEleveFromForm();
             eleveService.add(nouvelEleve);
+            
+            // Envoi de l'email au parent
+            String parentEmail = parentComboBox.getValue();
+            User parent = tousLesParents.stream()
+                    .filter(p -> p.getEmail().equals(parentEmail))
+                    .findFirst()
+                    .orElse(null);
+
+            if (parent != null) {
+                System.out.println("Parent trouvé: " + parent.getEmail());
+                System.out.println("Nom du parent: " + parent.getNom());
+                System.out.println("Prénom du parent: " + parent.getPrenom());
+                
+                String parentName = parent.getPrenom() + " " + parent.getNom();
+                String className = classeComboBox.getValue();
+                String studentName = nomField.getText() + " " + prenomField.getText();
+
+                System.out.println("Envoi de l'email avec les informations suivantes:");
+                System.out.println("- Nom complet du parent: " + parentName);
+                System.out.println("- Email du parent: " + parentEmail);
+                System.out.println("- Nom de l'élève: " + studentName);
+                System.out.println("- Classe: " + className);
+
+                emailService.sendStudentAssignmentEmail(
+                    parentEmail,
+                    parentName,
+                    studentName,
+                    className
+                );
+            } else {
+                System.err.println("Parent non trouvé pour l'email: " + parentEmail);
+            }
+
             showAlert("Succès", "Élève ajouté",
                     "L'élève " + nouvelEleve.getPrenom() + " " + nouvelEleve.getNom() + " a été ajouté avec succès!");
-            closeWindow();
+            
+            // Get the current stage using nomField which is guaranteed to be initialized
+            Stage stage = (Stage) nomField.getScene().getWindow();
+            
+            // Load the main layout
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/MainLayout.fxml"));
+            Parent root = loader.load();
+
+            // Get controller and show cours list
+            MainLayoutController mainController = loader.getController();
+            mainController.showListeleve();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
         } catch (Exception e) {
             showAlert("Erreur", "Erreur lors de l'ajout", e.getMessage());
         }
@@ -135,16 +192,14 @@ public class AjouterEleve {
     @FXML
     private void handleBack() {
         try {
-            // Chemin relatif vers le fichier FXML
-            Parent root = FXMLLoader.load(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
+            // Load the main layout
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/MainLayout.fxml"));
+            Parent root = loader.load();
 
-            // Récupérer la scène actuelle depuis n'importe quel nœud de l'interface
-            Scene currentScene = nomField.getScene(); // ou tout autre champ @FXML
+            // Get controller and show cours list
+            MainLayoutController mainController = loader.getController();
+            mainController.showListeleve();
 
-            // Créer une nouvelle scène (ou réutiliser l'actuelle)
-            Stage stage = (Stage) currentScene.getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
 
         } catch (IOException e) {
             System.err.println("Erreur de navigation:");
