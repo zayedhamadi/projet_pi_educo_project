@@ -43,6 +43,7 @@ public class BoutiqueController {
 //        updatePanierCount();
     }
 
+
     private void loadCategories() {
         List<Categorie> categories = categorieService.getAll();
         categorieCombo.getItems().add(null); // Pour "Toutes les catégories"

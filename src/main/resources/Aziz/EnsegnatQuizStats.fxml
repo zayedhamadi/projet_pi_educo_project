@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.EnseignantQuizStatsController"
+      spacing="20" style="-fx-padding: 20;">
+
+    <Label text="Quiz Statistics" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <BarChart fx:id="scoreChart" title="Average Quiz Scores" legendVisible="true">
+        <xAxis>
+            <CategoryAxis fx:id="xAxis" label="Quiz Name"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" label="Score (%)" upperBound="100"/>
+        </yAxis>
+    </BarChart>
+
+    <TableView fx:id="statsTable" style="-fx-font-size: 14px;">
+        <columns>
+            <TableColumn fx:id="quizNameColumn" text="Quiz Name" prefWidth="200"/>
+            <TableColumn fx:id="studentNameColumn" text="Student" prefWidth="200"/>
+            <TableColumn fx:id="scoreColumn" text="Score (%)" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>

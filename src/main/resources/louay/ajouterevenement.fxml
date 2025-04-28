@@ -43,6 +43,14 @@
         <ComboBox fx:id="typeComboBox" promptText="Type d'événement"
                   style="-fx-background-radius: 5; -fx-padding: 8;" />
 
+        <!-- Champ pour la durée du timer, visible seulement si l'inscription est requise -->
+        <HBox spacing="10" alignment="CENTER_LEFT" visible="false" fx:id="timerHBox">
+            <Label text="Durée du timer (en minutes) :"
+                   style="-fx-font-size: 14px; -fx-text-fill: #2c3e50;" />
+            <TextField fx:id="timerField" promptText="Durée en minutes"
+                       style="-fx-background-radius: 5; -fx-padding: 8;" />
+        </HBox>
+
         <HBox spacing="15" alignment="CENTER_RIGHT">
             <Button fx:id="retourButton" text="Retour"
                     style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;

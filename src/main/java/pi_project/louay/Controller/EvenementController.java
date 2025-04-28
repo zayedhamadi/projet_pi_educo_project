@@ -6,20 +6,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Enum.EventType;
 import pi_project.louay.Service.evenementImp;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 public class EvenementController {
 
     @FXML
     private TableView<evenement> eventTable;
-
     @FXML
     private TableColumn<evenement, String> titreColumn;
     @FXML
@@ -38,14 +40,16 @@ public class EvenementController {
     private TableColumn<evenement, EventType> typeColumn;
     @FXML
     private TableColumn<evenement, Void> actionsColumn;
-
     @FXML
     private Button ajouterBtn;
-
     @FXML
     private StackPane contentPane;
+    @FXML
+    private Pagination pagination;
 
     private final evenementImp evenementService = new evenementImp();
+    private static final int ROWS_PER_PAGE = 10;
+    private ObservableList<evenement> allEvents = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -58,43 +62,59 @@ public class EvenementController {
         inscriptionColumn.setCellValueFactory(new PropertyValueFactory<>("inscriptionRequise"));
         nombrePlacesColumn.setCellValueFactory(new PropertyValueFactory<>("nombrePlaces"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inscriptionColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item ? "Oui" : "Non");
+                }
+            }
+        });
 
-        // Ajouter boutons d'action
+
+
         ajouterBoutonsActions();
 
-        // Charger la table
-        afficherEvenements();
 
-        // Action bouton ajouter
+        loadEvents();
+
+
+        pagination.setPageFactory(this::createPage);
+
+
         ajouterBtn.setOnAction(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/ajouterevenement.fxml"));
                 Parent view = loader.load();
-
-                // Récupérer la vue principale avec le StackPane (contentPane)
                 StackPane contentPane = (StackPane) eventTable.getScene().lookup("#contentPane");
-
-                // Remplacer le contenu central
                 contentPane.getChildren().setAll(view);
-
                 ajouterevenement controller = loader.getController();
-                controller.setEvenementController(this); // Passer le controller actuel à l'autre contrôleur
-
+                controller.setEvenementController(this);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    // Méthode pour afficher les événements dans la table
-    private void afficherEvenements() {
-        ObservableList<evenement> evenementData = FXCollections.observableArrayList(evenementService.getAll());
-        eventTable.setItems(evenementData);
+    public void loadEvents() {
+        allEvents = FXCollections.observableArrayList(evenementService.getAll());
+        int pageCount = (int) Math.ceil((double) allEvents.size() / ROWS_PER_PAGE);
+        pagination.setPageCount(pageCount > 0 ? pageCount : 1);
     }
 
-    // Méthode pour rafraîchir la table après modification, ajout, ou suppression
-    public void refreshTable() {
-        afficherEvenements(); // Recharge les événements dans la table
+    private VBox createPage(int pageIndex) {
+        int fromIndex = pageIndex * ROWS_PER_PAGE;
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, allEvents.size());
+
+        ObservableList<evenement> pageData = FXCollections.observableArrayList(
+                allEvents.subList(fromIndex, toIndex)
+        );
+        eventTable.setItems(pageData);
+
+        return new VBox(eventTable);
     }
 
     private void ajouterBoutonsActions() {
@@ -116,7 +136,7 @@ public class EvenementController {
                 supprimerBtn.setOnAction(e -> {
                     evenement evt = getTableView().getItems().get(getIndex());
                     evenementService.supprimer(evt);
-                    afficherEvenements(); // Rafraîchir la table après la suppression
+                    refreshTable();
                 });
 
                 consulterBtn.setOnAction(e -> {
@@ -142,20 +162,21 @@ public class EvenementController {
         });
     }
 
+    public void refreshTable() {
+        int currentPage = pagination.getCurrentPageIndex();
+        loadEvents();
+        pagination.setPageFactory(this::createPage);
+        pagination.setCurrentPageIndex(Math.min(currentPage, pagination.getPageCount() - 1));
+    }
+
     private void ouvrirFormulaireModification(evenement evt) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/modifierevenement.fxml"));
             Parent view = loader.load();
-
-            // Récupérer la zone de contenu du layout principal
             StackPane contentPane = (StackPane) eventTable.getScene().lookup("#contentPane");
-
-            // Remplacer le contenu central (sans toucher à la sidebar)
             contentPane.getChildren().setAll(view);
-
             modifierevenement controller = loader.getController();
             controller.setEvenement(evt);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -166,15 +187,14 @@ public class EvenementController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/louay/consulter_insc_event.fxml"));
             Parent view = loader.load();
 
-            // Récupérer la zone de contenu du layout principal
+
             StackPane contentPane = (StackPane) eventTable.getScene().lookup("#contentPane");
 
-            // Remplacer le contenu central (sans toucher à la sidebar)
+
             contentPane.getChildren().setAll(view);
 
             ConsulterInscriptionController controller = loader.getController();
             controller.setEvenement(evt);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

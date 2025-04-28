@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Priority?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="pi_project.louay.Controller.ConsulterInscriptionController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pi_project.louay.Controller.ConsulterInscriptionController">
 
-    <VBox layoutX="10.0" layoutY="10.0"
-          prefHeight="500.0" prefWidth="600.0"
-          spacing="20"
-          alignment="TOP_CENTER"
-          AnchorPane.leftAnchor="10.0"
-          AnchorPane.rightAnchor="10.0"
-          AnchorPane.topAnchor="10.0"
-          AnchorPane.bottomAnchor="10.0"
-          style="-fx-padding: 30; -fx-background-color: #f4f4f4;">
+    <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="600.0" spacing="20"
+          style="-fx-padding: 30; -fx-background-color: #ffffff; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10,0,0,5);"
+          AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 
         <!-- Titre -->
-        <Label fx:id="titreLabel"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+        <Label fx:id="titreLabel" style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #34495e;" />
 
-        <!-- Bouton retour -->
-        <HBox alignment="CENTER_RIGHT" prefWidth="600">
+        <!-- Ligne avec places restantes et bouton retour -->
+        <HBox alignment="CENTER_LEFT" prefWidth="600" spacing="20" HBox.hgrow="ALWAYS">
+            <Label fx:id="placesRestantesLabel" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" />
+            <HBox HBox.hgrow="ALWAYS" />
             <Button fx:id="retourButton" text="Retour à la liste des événements"
-                    style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-padding: 8 16;" />
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 20; -fx-cursor: hand;"
+                    onMouseEntered="#onButtonHover" onMouseExited="#onButtonExit" />
         </HBox>
 
         <!-- Table des inscriptions -->
-        <TableView fx:id="inscriptionTable"
-                   prefHeight="350.0"
-                   prefWidth="580.0"
-                   style="-fx-background-radius: 5; -fx-border-radius: 5;">
+        <TableView fx:id="inscriptionTable" prefHeight="350.0" prefWidth="580.0"
+                   style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #ddd; -fx-border-width: 1;">
             <columns>
                 <TableColumn fx:id="nomEnfantColumn" prefWidth="220" text="Nom de l'enfant" />
                 <TableColumn fx:id="dateInscriptionColumn" prefWidth="220" text="Date d'inscription" />
@@ -40,7 +39,6 @@
         </TableView>
 
         <!-- Message vide -->
-        <Label fx:id="messageLabel"
-               style="-fx-text-fill: gray; -fx-font-style: italic;" />
+        <Label fx:id="messageLabel" style="-fx-text-fill: #95a5a6; -fx-font-style: italic; -fx-font-size: 14px;" />
     </VBox>
 </AnchorPane>

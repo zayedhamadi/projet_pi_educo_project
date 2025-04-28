@@ -2,14 +2,15 @@ package pi_project.louay.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import pi_project.Zayed.Utils.session;
 import pi_project.louay.Entity.reclamation;
 import pi_project.louay.Enum.Statut;
 import pi_project.louay.Service.reclamationImp;
 import pi_project.Zayed.Entity.User;
+import pi_project.louay.Utils.captcha;
 
 import java.time.LocalDate;
 
@@ -22,6 +23,12 @@ public class ajouterRController {
     private TextArea descriptionField;
 
     @FXML
+    private TextField captchaField;
+
+    @FXML
+    private ImageView captchaImage;
+
+    @FXML
     private Button saveButton;
 
     @FXML
@@ -29,76 +36,97 @@ public class ajouterRController {
 
     private final reclamationImp reclamationService = new reclamationImp();
 
-    // ⚠️ À remplacer avec l'utilisateur connecté (actuel)
-    private final User userConnecte = new User();
+    private String captchaText;
 
     @FXML
     private void initialize() {
-        // Initialiser les événements des boutons
         saveButton.setOnAction(this::ajouterReclamation);
         cancelButton.setOnAction(e -> annuler());
 
-        // Exemple provisoire d'utilisateur connecté (à remplacer dynamiquement)
-        userConnecte.setId(2); // Remplacer par l'ID réel de l'utilisateur connecté
+        genererCaptcha();
     }
 
+
+    private void genererCaptcha() {
+        int width = 150;
+        int height = 50;
+
+
+        captchaText = captcha.genererTexteAleatoire(5);
+
+
+        Image captchaImageGenerated = captcha.genererCaptchaImage(captchaText, width, height);
+
+
+        captchaImage.setImage(captchaImageGenerated);
+    }
+
+
     private void ajouterReclamation(ActionEvent event) {
-        // Récupérer les valeurs des champs
         String titre = TitreField.getText().trim();
         String description = descriptionField.getText().trim();
+        String captchaInput = captchaField.getText().trim();
 
-        // Validation des champs
-        if (titre.isEmpty() || description.isEmpty()) {
-            afficherAlerte("Champs requis", "Veuillez remplir tous les champs.");
+        if (titre.isEmpty() || description.isEmpty() || captchaInput.isEmpty()) {
+            afficherAlerte("Champs requis", "Veuillez remplir tous les champs y compris le CAPTCHA.");
             return;
         }
 
-        // Validation de la longueur du titre
+        if (!captchaInput.equals(captchaText)) {
+            afficherAlerte("Erreur CAPTCHA", "Le code CAPTCHA est incorrect.");
+            captchaField.clear();
+            genererCaptcha(); // Régénère un nouveau CAPTCHA
+            return;
+        }
+
         if (titre.length() < 5 || titre.length() > 50) {
             afficherAlerte("Titre invalide", "Le titre doit contenir entre 5 et 50 caractères.");
             return;
         }
 
-        // Validation de la longueur de la description
         if (description.length() < 10) {
             afficherAlerte("Description invalide", "La description doit contenir au moins 10 caractères.");
             return;
         }
 
-        // Créer une nouvelle réclamation
+
+        Integer userId = session.getUserSession();
+        User userConnecte = reclamationService.getUserService().getSpeceficUser(userId);
+
+
+        if (userConnecte == null) {
+            afficherAlerte("Erreur utilisateur", "Utilisateur non trouvé.");
+            return;
+        }
+
+
         reclamation nouvelleReclamation = new reclamation();
         nouvelleReclamation.setTitre(titre);
         nouvelleReclamation.setDescription(description);
         nouvelleReclamation.setDateDeCreation(LocalDate.now());
-        nouvelleReclamation.setStatut(Statut.EN_ATTENTE); // Par défaut
-        nouvelleReclamation.setUser(userConnecte);
+        nouvelleReclamation.setStatut(Statut.EN_ATTENTE);
+        nouvelleReclamation.setUser(userConnecte); // Utilisation de l'objet User
 
-        // Ajouter la réclamation via le service
+
         reclamationService.ajouter(nouvelleReclamation);
 
-        // Afficher une alerte de succès
         afficherAlerte("Succès", "Réclamation ajoutée avec succès !");
-
-        // Réinitialiser les champs du formulaire
         viderChamps();
-
-        // Fermer la fenêtre après l'ajout
         ((Button) event.getSource()).getScene().getWindow().hide();
     }
 
     private void annuler() {
-        // Réinitialiser les champs sans enregistrer
         viderChamps();
+        genererCaptcha();
     }
 
     private void viderChamps() {
-        // Effacer les champs de saisie
         TitreField.clear();
         descriptionField.clear();
+        captchaField.clear();
     }
 
     private void afficherAlerte(String titre, String message) {
-        // Afficher une alerte avec un titre et un message
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titre);
         alert.setHeaderText(null);

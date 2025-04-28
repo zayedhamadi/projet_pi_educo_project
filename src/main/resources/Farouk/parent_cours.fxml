@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pi_project.Farouk.Controller.ParentController"
+      prefHeight="700" prefWidth="1000"
+      styleClass="app-container"
+      stylesheets="@Css/parent.css"
+      spacing="20">
+
+    <!-- Header Section -->
+    <VBox styleClass="header-container" spacing="15">
+        <Label text="Course Viewer" styleClass="app-title"/>
+        <HBox styleClass="control-panel" spacing="20" alignment="CENTER_LEFT">
+            <Label text="Select Class:" styleClass="control-label"/>
+            <ComboBox fx:id="classComboBox" styleClass="class-selector"/>
+
+            <Button fx:id="chatButton" text="Go to Chat" onAction="#handleChatButtonClick" styleClass="chat-button"/>
+
+        </HBox>
+
+
+    </VBox>
+
+    <!-- Courses Panel -->
+    <VBox styleClass="courses-main-panel" spacing="15">
+        <Label text="Available Courses" styleClass="panel-title"/>
+        <ScrollPane fx:id="scrollPane" styleClass="courses-scroll" fitToWidth="true" fitToHeight="true">
+            <VBox fx:id="coursesContainer" styleClass="courses-list" spacing="15"/>
+        </ScrollPane>
+    </VBox>
+
+</VBox>

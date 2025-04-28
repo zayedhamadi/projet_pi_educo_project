@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="pi_project.Aziz.Controller.StudentQuizController"
+      spacing="10"
+      style="-fx-padding: 15;">
+
+    <!-- Header Section -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Available Quizzes" style="-fx-font-size: 20pt; -fx-font-weight: bold;"/>
+
+        <!-- Recommend Quiz Button -->
+        <Button text="Recommend Quiz"
+                style="-fx-font-size: 12pt; -fx-background-color: #4a90e2; -fx-text-fill: white;"
+                onAction="#navigateToChatbot"/>
+    </HBox>
+
+    <!-- Quiz List Section -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+        <FlowPane fx:id="quizContainer" hgap="20" vgap="20" style="-fx-padding: 10;"/>
+    </ScrollPane>
+</VBox>

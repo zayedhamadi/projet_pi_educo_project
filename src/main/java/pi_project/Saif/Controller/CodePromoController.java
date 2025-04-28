@@ -30,11 +30,16 @@ public class CodePromoController {
 
     @FXML
     public void initialize() {
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         remiseCol.setCellValueFactory(new PropertyValueFactory<>("remisePourcent"));
         dateDebutCol.setCellValueFactory(new PropertyValueFactory<>("dateDebut"));
         dateFinCol.setCellValueFactory(new PropertyValueFactory<>("dateFin"));
-
+        codeCol.setMaxWidth(1f * Integer.MAX_VALUE * 20);     // 20% pour "Code"
+        remiseCol.setMaxWidth(1f * Integer.MAX_VALUE * 15);   // 15% pour "Remise"
+        dateDebutCol.setMaxWidth(1f * Integer.MAX_VALUE * 32); // 32% pour "Date Début"
+        dateFinCol.setMaxWidth(1f * Integer.MAX_VALUE * 33);   // 33% pour "Date Fin"
         ObservableList<CodePromo> codes = FXCollections.observableArrayList(service.getAllCodes());
         table.setItems(codes);
 

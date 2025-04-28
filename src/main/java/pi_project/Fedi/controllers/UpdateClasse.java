@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import pi_project.Fedi.entites.classe;
 import pi_project.Fedi.services.classeservice;
 import pi_project.Main;
+import pi_project.Saif.Controller.MainLayoutController;
 
 import java.io.IOException;
 
@@ -40,11 +41,18 @@ public class UpdateClasse {
     @FXML
     private void handleBack() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fedi/ListeOfClasse.fxml"));
-            Parent listeView = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/MainLayout.fxml"));
+            Parent root = loader.load();
 
+            // Obtenir le contrôleur et afficher la vue souhaitée
+            MainLayoutController mainController = loader.getController();
+
+            // Définir la nouvelle racine sur la scène avant d'appeler showListeClasse()
             Scene currentScene = rootPane.getScene();
-            currentScene.setRoot(listeView);
+            currentScene.setRoot(root);
+
+            // Ensuite seulement, appeler la méthode pour injecter la vue dans le layout
+            mainController.showListeClasse();
         } catch (Exception e) {
             System.out.println(("Erreur lors du retour à la liste"));
             e.printStackTrace();

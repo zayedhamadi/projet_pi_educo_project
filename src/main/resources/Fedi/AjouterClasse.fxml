@@ -58,13 +58,10 @@
                 <!-- Enseignant -->
                 <Label text="Enseignant responsable :" styleClass="form-label"
                        GridPane.rowIndex="6" GridPane.columnIndex="0"/>
-                <SplitMenuButton fx:id="enseignent" text="Choisir un enseignant" styleClass="form-field"
-                                GridPane.rowIndex="6" GridPane.columnIndex="1">
-                    <items>
-                        <MenuItem text="Action 1"/>
-                        <MenuItem text="Action 2"/>
-                    </items>
-                </SplitMenuButton>
+                <ComboBox fx:id="enseignent" promptText="Sélectionnez un enseignant" styleClass="form-field"
+                          GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+                <Label fx:id="enseignantErreur" styleClass="error-label"
+                       GridPane.rowIndex="7" GridPane.columnIndex="1"/>
             </GridPane>
         </VBox>
     </center>
