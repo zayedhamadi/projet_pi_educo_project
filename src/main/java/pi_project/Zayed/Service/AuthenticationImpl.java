@@ -1,5 +1,6 @@
 package pi_project.Zayed.Service;
 
+import pi_project.Zayed.Entity.LoginHistory;
 import pi_project.Zayed.Entity.User;
 import pi_project.Zayed.Enum.EtatCompte;
 import pi_project.Zayed.Enum.Role;
@@ -12,10 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class AuthenticationImpl implements AuthenticationService {
-
 
     private static final String updatePwdByNumTel = "UPDATE user SET password = ? WHERE num_tel = ?";
     private static final String updatePwdByEmail = "UPDATE user SET password = ? WHERE email = ?";
@@ -26,11 +27,13 @@ public class AuthenticationImpl implements AuthenticationService {
     private final Connection connection;
     private final Mail mailService;
     private final SMS smsService;
+    LoginHistoryImp loginHistoryService;
 
     public AuthenticationImpl() {
         this.connection = DataSource.getInstance().getConn();
         this.mailService = new Mail();
         this.smsService = new SMS();
+        loginHistoryService = new LoginHistoryImp();
     }
 
     public Role getUserRole(String email) {
@@ -89,7 +92,12 @@ public class AuthenticationImpl implements AuthenticationService {
                     System.out.println("Email ou mot de passe incorrect !");
                     return false;
                 }
-
+                LoginHistory loginHistory = new LoginHistory(
+                        user.getEmail(),
+                        LocalDateTime.now(),
+                        rs.getInt("id")
+                );
+                this.loginHistoryService.addLoginHistory(loginHistory);
                 Role userRole = getUserRole(user.getEmail());
                 if (userRole == null) {
                     System.out.println("Aucun rôle valide trouvé pour cet utilisateur !");

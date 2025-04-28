@@ -18,6 +18,7 @@ public class Mail {
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://127.0.0.1:8000/login";
 
+
     public void sendAddUserMail(String toEmail, String userPassword) throws MessagingException {
         sendEmail(toEmail, buildHtmlContent(toEmail, userPassword));
     }
@@ -109,6 +110,16 @@ public class Mail {
                 "</div></body></html>";
     }
 
+
+    public void sendInactivityWarningMail(String toEmail) throws MessagingException {
+        String content = "<h3>Notification d'inactivité</h3>" +
+                "<p>Bonjour,</p>" +
+                "<p>Nous avons remarqué que vous n'avez pas accédé à votre compte depuis un moment.</p>" +
+                "<p>Veuillez vous connecter rapidement pour éviter la désactivation automatique de votre compte.</p>" +
+                "<p><a href='" + LOGIN_URL + "' class='button'>Se connecter maintenant</a></p>" +
+                "<p>Cordialement,<br>L'équipe Educo</p>";
+        sendEmail(toEmail, content);
+    }
 
     public void sendMailDeCessation(String toEmail, String motif) throws MessagingException {
         String content = "<h3>Notification de cessation de compte</h3>" +
