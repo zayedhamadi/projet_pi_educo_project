@@ -1,5 +1,8 @@
 package pi_project.louay.Interface;
 
+import pi_project.louay.Entity.evenement;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface Ievenementservice<T> {
@@ -13,4 +16,6 @@ public interface Ievenementservice<T> {
 
 
     List<T> getAll();
+
+    List<T> getEvenementsCetteSemaine(LocalDate startOfWeek, LocalDate endOfWeek);
 }

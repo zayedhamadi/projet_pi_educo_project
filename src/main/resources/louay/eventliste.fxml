@@ -15,15 +15,7 @@
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
 
-        <!-- Header -->
-        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 0 0 10 0;">
-
-            <Region HBox.hgrow="ALWAYS"/>
-            <!--Button fx:id="refreshButton" text="🔄 Actualiser"
-                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
-        </HBox>
-
-        <!-- Search and Filter Section -->
+        <!-- Barre de recherche et filtre -->
         <HBox spacing="15" alignment="CENTER_LEFT"
               style="-fx-background-color: #ecf0f1; -fx-background-radius: 5;">
             <padding>
@@ -33,14 +25,20 @@
                        style="-fx-background-radius: 5; -fx-pref-width: 300;"/>
             <ComboBox fx:id="typeCombo" promptText="Tous types"
                       style="-fx-background-radius: 5; -fx-pref-width: 200;"/>
-           <!-- <Button fx:id="filterButton" text="Filtrer"
-                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="weekButton" text="Cette semaine"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;"/>
         </HBox>
 
-        <!-- Scrollable Events Grid -->
-        <ScrollPane VBox.vgrow="ALWAYS"
-                    fitToWidth="true"
-                    vbarPolicy="ALWAYS"
+        <!-- Section titre pour tous les événements -->
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 20 0 10 0;">
+            <Label text="Tous les événements" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Section ScrollPane pour afficher tous les événements -->
+        <ScrollPane fitToWidth="true"
+                    vbarPolicy="AS_NEEDED"
                     style="-fx-background: transparent; -fx-background-color: transparent;">
             <FlowPane fx:id="eventContainer"
                       hgap="20" vgap="20" alignment="TOP_CENTER"
@@ -50,5 +48,6 @@
                 </padding>
             </FlowPane>
         </ScrollPane>
+
     </VBox>
 </AnchorPane>

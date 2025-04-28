@@ -24,6 +24,7 @@ public class ReservationController {
     @FXML
     private Button inscrireButton;
 
+
     private final inscevenementImp serviceInscription = new inscevenementImp();
 
     private evenement evenementSelectionne;
@@ -116,6 +117,8 @@ public class ReservationController {
 
     @FXML
     private void handleRetour() {
-        // Logique pour revenir à la page précédente (à adapter selon ton projet)
+        if (errorLabel.getScene() != null && errorLabel.getScene().getWindow() != null) {
+            errorLabel.getScene().getWindow().hide(); // Ferme la fenêtre actuelle
+        }
     }
 }

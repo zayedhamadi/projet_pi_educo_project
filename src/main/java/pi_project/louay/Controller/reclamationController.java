@@ -37,8 +37,12 @@ public class reclamationController {
     @FXML
     private Pagination pagination;
 
+    @FXML
+    private ComboBox<Statut> statutFilterComboBox; // Ajout ComboBox pour filtrage
+
     private final reclamationImp service = new reclamationImp();
     private ObservableList<reclamation> allReclamations = FXCollections.observableArrayList();
+    private ObservableList<reclamation> filteredReclamations = FXCollections.observableArrayList();
     private static final int ROWS_PER_PAGE = 15;
 
     @FXML
@@ -48,22 +52,28 @@ public class reclamationController {
         colDescription.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDescription()));
         colStatut.setCellValueFactory(cellData -> new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getStatut()));
 
-
         loadReclamations();
 
+        // Setup du ComboBox de filtrage
+        statutFilterComboBox.setItems(FXCollections.observableArrayList(Statut.values()));
+        statutFilterComboBox.getItems().add(0, null); // Option "Tous"
+        statutFilterComboBox.setPromptText("Tous les statuts");
+
+        // Action sur changement de sélection
+        statutFilterComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            applyFilter(newVal);
+        });
 
         pagination.setPageFactory(this::createPage);
-
 
         supprimerBtn.setOnAction(e -> {
             reclamation selected = tableView.getSelectionModel().getSelectedItem();
             if (selected != null) {
                 service.supprimer(selected);
                 allReclamations.remove(selected);
-                refreshPagination();
+                applyFilter(statutFilterComboBox.getValue());
             }
         });
-
 
         modifierBtn.setOnAction(e -> {
             reclamation selected = tableView.getSelectionModel().getSelectedItem();
@@ -92,24 +102,39 @@ public class reclamationController {
 
     private void loadReclamations() {
         allReclamations = FXCollections.observableArrayList(service.getAll());
+        filteredReclamations = FXCollections.observableArrayList(allReclamations);
         refreshPagination();
     }
 
     private VBox createPage(int pageIndex) {
         int fromIndex = pageIndex * ROWS_PER_PAGE;
-        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, allReclamations.size());
+        int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, filteredReclamations.size());
         ObservableList<reclamation> pageData = FXCollections.observableArrayList(
-                allReclamations.subList(fromIndex, toIndex)
+                filteredReclamations.subList(fromIndex, toIndex)
         );
         tableView.setItems(pageData);
         return new VBox(tableView);
     }
 
     private void refreshPagination() {
-        int pageCount = (int) Math.ceil((double) allReclamations.size() / ROWS_PER_PAGE);
+        int pageCount = (int) Math.ceil((double) filteredReclamations.size() / ROWS_PER_PAGE);
         pagination.setPageCount(Math.max(pageCount, 1));
         pagination.setCurrentPageIndex(0);
         pagination.setPageFactory(this::createPage);
+    }
+
+    private void applyFilter(Statut selectedStatut) {
+        if (selectedStatut == null) {
+            filteredReclamations = FXCollections.observableArrayList(allReclamations);
+        } else {
+            filteredReclamations = FXCollections.observableArrayList();
+            for (reclamation r : allReclamations) {
+                if (r.getStatut() == selectedStatut) {
+                    filteredReclamations.add(r);
+                }
+            }
+        }
+        refreshPagination();
     }
 
     public void refreshTable() {

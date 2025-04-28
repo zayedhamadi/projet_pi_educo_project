@@ -6,6 +6,7 @@ import pi_project.louay.Interface.Ievenementservice;
 import pi_project.db.DataSource;
 import pi_project.louay.Utils.sms;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -192,7 +193,40 @@ public class evenementImp implements Ievenementservice<evenement> {
             }
             return null;
         }
+        @Override
+    public List<evenement> getEvenementsCetteSemaine(LocalDate startOfWeek, LocalDate endOfWeek) {
+        List<evenement> list = new ArrayList<>();
+        String sql = "SELECT * FROM evenement WHERE date_debut BETWEEN ? AND ?";
 
+        try (PreparedStatement pst = cnx.prepareStatement(sql)) {
+            pst.setDate(1, java.sql.Date.valueOf(startOfWeek));
+            pst.setDate(2, java.sql.Date.valueOf(endOfWeek));
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    evenement e = new evenement();
+                    e.setId(rs.getInt("id"));
+                    e.setTitre(rs.getString("titre"));
+                    e.setDescription(rs.getString("description"));
+                    e.setDateDebut(rs.getTimestamp("date_debut").toLocalDateTime().toLocalDate());
+                    e.setDateFin(rs.getTimestamp("date_fin").toLocalDateTime().toLocalDate());
+                    e.setLieu(rs.getString("lieu"));
+                    String typeLabel = rs.getString("type");
+                    e.setType(EventType.fromLabel(typeLabel));
+                    e.setInscriptionRequise(rs.getBoolean("inscription_requise"));
+                    e.setNombrePlaces(rs.getInt("nombre_places"));
+
+                    list.add(e);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erreur récupération événements de cette semaine : " + ex.getMessage());
+        }
+
+        return list;
     }
+
+
+}
 
 

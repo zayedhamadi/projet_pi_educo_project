@@ -32,6 +32,9 @@ public class EnseignantlyoutController {
     public void showquestion() {
         loadView("/Aziz/afficherquestion.fxml");
     }
+    public void loadreclamationView() {
+        loadView("/louay/mesreclamation.fxml");
+    }
 
     public void initialize() {
         showquiz();
