@@ -50,6 +50,8 @@ public class NavbarParent {
         loadView("/Aziz/QuizHistory.fxml");
     }
 
+    public void loadCoursParentView(){loadView("/Farouk/parent_cours.fxml"); }
+
 
     private void loadView(String fxmlPath) {
         try {

@@ -19,6 +19,8 @@
             <Button text="mes reclamation" fx:id="btnreclamation" onAction="#loadreclamationView" styleClass="navbar-button"/>
             <Button text="evenement" fx:id="btnevenement" onAction="#loadevenementView" styleClass="navbar-button"/>
             <Button text="mesreservation" fx:id="btnmesreservation" onAction="#loadmesreservationView" styleClass="navbar-button"/>
+            <Button text="CoursParent" fx:id="btncourparent" onAction="#loadCoursParentView" styleClass="navbar-button"/>
+
             <Button text="Quiz" fx:id="btnquiz" onAction="#loadQuizView" styleClass="navbar-button"/>
             <Button text="mes quiz" fx:id="btnquizz" onAction="#loadQuizhistoyView" styleClass="navbar-button"/>
             <Button text="profile" onAction="#loadProfileUser" styleClass="navbar-button"/>

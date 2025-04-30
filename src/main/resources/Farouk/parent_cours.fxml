@@ -21,10 +21,7 @@
             <ComboBox fx:id="classComboBox" styleClass="class-selector"/>
 
             <Button fx:id="chatButton" text="Go to Chat" onAction="#handleChatButtonClick" styleClass="chat-button"/>
-
         </HBox>
-
-
     </VBox>
 
     <!-- Courses Panel -->
