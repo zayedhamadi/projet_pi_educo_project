@@ -1,0 +1,24 @@
+/* Main chat area styling */
+.chat-area {
+    -fx-font-family: 'Segoe UI';
+    -fx-font-size: 14px;
+    -fx-control-inner-background: #f5f5f5;
+    -fx-background-radius: 5;
+}
+
+/* User message styling */
+.user-message {
+    -fx-fill: #006400; /* Dark green text */
+    -fx-font-weight: bold;
+}
+
+/* Bot message styling */
+.bot-message {
+    -fx-fill: #00008B; /* Dark blue text */
+}
+
+/* System message styling */
+.system-message {
+    -fx-fill: #8B0000; /* Dark red text */
+    -fx-font-style: italic;
+}
