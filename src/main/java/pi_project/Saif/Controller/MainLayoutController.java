@@ -91,6 +91,12 @@ public class MainLayoutController {
         loadView("/Farouk/MatiereList.fxml"); // Using Farouk's path
 
     }
+    @FXML
+    public void showCalendar() {
+        loadView("/Farouk/add_exam.fxml"); // Using Farouk's path
+
+    }
+
 
     @FXML
     public void showClassView() {

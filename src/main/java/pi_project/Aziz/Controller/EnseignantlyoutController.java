@@ -30,10 +30,15 @@ public class EnseignantlyoutController {
     }
 
     @FXML
-
     public void showCoursView() {
         loadView("/Farouk/cours_list.fxml") ;
     }
+
+    @FXML
+    public void showClendadrViewEnsg() {
+        loadView("/Farouk/view_calendar.fxml") ;
+    }
+
     @FXML
 
     public void showquestion() {

@@ -18,6 +18,13 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Zayed/login.fxml")));
 //        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Saif/AdminCommandeView.fxml")));
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Farouk/chat.fxml")));
+//          Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Farouk/view_calendar.fxml")));
+
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Farouk/parent_cours.fxml")));
+
+
+
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
