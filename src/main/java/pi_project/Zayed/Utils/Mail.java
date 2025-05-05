@@ -14,7 +14,6 @@ public class Mail {
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
     private static final String SUBJECT = "Votre Inscription - EDUCO";
-    //    private static final String IMAGE_PATH = "/Zayed/images/educo.jpg";
     private static final String IMAGE_FILE_NAME = "educo.jpg";
     private static final String LOGIN_URL = "https://127.0.0.1:8000/login";
 
@@ -42,8 +41,6 @@ public class Mail {
 
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(textPart);
-//        multipart.addBodyPart(createImagePart());
-
         message.setContent(multipart);
         Transport.send(message);
 
@@ -118,6 +115,25 @@ public class Mail {
                 "<p>Veuillez vous connecter rapidement pour éviter la désactivation automatique de votre compte.</p>" +
                 "<p><a href='" + LOGIN_URL + "' class='button'>Se connecter maintenant</a></p>" +
                 "<p>Cordialement,<br>L'équipe Educo</p>";
+        sendEmail(toEmail, content);
+    }
+
+
+    public void sendCodeVerificationMail(String toEmail, String code, int expirationMinutes) throws MessagingException {
+        String content = "<html><head><style>"
+                + "body { font-family: Arial, sans-serif; }"
+                + ".container { max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }"
+                + ".code { font-size: 24px; font-weight: bold; color: #0046B7; margin: 20px 0; }"
+                + "</style></head>"
+                + "<body><div class='container'>"
+                + "<h3>Vérification de connexion</h3>"
+                + "<p>Bonjour,</p>"
+                + "<p>Voici votre code de vérification pour accéder à votre compte :</p>"
+                + "<div class='code'>" + code + "</div>"
+                + "<p>Ce code est valable pour une seule utilisation et expirera après <br> " + expirationMinutes + " minutes.</br> </p>"
+                + "<p>Si vous n'avez pas demandé ce code, veuillez ignorer cet email.</p>"
+                + "<p>Cordialement,<br>L'équipe Educo</p>"
+                + "</div></body></html>";
         sendEmail(toEmail, content);
     }
 

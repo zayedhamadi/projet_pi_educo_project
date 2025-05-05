@@ -92,20 +92,20 @@ public class AuthenticationImpl implements AuthenticationService {
                     System.out.println("Email ou mot de passe incorrect !");
                     return false;
                 }
-                LoginHistory loginHistory = new LoginHistory(
-                        user.getEmail(),
-                        LocalDateTime.now(),
-                        rs.getInt("id")
-                );
-                this.loginHistoryService.addLoginHistory(loginHistory);
+//                LoginHistory loginHistory = new LoginHistory(
+//                        user.getEmail(),
+//                        LocalDateTime.now(),
+//                        rs.getInt("id")
+//                );
+//                this.loginHistoryService.addLoginHistory(loginHistory);
                 Role userRole = getUserRole(user.getEmail());
                 if (userRole == null) {
                     System.out.println("Aucun rôle valide trouvé pour cet utilisateur !");
                     return false;
                 }
 
-                System.out.println("Rôle : " + userRole);
-                session.setUserSession(rs.getInt("id"));
+//                System.out.println("Rôle : " + userRole);
+//                session.setUserSession(rs.getInt("id"));
 
                 switch (userRole) {
                     case Admin -> System.out.println("Connexion en tant qu'administrateur");
@@ -255,5 +255,22 @@ public class AuthenticationImpl implements AuthenticationService {
             }
         }
         return null;
+    }
+
+    public User getUserByEmail(String email) throws SQLException {
+        try (PreparedStatement pst = connection.prepareStatement("SELECT * FROM user WHERE email = ?")) {
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setEtat_compte(EtatCompte.valueOf(rs.getString("etat_compte")));
+                // Ajouter d'autres champs si nécessaire
+                return user;
+            }
+            return null;
+        }
     }
 }

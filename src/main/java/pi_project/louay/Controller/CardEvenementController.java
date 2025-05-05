@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import pi_project.Fedi.entites.eleve;
 import pi_project.Fedi.services.eleveservice;
+import pi_project.Zayed.Utils.session;
 import pi_project.louay.Entity.evenement;
 import pi_project.louay.Service.inscevenementImp;
 import pi_project.louay.Utils.timer;
-import pi_project.Zayed.Utils.session;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -24,6 +24,9 @@ import java.util.List;
 
 public class CardEvenementController {
 
+    private final inscevenementImp inscriptionService = new inscevenementImp();
+    private final eleveservice eleveService = new eleveservice();
+    private final int userId = session.getUserSession();
     @FXML
     private Label titreLabel;
     @FXML
@@ -44,11 +47,7 @@ public class CardEvenementController {
     private Label timerLabel;
     @FXML
     private Button reserverBtn;
-
     private evenement evenementActuel;
-    private final inscevenementImp inscriptionService = new inscevenementImp();
-    private final eleveservice eleveService = new eleveservice();
-    private final int userId = session.getUserSession();
 
     public void setData(evenement evt) {
         this.evenementActuel = evt;
@@ -132,7 +131,7 @@ public class CardEvenementController {
 
     private void updateTimerLabel(long secondsRemaining) {
         if (secondsRemaining <= 0) {
-           // timerLabel.setText("Expiré");
+            // timerLabel.setText("Expiré");
         } else {
             long minutesRemaining = secondsRemaining / 60;
             long hoursRemaining = minutesRemaining / 60;
@@ -156,6 +155,10 @@ public class CardEvenementController {
             stage.setTitle("Réserver : " + evenementActuel.getTitre());
             stage.setScene(new Scene(root));
             stage.showAndWait();
+            int newNombreInscriptions = inscriptionService.getNombreInscriptions(evenementActuel.getId());
+            int newPlacesRestantes = evenementActuel.getNombrePlaces() - newNombreInscriptions;
+            placesRestantesLabel.setText("Places restantes: " + newPlacesRestantes);
+            setupReservationButton();
 
         } catch (IOException e) {
             e.printStackTrace();

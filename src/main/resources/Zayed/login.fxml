@@ -34,7 +34,7 @@
 
             <Hyperlink layoutX="207.0" layoutY="298.0" styleClass="forgot-password"  onAction="#goingToForgetPwPage"  fx:id="goingToForgetPwPage" text="Mot de passe oublié ?" />
 
-            <Button fx:id="loginButton" layoutX="65.0" layoutY="340.0" onAction="#login" prefWidth="250.0" styleClass="action-button" text="Se connecter" />
+            <Button  layoutX="65.0" layoutY="340.0" onAction="#GoingToVerificationCode" prefWidth="250.0" styleClass="action-button" text="Se connecter" />
         </AnchorPane>
     </right>
 
