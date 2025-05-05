@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class QuizQuestionsController {
     private static final Logger logger = Logger.getLogger(QuizQuestionsController.class.getName());
@@ -71,7 +72,7 @@ public class QuizQuestionsController {
             loadQuestions();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Quiz initialization failed", e);
-            showErrorAndExit("Initialization Error", "Failed to start the quiz");
+            showInfoAndExit("Initialization Error", "Failed to start the quiz");
         }
     }
 
@@ -116,13 +117,13 @@ public class QuizQuestionsController {
         List<Question> questions = questionService.getQuestionsForQuiz(quiz.getId());
 
         if (questions.isEmpty()) {
-            throw new IllegalStateException("This quiz contains no questions");
+            showInfoAndExit("No Questions", "This quiz has no questions.");
+            return; // Exit without throwing an exception
         }
 
         totalQuestions = questions.size();
         questions.forEach(this::loadQuestionItem);
     }
-
     private void loadQuestionItem(Question question) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/QuestionItem.fxml"));
@@ -148,7 +149,7 @@ public class QuizQuestionsController {
             showResults();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Quiz submission failed", e);
-            showErrorAndExit("Submission Error", e.getMessage());
+            showInfoAndExit("Submission Error", e.getMessage());
         }
     }
 
@@ -186,6 +187,15 @@ public class QuizQuestionsController {
 
     private void showResults() {
         try {
+            // Collect student answers
+            List<String> studentAnswers = questionsContainer.getChildren().stream()
+                    .map(node -> (QuestionItemController) node.getProperties().get("controller"))
+                    .map(QuestionItemController::getSelectedAnswer)
+                    .collect(Collectors.toList());
+
+            // Get all questions
+            List<Question> questions = questionService.getQuestionsForQuiz(quiz.getId());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Aziz/QuizResults.fxml"));
             Parent root = loader.load();
 
@@ -194,15 +204,17 @@ public class QuizQuestionsController {
                     correctAnswers,
                     totalQuestions,
                     quiz,
-                    currentStudent
+                    currentStudent,
+                    studentAnswers,
+                    questions
             );
 
             Stage stage = (Stage) questionsContainer.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.sizeToScene();
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Failed to load results view", e);
-            showErrorAndExit("Navigation Error", "Could not show quiz results");
+        } catch (IOException | SQLException e) {
+            logger.log(Level.SEVERE, "Failed to show results", e);
+            showAlert("Error", "Could not display quiz results");
         }
     }
 
@@ -214,8 +226,15 @@ public class QuizQuestionsController {
         alert.showAndWait();
     }
 
-    private void showErrorAndExit(String title, String message) {
-        showAlert(title, message);
-        ((Stage) questionsContainer.getScene().getWindow()).close();
+    private void showInfoAndExit(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+        // After the alert, close the quiz window
+        Stage stage = (Stage) questionsContainer.getScene().getWindow();
+        stage.close();
     }
 }

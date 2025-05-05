@@ -3,37 +3,46 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 
 <VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="pi_project.Aziz.Controller.QuizResultsController"
-      spacing="20" style="-fx-padding: 30; -fx-alignment: center;">
+      spacing="20" style="-fx-padding: 30; -fx-alignment: center; -fx-background-color: #f8f9fa;"
+      prefWidth="800" prefHeight="650">
 
-    <Label text="Quiz Results" style="-fx-font-size: 24pt; -fx-font-weight: bold;"/>
+    <!-- Header -->
+    <Label text="Quiz Results" style="-fx-font-size: 24pt; -fx-font-weight: bold; -fx-text-fill: #2d3436;"/>
 
-    <GridPane hgap="20" vgap="15">
+    <!-- Summary Grid - Enhanced layout -->
+    <GridPane hgap="20" vgap="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8;">
         <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" minWidth="100"/>
-            <ColumnConstraints halignment="LEFT" minWidth="200"/>
+            <ColumnConstraints halignment="RIGHT" minWidth="100" prefWidth="150"/>
+            <ColumnConstraints halignment="LEFT" minWidth="200" prefWidth="250"/>
         </columnConstraints>
 
-        <Label text="Student:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <Label fx:id="studentNameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1"
-               style="-fx-font-weight: bold;"/>
+        <Label text="Student:" style="-fx-font-size: 12pt;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <Label fx:id="studentNameLabel" style="-fx-font-size: 12pt; -fx-font-weight: bold;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-        <Label text="Quiz:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <Label fx:id="quizTitleLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"
-               style="-fx-font-weight: bold;"/>
+        <Label text="Quiz:" style="-fx-font-size: 12pt;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Label fx:id="quizTitleLabel" style="-fx-font-size: 12pt; -fx-font-weight: bold;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-        <Label text="Score:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-        <Label fx:id="scoreLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"
-               style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #2ecc71;"/>
+        <Label text="Score:" style="-fx-font-size: 12pt;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <Label fx:id="scoreLabel" style="-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: #2ecc71;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-        <Label text="Percentage:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-        <Label fx:id="percentageLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"
-               style="-fx-font-size: 16pt; -fx-font-weight: bold;"/>
+        <Label text="Percentage:" style="-fx-font-size: 12pt;" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <Label fx:id="percentageLabel" style="-fx-font-size: 16pt; -fx-font-weight: bold;" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <Label fx:id="feedbackLabel" style="-fx-font-size: 14pt; -fx-text-fill: #3498db; -fx-wrap-text: true;"
-           maxWidth="400" textAlignment="CENTER"/>
+    <!-- Feedback - Improved sizing -->
+    <Label fx:id="feedbackLabel"
+           style="-fx-font-size: 14pt; -fx-text-fill: #3498db; -fx-wrap-text: true;"
+           maxWidth="600" textAlignment="CENTER"
+           styleClass="feedback-text"/>
+
+    <!-- Detailed Results Section - Kept EXACTLY as you specified -->
+    <Label text="Detailed Results:" style="-fx-font-size: 18pt; -fx-font-weight: bold; -fx-padding: 20 0 10 0;"/>
+    <ScrollPane fitToWidth="true" style="-fx-max-width: 800px; -fx-max-height: 400px;">
+        <VBox fx:id="detailedResultsContainer" spacing="15"/>
+    </ScrollPane>
 
 </VBox>

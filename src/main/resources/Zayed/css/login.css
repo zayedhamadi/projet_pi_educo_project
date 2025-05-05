@@ -68,3 +68,72 @@
     -fx-font-weight: bold;
     -fx-text-alignment: center;
 }
+
+.verification-dialog {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+}
+
+.verification-dialog .button {
+    -fx-background-color: #0046B7;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+}
+
+.verification-dialog .text-input {
+    -fx-border-color: #0596ff;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.verification-form {
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+}
+
+.secondary-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8px 16px;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+/* Style pour le StackPane conteneur */
+.stack-pane {
+    -fx-padding: 20px;
+}
+
+/* Style pour le formulaire de vérification */
+.verification-form {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 0);
+    -fx-alignment: center;
+    -fx-max-width: 250px;
+}
+
+/* Style pour le bouton secondaire */
+.secondary-button {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #333;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-padding: 8px 16px;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #e0e0e0;
+}

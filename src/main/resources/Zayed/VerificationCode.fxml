@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.*?>
+<BorderPane prefHeight="500.0" prefWidth="700.0"
+            styleClass="border-pane" stylesheets="@css/verification.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pi_project.Zayed.Controller.VerificationController">
+
+    <right>
+        <AnchorPane prefHeight="496.0" prefWidth="378.0" styleClass="right-pane">
+            <Text layoutX="125.0" layoutY="80.0" styleClass="title-text" text="Vérification de code"/>
+            <Text layoutX="69.0" layoutY="119.0" styleClass="subtitle-text"
+                  text="Entrez le code à 10 chiffres envoyé à votre e-mail"/>
+
+            <Label layoutX="65" layoutY="160" styleClass="input-label" text="Code de vérification"/>
+            <TextField fx:id="code" layoutX="65" layoutY="180" prefHeight="40.0" prefWidth="250.0"
+                       promptText="Ex: 123456" styleClass="input-field"/>
+
+            <Hyperlink fx:id="resendLink" layoutX="65.0" layoutY="230.0" styleClass="resend-link"
+                       onAction="#resendCode" text="Renvoyer le code"/>
+            <ProgressIndicator fx:id="progressIndicator" layoutX="180.0" layoutY="230.0" visible="false"
+                               styleClass="progress-indicator"/>
+
+            <Text fx:id="timerText" layoutX="65.0" layoutY="260.0" styleClass="timer-text" text=""/>
+
+            <Hyperlink layoutX="207.0" layoutY="298.0" styleClass="back-link" onAction="#retourauthentification"
+                       text="Retour à la page d'authentification"/>
+
+            <Button layoutX="65.0" layoutY="340.0" onAction="#login" prefWidth="250.0" prefHeight="40.0"
+                    styleClass="verify-button" text="Vérifier le code"/>
+        </AnchorPane>
+    </right>
+
+    <left>
+        <AnchorPane prefHeight="500.0" prefWidth="350.0" styleClass="left-pane">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="75.0" layoutY="100.0" preserveRatio="true">
+                <Image url="@images/educo.jpg"/>
+            </ImageView>
+            <Text layoutX="56.0" layoutY="346.0" styleClass="motto-text" text="Former les esprits, bâtir l'avenir">
+                <font>
+                    <Font size="11.0"/>
+                </font>
+            </Text>
+            <StackPane fx:id="s" layoutX="67.0" layoutY="160.0" prefHeight="150.0" prefWidth="200.0"/>
+        </AnchorPane>
+    </left>
+
+</BorderPane>

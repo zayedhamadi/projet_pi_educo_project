@@ -1,0 +1,118 @@
+/* Couleurs de base */
+.root {
+    -fx-primary-color: #3498db;
+    -fx-secondary-color: #2980b9;
+    -fx-accent-color: #2ecc71;
+    -fx-error-color: #e74c3c;
+    -fx-light-gray: #ecf0f1;
+    -fx-dark-gray: #7f8c8d;
+}
+
+/* Style du BorderPane */
+.border-pane {
+    -fx-background-color: white;
+}
+
+/* Panneau droit */
+.right-pane {
+    -fx-background-color: white;
+    -fx-padding: 20px;
+}
+
+/* Panneau gauche */
+.left-pane {
+    -fx-background-color: -fx-primary-color;
+    -fx-background-radius: 0 15px 15px 0;
+}
+
+/* Titres */
+.title-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #2c3e50;
+}
+
+.subtitle-text {
+    -fx-font-size: 14px;
+    -fx-fill: -fx-dark-gray;
+}
+
+/* Champs de saisie */
+.input-field {
+    -fx-background-color: -fx-light-gray;
+    -fx-background-radius: 5px;
+    -fx-border-color: -fx-primary-color;
+    -fx-border-radius: 5px;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 5px 10px;
+    -fx-font-size: 14px;
+}
+
+.input-field:focused {
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: -fx-accent-color;
+}
+
+.input-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+}
+
+/* Boutons */
+.verify-button {
+    -fx-background-color: -fx-primary-color;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+
+.verify-button:hover {
+    -fx-background-color: -fx-secondary-color;
+}
+
+/* Liens */
+.resend-link {
+    -fx-text-fill: -fx-primary-color;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+    -fx-cursor: hand;
+}
+
+.resend-link:hover {
+    -fx-text-fill: -fx-secondary-color;
+    -fx-underline: true;
+}
+
+.back-link {
+    -fx-text-fill: -fx-dark-gray;
+    -fx-font-size: 13px;
+    -fx-underline: false;
+    -fx-cursor: hand;
+}
+
+.back-link:hover {
+    -fx-text-fill: #2c3e50;
+    -fx-underline: true;
+}
+
+/* Timer */
+.timer-text {
+    -fx-font-size: 12px;
+    -fx-fill: -fx-dark-gray;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    -fx-progress-color: -fx-primary-color;
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+}
+
+/* Message d'erreur */
+.error-text {
+    -fx-fill: -fx-error-color;
+    -fx-font-size: 12px;
+}

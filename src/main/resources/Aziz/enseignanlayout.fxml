@@ -28,12 +28,10 @@
             <Button text="Question" onAction="#showquestion" styleClass="modern-sidebar-btn"/>
             <Button text="mes reclamation" onAction="#loadreclamationView" styleClass="modern-sidebar-btn"/>
             <Button text="Quiz stats" onAction="#showquizstats" styleClass="modern-sidebar-btn" />
-
             <Button text=" se deconnecter " onAction="#logout" styleClass="modern-sidebar-btn"/>
-                  -fx-font-weight: bold; -fx-padding: 30 0 20 0;" />
+
 
             <!-- Boutons sidebar -->
-
 
 
         </VBox>

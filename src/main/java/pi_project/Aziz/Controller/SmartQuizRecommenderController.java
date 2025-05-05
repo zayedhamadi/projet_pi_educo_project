@@ -21,6 +21,7 @@ public class SmartQuizRecommenderController {
     private final GeminiService geminiService;
     private final QuizService quizService;
     private List<Quiz> availableQuizzes;
+    private boolean isBotTyping = false;
 
     public SmartQuizRecommenderController() {
         this.geminiService = new GeminiService("AIzaSyAxrw3a_a6eyzcLZRMZHNoPOQptA6twJ-k");
@@ -32,7 +33,7 @@ public class SmartQuizRecommenderController {
             availableQuizzes = quizService.recuperer();
             showWelcomeMessage();
         } catch (Exception e) {
-            chatArea.appendText("Error loading quizzes: " + e.getMessage() + "\n");
+            appendToChat("System", "Error loading quizzes: " + e.getMessage());
         }
     }
 
@@ -42,15 +43,16 @@ public class SmartQuizRecommenderController {
                 .distinct()
                 .collect(Collectors.joining(", "));
 
-        chatArea.appendText("Welcome to Quiz Recommender!\n");
-        chatArea.appendText("Available subjects: " + subjects + "\n\n");
-        chatArea.appendText("What would you like to practice today?\n");
+        appendToChat("System", "Welcome to Quiz Recommender!");
+        appendToChat("System", "Available subjects: " + subjects);
+        appendToChat("System", "What would you like to practice today?");
+        appendToChat("System", "Type 'list' to see all available quizzes.");
     }
 
     @FXML
     private void handleSend() {
         String userMessage = userInputField.getText().trim();
-        if (userMessage.isEmpty()) return;
+        if (userMessage.isEmpty() || isBotTyping) return;
 
         appendToChat("You", userMessage);
         userInputField.clear();
@@ -61,21 +63,84 @@ public class SmartQuizRecommenderController {
                 String response;
                 if (userMessage.equalsIgnoreCase("list")) {
                     response = listAllQuizzes();
+                    appendToChat("Recommender", response);
                 } else {
                     response = getPersonalizedRecommendation(userMessage);
+                    appendToChat("Recommender", response);
+                }
+            } catch (Exception e) {
+                appendToChat("System", "Error: " + e.getMessage());
+            } finally {
+                disableInput(false);
+            }
+        }).start();
+    }
+
+    private void appendToChat(String sender, String message) {
+        Platform.runLater(() -> {
+            if (sender.equals("Recommender")) {
+                isBotTyping = true;
+                simulateTypingEffect(sender, message);
+            } else {
+                chatArea.appendText(sender + ": " + message + "\n\n");
+                chatArea.end();
+            }
+        });
+    }
+
+    private void simulateTypingEffect(String sender, String message) {
+        new Thread(() -> {
+            try {
+                String currentText = chatArea.getText();
+
+                // Show typing indicator
+                Platform.runLater(() -> {
+                    chatArea.appendText(sender + ": ...\n");
+                    chatArea.end();
+                });
+
+                Thread.sleep(500);
+
+                Platform.runLater(() -> {
+                    chatArea.setText(currentText);
+                    chatArea.appendText(sender + ": ");
+                    chatArea.end();
+                });
+
+                // Type out message
+                StringBuilder typedMessage = new StringBuilder();
+                for (char c : message.toCharArray()) {
+                    Thread.sleep(20);
+
+                    final String charToAdd = String.valueOf(c);
+                    Platform.runLater(() -> {
+                        typedMessage.append(charToAdd);
+                        chatArea.setText(currentText + sender + ": " + typedMessage.toString());
+                        chatArea.end();
+                    });
                 }
 
                 Platform.runLater(() -> {
-                    appendToChat("Recommender", response);
-                    disableInput(false);
+                    chatArea.appendText("\n\n");
+                    chatArea.end();
                 });
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    appendToChat("System", "Error: " + e.getMessage());
-                    disableInput(false);
-                });
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                isBotTyping = false;
+                disableInput(false);
             }
         }).start();
+    }
+
+    private void disableInput(boolean disabled) {
+        Platform.runLater(() -> {
+            userInputField.setDisable(disabled);
+            sendButton.setDisable(disabled);
+            if (!disabled) {
+                userInputField.requestFocus();
+            }
+        });
     }
 
     private String getPersonalizedRecommendation(String userInput) throws IOException {
@@ -103,18 +168,5 @@ public class SmartQuizRecommenderController {
                                 q.getClasseName(),
                                 q.getDescription()))
                         .collect(Collectors.joining("\n\n"));
-    }
-
-    private void appendToChat(String sender, String message) {
-        Platform.runLater(() ->
-                chatArea.appendText(sender + ": " + message + "\n\n"));
-    }
-
-    private void disableInput(boolean disabled) {
-        Platform.runLater(() -> {
-            userInputField.setDisable(disabled);
-            sendButton.setDisable(disabled);
-            if (!disabled) userInputField.requestFocus();
-        });
     }
 }
