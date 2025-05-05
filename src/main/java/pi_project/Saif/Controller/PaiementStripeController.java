@@ -50,10 +50,9 @@ public class PaiementStripeController {
     private static final String STRIPE_SECRET_KEY = "sk_test_51QsjAZQwwmpQjSTvmGQ9IvKFaSDjuZHqqytTxvT5dpHm8LYmIbD7p5xFmYd8F5WLBelSlWkv0nrNo0QfssotP2b100AZCTEd0B";
     private String sessionId;
     private ScheduledExecutorService verificationScheduler;
-    @FXML private Button voirPanierBtn;
-    private double montantAPayer;
+
     private double remisePourcent ;
-User user=new User();
+
 
     public void setData(List<Produit> produits, double total, ObservableList<Produit> panier, PanierController panierController) {
         this.produits = produits;
@@ -63,15 +62,7 @@ User user=new User();
         totalLabel.setText(String.format("Total: %.2f DT", total));
 
     }
-//    public void setRemisePourcent(double remise) {
-//        this.remisePourcent = remise;
-//        System.out.println("Remise reçue : " + remise);  // Vérifier si la remise est reçue correctement
-//    }
 
-//    public void setRemisePourcent(double remise) {
-//        this.remisePourcent = remise ;
-//        System.out.println("Remise reçue : " + this.remisePourcent);
-//    }
 public void setRemisePourcent(double remise) {
     this.remisePourcent = remise;
     System.out.println("Remise reçue : " + this.remisePourcent);
@@ -80,10 +71,8 @@ public void setRemisePourcent(double remise) {
 
     private void initStripePayment() {
         try {
-            // 1. Initialize Stripe
             Stripe.apiKey = STRIPE_SECRET_KEY;
 
-            // 2. Create Stripe session
             SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
                     .setSuccessUrl("https://example.com/success")

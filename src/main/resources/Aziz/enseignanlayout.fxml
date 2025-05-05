@@ -28,7 +28,10 @@
             <Button text="Quiz stats" onAction="#showquizstats" styleClass="modern-sidebar-btn" />
             <Button text=" se deconnecter " onAction="#logout" styleClass="modern-sidebar-btn"/>
 
+
             <!-- Boutons sidebar -->
+
+
         </VBox>
     </left>
 
