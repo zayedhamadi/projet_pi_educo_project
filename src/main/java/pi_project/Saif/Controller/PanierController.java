@@ -41,23 +41,7 @@ public class PanierController {
 
     @FXML
     public void initialize() {
-//        appliquerCodePromoBtn.setOnAction(event -> {
-//            String code = codePromoField.getText().trim();
-//
-//            // Exemple simple de codes promos en dur
-//            if (code.equalsIgnoreCase("WELCOME10")) {
-//                remisePourcent = 0.10;
-//                showAlert("Code promo appliqué : -10%");
-//            } else if (code.equalsIgnoreCase("FREESHIP")) {
-//                remisePourcent = 0.05;
-//                showAlert("Code promo appliqué : -5%");
-//            } else {
-//                remisePourcent = 0.0;
-//                showAlert( "Ce code promo n'est pas reconnu.");
-//            }
-//
-//            updateTotal();  // Mettre à jour le total avec la remise
-//        });
+
         appliquerCodePromoBtn.setOnAction(event -> {
             String code = codePromoField.getText().trim();
 

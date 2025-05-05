@@ -117,6 +117,10 @@ private void filtrerProduitsEtCategories() {
         produitsContainer.getChildren().clear(); // Vide le conteneur des produits avant d'ajouter de nouveaux produits
 
         for (Produit p : produits) {
+
+                if (p.getStock() <= 0) {
+                    continue;
+                }
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Saif/card_produit.fxml"));
                 AnchorPane card = loader.load(); // Charge la carte du produit
