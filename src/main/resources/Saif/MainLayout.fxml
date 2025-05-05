@@ -38,6 +38,8 @@
                 <Button text="codepromo" onAction="#codepromo" styleClass="sidebar-button"/>
 
                 <Button text="Matieres" onAction="#showMatiereView" styleClass="sidebar-button"/>
+                <Button text="Calendar" onAction="#showCalendar" styleClass="sidebar-button"/>
+
                 <Button text="Gestion classe" onAction="#showClassView" styleClass="sidebar-button" />
                 <Button text="Gestion Eleve" onAction="#showEleveView" styleClass="sidebar-button" />
                 <Button text="reclamation" onAction="#showreclamationView" styleClass="sidebar-button" />

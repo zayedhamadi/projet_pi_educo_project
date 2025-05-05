@@ -1,0 +1,59 @@
+/* General Style */
+.grid-pane {
+    padding: 20px;
+}
+
+.input-field {
+    min-width: 200px;
+    padding: 10px;
+    margin: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+
+
+/* Spinner style */
+/* Spinner style */
+.input-spinner {
+    -fx-background-color: #f8f9fa;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-padding: 5px;
+    -fx-pref-width: 80px; /* Ensure width is sufficient */
+    -fx-min-width: 80px;  /* Make sure the width doesn't shrink */
+}
+
+
+/* Button style */
+.submit-button {
+    background-color: #28a745;
+    text-fill: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #218838;
+}
+
+.submit-button:focused {
+    -fx-background-color: #218838;
+}
+
+/* Label Style */
+.label {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 5px;
+}
+
+/* Make the GridPane a bit more responsive */
+.grid-pane {
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}

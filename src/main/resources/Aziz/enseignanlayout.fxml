@@ -23,6 +23,8 @@
             <Button text="profile" onAction="#loadProfileUser" styleClass="modern-sidebar-btn"/>
             <Button text="Quiz" onAction="#showquiz" styleClass="modern-sidebar-btn"/>
             <Button text="Cours" onAction="#showCoursView" styleClass="modern-sidebar-btn"/>
+            <Button text="Calendar" onAction="#showClendadrViewEnsg" styleClass="modern-sidebar-btn"/>
+
             <Button text="Question" onAction="#showquestion" styleClass="modern-sidebar-btn"/>
             <Button text="mes reclamation" onAction="#loadreclamationView" styleClass="modern-sidebar-btn"/>
             <Button text="Quiz stats" onAction="#showquizstats" styleClass="modern-sidebar-btn" />
