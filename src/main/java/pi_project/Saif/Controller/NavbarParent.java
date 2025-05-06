@@ -49,6 +49,9 @@ public class NavbarParent {
     public void loadQuizhistoyView() {
         loadView("/Aziz/QuizHistory.fxml");
     }
+    public void loadCoursParentView(){loadView("/Farouk/parent_cours.fxml"); }
+    public void loadChatPdf(){loadView("/Farouk/Chat_View_PDF.fxml"); }
+
 
 
     private void loadView(String fxmlPath) {

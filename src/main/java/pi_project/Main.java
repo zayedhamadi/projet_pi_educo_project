@@ -27,6 +27,8 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Zayed/login.fxml")));
 //        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Saif/AdminCommandeView.fxml")));
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/Farouk/Chat_View_PDF.fxml")));
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("------------Educo project------------");

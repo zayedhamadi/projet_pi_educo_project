@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import pi_project.Aziz.Entity.Quiz;
 import pi_project.Fedi.entites.eleve;
@@ -13,19 +16,29 @@ import pi_project.Fedi.entites.eleve;
 import java.io.IOException;
 
 public class QuizCardController {
+    @FXML private Pane quizCard;
+    @FXML private VBox quizContainer;
     @FXML private Label quizTitle;
     @FXML private Label quizDescription;
-    // Other UI elements...
+    @FXML private Label quizSubject;
+    @FXML private Label quizClass;
+    @FXML private Button startButton;
 
     private Quiz quiz;
-    private eleve currentStudent;  // Changed from dummyStudent to currentStudent
+    private eleve currentStudent;
+
+    @FXML
+    public void initialize() {
+        // Setup hover effects
+        setupHoverEffects();
+    }
 
     public void setQuizData(Quiz quiz) {
         this.quiz = quiz;
         updateUI();
     }
 
-    public void setCurrentStudent(eleve student) {  // Renamed from setDummyStudent
+    public void setCurrentStudent(eleve student) {
         this.currentStudent = student;
     }
 
@@ -33,8 +46,29 @@ public class QuizCardController {
         if (quiz != null) {
             quizTitle.setText(quiz.getNom());
             quizDescription.setText(quiz.getDescription());
-            // Set other fields...
+            quizSubject.setText(quiz.getMatiereName());
+            quizClass.setText(quiz.getClasseName());
         }
+    }
+
+    private void setupHoverEffects() {
+        // Card hover effect
+        quizContainer.setOnMouseEntered(e -> {
+            quizContainer.getStyleClass().add("quiz-container-hover");
+        });
+
+        quizContainer.setOnMouseExited(e -> {
+            quizContainer.getStyleClass().remove("quiz-container-hover");
+        });
+
+        // Button hover effect
+        startButton.setOnMouseEntered(e -> {
+            startButton.getStyleClass().add("start-button-hover");
+        });
+
+        startButton.setOnMouseExited(e -> {
+            startButton.getStyleClass().remove("start-button-hover");
+        });
     }
 
     @FXML
@@ -50,11 +84,13 @@ public class QuizCardController {
 
             QuizQuestionsController controller = loader.getController();
             controller.setQuiz(quiz);
-            controller.setEleve(currentStudent);  // Pass the actual student
+            controller.setEleve(currentStudent);
 
-            Stage stage = (Stage) quizTitle.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.sizeToScene();
+            Stage quizStage = new Stage();
+            quizStage.setScene(new Scene(root));
+            quizStage.setTitle(quiz.getNom());
+            quizStage.show();
+
         } catch (IOException e) {
             showAlert("Error", "Failed to load quiz questions: " + e.getMessage());
             e.printStackTrace();
@@ -64,6 +100,7 @@ public class QuizCardController {
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

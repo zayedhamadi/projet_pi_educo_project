@@ -59,4 +59,17 @@ public class QuestionItemController {
         RadioButton selected = (RadioButton) toggleGroup.getSelectedToggle();
         return selected != null && selected.getUserData().equals(question.getReponse());
     }
+
+    public String getSelectedAnswer() {
+        RadioButton selected = (RadioButton) toggleGroup.getSelectedToggle();
+        return selected != null ? selected.getText() : "No answer selected";
+    }
+
+    public String getCorrectAnswer() {
+        return question.getReponse();
+    }
+
+    public List<String> getOptions() {
+        return question.getOptions();
+    }
 }

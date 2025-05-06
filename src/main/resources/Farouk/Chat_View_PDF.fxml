@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox  xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pi_project.Farouk.Controller.ChatControllerPdf"
+            prefHeight="900.0" prefWidth="700.0"
+            spacing="15" alignment="CENTER"
+            stylesheets="@Css/Chat_pdf.css">
+    <Label text="📚 PDF Chat Assistant" styleClass="header"/>
+
+    <TextField fx:id="questionField"
+               promptText="Ask something about your PDF..."
+               styleClass="input-field"/>
+
+    <Button text="Ask"
+            onAction="#onAsk"
+            styleClass="ask-button"/>
+
+    <TextArea fx:id="responseArea"
+              editable="false"
+              wrapText="true"
+              prefHeight="250"
+              styleClass="response-area"/>
+</VBox >

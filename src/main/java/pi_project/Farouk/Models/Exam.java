@@ -11,6 +11,19 @@ public class Exam {
     private LocalDateTime endTime;
     private String location;
 
+
+    public Exam(int id, int classeId, String subject, LocalDateTime startTime, LocalDateTime endTime, String location) {
+        this.id = id;
+        this.classeId = classeId;
+        this.subject = subject;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.location = location;
+
+    }
+    public Exam(){
+
+    }
     // Getters and Setters
 
     public int getId() {

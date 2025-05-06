@@ -1,0 +1,46 @@
+/* Chat_pdf.css */
+
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #f9f9f9;
+}
+
+.header {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a2a2a;
+}
+
+.input-field {
+    -fx-pref-width: 400px;
+    -fx-padding: 8px;
+    -fx-background-radius: 6px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 6px;
+    -fx-font-size: 14px;
+}
+
+.ask-button {
+    -fx-padding: 8px 20px;
+    -fx-font-size: 14px;
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.ask-button:hover {
+    -fx-background-color: #3b7dd8;
+}
+
+.response-area {
+    -fx-pref-width: 500px;
+    -fx-padding: 10px;
+    -fx-font-size: 13px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
