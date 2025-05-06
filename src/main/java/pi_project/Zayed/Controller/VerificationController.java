@@ -29,18 +29,13 @@ import java.time.LocalDateTime;
 public class VerificationController {
 
     LoginHistoryImp loginHistoryService = new LoginHistoryImp();
-    @FXML
-    private StackPane s;
-    @FXML
-    private TextField code;
-    @FXML
-    private Hyperlink resendLink;
-    @FXML
-    private ProgressIndicator progressIndicator;
-    @FXML
-    private Text timerText;
-    @Setter
-    private String userEmail;
+    @FXML private StackPane s;
+    @FXML private TextField code;
+    @FXML private Hyperlink resendLink;
+    @FXML private ProgressIndicator progressIndicator;
+    @FXML private Text timerText;
+
+    @Setter private String userEmail;
     private Timeline timer;
     private int countdown = 60;
 
@@ -112,8 +107,8 @@ public class VerificationController {
         }
 
         try {
-            securiteLogin securiteLogin = new securiteLogin();
-            boolean isCodeValid = securiteLogin.verifyCode(userEmail, verificationCode);
+            securiteLogin securite = new securiteLogin();
+            boolean isCodeValid = securite.verifyCode(userEmail, verificationCode);
 
             if (!isCodeValid) {
                 AuthenticationImpl authService = new AuthenticationImpl();
@@ -127,7 +122,7 @@ public class VerificationController {
                     return;
                 }
 
-                int remainingAttempts = 3 - securiteLogin.getFailedAttemptsCount(userEmail);
+                int remainingAttempts = 3 - securite.getFailedAttemptsCount(userEmail);
                 Constant.showAlert(Alert.AlertType.ERROR,
                         "Code invalide",
                         "Code incorrect. Il vous reste " + remainingAttempts + " tentative(s) avant désactivation.",
@@ -135,7 +130,7 @@ public class VerificationController {
                 return;
             }
 
-            // Suite du processus de connexion
+            // Connexion réussie
             AuthenticationImpl authService = new AuthenticationImpl();
             User user = authService.getUserByEmail(userEmail);
             Role userRole = authService.getUserRole(userEmail);
@@ -148,6 +143,7 @@ public class VerificationController {
                 return;
             }
 
+            // Enregistrer l'historique de connexion
             LoginHistory loginHistory = new LoginHistory(
                     userEmail,
                     LocalDateTime.now(),
@@ -156,6 +152,7 @@ public class VerificationController {
             this.loginHistoryService.addLoginHistory(loginHistory);
             pi_project.Zayed.Utils.session.setUserSession(user.getId());
 
+            // Redirection selon le rôle
             redirectBasedOnRole(userRole);
 
         } catch (Exception e) {

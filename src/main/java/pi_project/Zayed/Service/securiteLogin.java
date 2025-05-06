@@ -16,13 +16,16 @@ import java.util.concurrent.TimeUnit;
 public class securiteLogin {
     private static final Map<String, CodeVerification> verificationCodes = new HashMap<>();
     private static final Map<String, Integer> failedAttempts = new HashMap<>();
-    private static final int MAX_FAILED_ATTEMPTS = 3;
-    private static final int CODE_EXPIRATION_MINUTES = 5;
+    private static final Map<String, LocalDateTime> validSessions = new HashMap<>();
+    private static final int maxFailed = 3;
+    private static final int codeExpirationMinutes = 5;
+    private static final long sessionValidaty = 1;
 
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     static {
         scheduler.scheduleAtFixedRate(securiteLogin::cleanExpiredCodes, 5, 5, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(securiteLogin::cleanExpiredSessions, 5, 5, TimeUnit.MINUTES);
     }
 
     private final User user;
@@ -48,11 +51,18 @@ public class securiteLogin {
         );
     }
 
+    public static void cleanExpiredSessions() {
+        LocalDateTime now = LocalDateTime.now();
+        validSessions.entrySet().removeIf(entry ->
+                entry.getValue() == null || now.isAfter(entry.getValue())
+        );
+    }
+
     public String generateAndSendVerificationCode(String email) throws Exception {
         String code = Constant.generateRandomPassword();
-        LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(CODE_EXPIRATION_MINUTES);
+        LocalDateTime expirationTime = LocalDateTime.now().plusMinutes(codeExpirationMinutes);
         verificationCodes.put(email, new CodeVerification(code, expirationTime));
-        mail.sendCodeVerificationMail(email, code, CODE_EXPIRATION_MINUTES);
+        mail.sendCodeVerificationMail(email, code, codeExpirationMinutes);
         return code;
     }
 
@@ -76,10 +86,20 @@ public class securiteLogin {
         if (isValid) {
             verificationCodes.remove(email);
             failedAttempts.remove(email);
+            markSessionAsValid(email);
         } else {
             handleFailedAttempt(email);
         }
         return isValid;
+    }
+
+    public boolean isSessionValid(String email) {
+        LocalDateTime validUntil = validSessions.get(email);
+        return validUntil != null && LocalDateTime.now().isBefore(validUntil);
+    }
+
+    public void markSessionAsValid(String email) {
+        validSessions.put(email, LocalDateTime.now().plusMinutes(sessionValidaty));
     }
 
     public int getFailedAttemptsCount(String email) {
@@ -90,7 +110,7 @@ public class securiteLogin {
         int attempts = failedAttempts.getOrDefault(email, 0) + 1;
         failedAttempts.put(email, attempts);
 
-        if (attempts >= MAX_FAILED_ATTEMPTS) {
+        if (attempts >= maxFailed) {
             try {
                 User user = authService.getUserByEmail(email);
                 if (user != null) {
@@ -99,6 +119,7 @@ public class securiteLogin {
                             "Désactivation automatique: 3 tentatives de vérification de code échouées"
                     );
                     failedAttempts.remove(email);
+                    validSessions.remove(email);
                 }
             } catch (Exception e) {
                 System.err.println("Erreur lors de la désactivation du compte: " + e.getMessage());
