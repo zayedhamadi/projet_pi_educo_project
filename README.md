@@ -86,7 +86,5 @@ Avant de commencer, assurez-vous d'avoir installé :
 git clone https://github.com/votre-utilisateur/pi_javafxmllll.git
 cd pi_javafxmllll
 
-### Quelques interfaces :
-![image](https://github.com/user-attachments/assets/26c8d5d7-9db5-4490-9f48-f20f770a5bc6)
-![image](https://github.com/user-attachments/assets/58f1353c-dc11-48a1-9af8-6e1beaea84a0)
+
 
