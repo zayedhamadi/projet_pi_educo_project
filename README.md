@@ -1,6 +1,11 @@
 # Educo - Plateforme de Gestion Scolaire Complète
 
 
+![Java](https://img.shields.io/badge/Java-20-blue)
+![JavaFX](https://img.shields.io/badge/JavaFX-17.0.2-orange)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-teal)
+![Maven](https://img.shields.io/badge/Maven-3.8+-yellowgreen)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Table des Matières
 - [Introduction](#introduction)
