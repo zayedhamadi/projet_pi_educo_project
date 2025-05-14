@@ -43,8 +43,9 @@ Avec son interface moderne et intuitive, Educo intègre des technologies avancé
 ### Gestion Académique
 - **Cours & Matières** : Catalogue complet des disciplines
 - **Examens & Quiz** : Création avec différents types de questions
-- **Notes** : Bulletin numérique avec statistiques
+- **Notes** : les resultats  numérique apres faire les quiz 
 - **Réclamations** : Système de tickets avec suivi
+- **Cesser les comptes** : cesser les comptes apres les demissions 
 
 ### Services Intégrés
 - **Paiements** : Portail sécurisé avec Stripe
@@ -94,10 +95,6 @@ cd pi_javafxmllll
 
 
 ## Contributions
-
-### Prérequis
-
-
 Les contributions sont les bienvenues! Voici comment procéder:
 
 Forker le dépôt
@@ -115,15 +112,12 @@ Merci de suivre les standards de code existants et de documenter vos ajouts.
 
 ## Licence
 
-### Prérequis
 Distribué sous licence MIT. Voir LICENSE pour plus d'informations.
 
 
 ## Contact
-
-### Prérequis
 vous pouvez me contacter
 zayedh80@gmail.com
-daboussi@gmail.com
+Saifdaboussi5@gmail.com
 farouk@gmail.com
 aziz@gmail.com
