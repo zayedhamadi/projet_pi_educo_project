@@ -36,8 +36,10 @@ public class BoutiqueController {
     public void initialize() {
         loadCategories();
         loadProduits();
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> filtrerProduitsEtCategories());
+        categorieCombo.valueProperty().addListener((observable, oldValue, newValue) -> filtrerProduitsEtCategories());
 
-        filtrerBtn.setOnAction(e -> filtrerProduitsEtCategories());
+//        filtrerBtn.setOnAction(e -> filtrerProduitsEtCategories());
         voirPanierBtn.setOnAction(e -> ouvrirPanier());
 
 //        updatePanierCount();

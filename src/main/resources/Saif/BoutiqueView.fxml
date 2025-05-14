@@ -34,8 +34,8 @@
                        style="-fx-background-radius: 5; -fx-pref-width: 300;"/>
             <ComboBox fx:id="categorieCombo" promptText="Toutes catégories"
                       style="-fx-background-radius: 5; -fx-pref-width: 200;"/>
-            <Button fx:id="filtrerBtn" text="Filtrer"
-                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+<!--            <Button fx:id="filtrerBtn" text="Filtrer"-->
+<!--                    style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>-->
         </HBox>
 
 
