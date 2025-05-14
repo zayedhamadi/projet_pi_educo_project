@@ -88,3 +88,37 @@ cd pi_javafxmllll
 
 
 
+## Contributions
+
+### Prérequis
+
+
+Les contributions sont les bienvenues! Voici comment procéder:
+
+Forker le dépôt
+
+Créer une branche (git checkout -b feature/amazing-feature)
+
+Commiter vos modifications (git commit -m 'Add some amazing feature')
+
+Pusher vers la branche (git push origin feature/amazing-feature)
+
+Ouvrir une Pull Request
+
+Merci de suivre les standards de code existants et de documenter vos ajouts.
+
+
+## Licence
+
+### Prérequis
+Distribué sous licence MIT. Voir LICENSE pour plus d'informations.
+
+
+## Contact
+
+### Prérequis
+vous pouvez me contacter
+zayedh80@gmail.com
+daboussi@gmail.com
+farouk@gmail.com
+aziz@gmail.com
